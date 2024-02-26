@@ -1,3 +1,5 @@
+authentication/migrations
+authentication/__pycache__
 home/migrations
 home/__pycache__
 shoppie/__pycache__
