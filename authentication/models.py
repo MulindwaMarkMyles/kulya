@@ -17,8 +17,8 @@ class BusinessOwner(models.Model):
         business_name = models.CharField(max_length=50)
         city = models.CharField(max_length=100)
         village = models.CharField(max_length=100)
-        phone_number = models.IntegerField()
-        alternative_phone_number = models.IntegerField()
+        phone_number = models.BigIntegerField()
+        alternative_phone_number = models.BigIntegerField(blank=True, default=0)
         
         def __str__(self):
                 return self.business_name

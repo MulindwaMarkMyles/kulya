@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "home",
     "authentication",
-    "products"
+    "products",
 ]
 
 MIDDLEWARE = [
@@ -78,8 +78,12 @@ WSGI_APPLICATION = "shoppie.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "shoppie",
+        "USER": "mulin",
+        "PASSWORD": "@mulindwa",
+        "HOST": "localhost",
+        "PORT": "5432",
     }
 }
 

@@ -1,4 +1,6 @@
 authentication/migrations
+products/migrations
+products/__pycache__
 authentication/__pycache__
 home/migrations
 home/__pycache__
