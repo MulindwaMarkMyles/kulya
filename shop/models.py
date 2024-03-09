@@ -3,7 +3,7 @@ from authentication.models import Customer, BusinessOwner
         
 class Product(models.Model):
         name = models.CharField(max_length=100)
-        owner = models.OneToOneField(BusinessOwner, on_delete=models.CASCADE,null=True)
+        owner = models.ForeignKey(BusinessOwner, on_delete=models.CASCADE,null=True)
         price = models.FloatField()
         digital = models.BooleanField(default=False)
         
