@@ -4,7 +4,7 @@ from authentication.models import Customer, Business
 class Product(models.Model):
         name = models.CharField(max_length=100)
         owner = models.ForeignKey(Business, on_delete=models.CASCADE,null=True)
-        price = models.FloatField()
+        price = models.DecimalField(max_digits=12, decimal_places=2)
         digital = models.BooleanField(default=False)
         image = models.ImageField(null=True, blank=True)
         

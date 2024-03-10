@@ -17,7 +17,12 @@ def index(request):
         cartItems = order["get_cart_items"]
 
     products = Product.objects.all()
-    context = {"title": "SHOP", "products": products, "cartItems": cartItems, "shipping":False}
+    context = {
+        "title": "SHOP",
+        "products": products,
+        "cartItems": cartItems,
+        "shipping": False,
+    }
     return render(request, "shop/index.html", context)
 
 
@@ -32,7 +37,13 @@ def cart(request):
         order = {"get_cart_total": 0, "get_cart_items": 0}
         cartItems = order["get_cart_items"]
 
-    context = {"title": "CART", "items": items, "order": order, "cartItems":cartItems, "shipping":False}
+    context = {
+        "title": "CART",
+        "items": items,
+        "order": order,
+        "cartItems": cartItems,
+        "shipping": False,
+    }
     return render(request, "shop/cart.html", context)
 
 
@@ -47,7 +58,13 @@ def checkout(request):
         order = {"get_cart_total": 0, "get_cart_items": 0}
         cartItems = order["get_cart_items"]
 
-    context = {"title": "CHECKOUT", "items": items, "order": order, "cartItems": cartItems, "shipping":False}
+    context = {
+        "title": "CHECKOUT",
+        "items": items,
+        "order": order,
+        "cartItems": cartItems,
+        "shipping": False,
+    }
     return render(request, "shop/checkout.html", context)
 
 
@@ -80,20 +97,22 @@ def processOrder(request):
     if request.user.is_authenticated:
         customer = request.user.customer
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
-        total = float(data['form']['total'])
+        total = float(data["form"]["total"])
         order.transaction_id = transaction_id
-        
+
         if total == order.get_cart_total:
-            order.complete  = True
+            order.complete = True
         order.save()
-        
+
         if order.shipping == True:
             ShippingAddress.objects.create(
-                customer = customer,
+                customer=customer,
                 order=order,
-                address=data['shipping']['address'],
-                city=data['shipping']['city'],
-                state=data['shipping']['state'],
-                zipcode=data['shipping']['zipcode'],
+                address=data["shipping"]["address"],
+                city=data["shipping"]["city"],
+                state=data["shipping"]["state"],
+                zipcode=data["shipping"]["zipcode"],
             )
+    else:
+        print("User is not authenticated..")
     return JsonResponse("Payment completed.", safe=False)
