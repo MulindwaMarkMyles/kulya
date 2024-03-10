@@ -8,31 +8,34 @@
                                         {% csrf_token %}
                                         <div id="user-info">
                                                 <div class="form-field">
-							<input required class="form-control" type="text" name="name" placeholder="Name..">
-						</div>
-						<div class="form-field">
-							<input required class="form-control" type="email" name="email" placeholder="Email..">
-						</div>
+                                                    <input required class="form-control" type="text" name="first_name" placeholder="First Name">
+                                                </div>
+                                                <div class="form-field">
+                                                    <input required class="form-control" type="text" name="last_name" placeholder="Last Name">
+						                        </div>
+                                                <div class="form-field">
+                                                    <input required class="form-control" type="email" name="email" placeholder="Email..">
+                                                </div>
                                         </div>
                                         <div id="shipping-info">
                                                 <hr>
-						<p>Shipping Information:</p>
-						<hr>
-						<div class="form-field">
-							<input class="form-control" type="text" name="address" placeholder="Address..">
-						</div>
-						<div class="form-field">
-							<input class="form-control" type="text" name="city" placeholder="City..">
-						</div>
-						<div class="form-field">
-							<input class="form-control" type="text" name="state" placeholder="State..">
-						</div>
-						<div class="form-field">
-							<input class="form-control" type="text" name="zipcode" placeholder="Zip code..">
-						</div>
-						<div class="form-field">
-							<input class="form-control" type="text" name="country" placeholder="Country..">
-						</div>
+                                            <p>Shipping Information:</p>
+                                            <hr>
+                                            <div class="form-field">
+                                                <input class="form-control" type="text" name="address" placeholder="Address..">
+                                            </div>
+                                            <div class="form-field">
+                                                <input class="form-control" type="text" name="city" placeholder="City..">
+                                            </div>
+                                            <div class="form-field">
+                                                <input class="form-control" type="text" name="state" placeholder="State..">
+                                            </div>
+                                            <div class="form-field">
+                                                <input class="form-control" type="text" name="zipcode" placeholder="Zip code..">
+                                            </div>
+                                            <div class="form-field">
+                                                <input class="form-control" type="text" name="country" placeholder="Country..">
+                                            </div>
                                         </div>
                                         <br>
                                         <input id="form-button" style="width:100%" class="btn btn-success btn-block" type="submit" value="Continue">
@@ -41,7 +44,8 @@
                         <br>
                         <div class="box-element hidden" id="payment-info">
                                 <small>PayPal options</small>
-                                <button id="make-payment">Make Payment</button>
+                                <div id="paypal-button-container"></div>
+                                <!-- <button id="make-payment">Make Payment</button> -->
                         </div>
                 </div>
                 <div class="col-lg-6">
@@ -63,6 +67,72 @@
                         </div>
                 </div>
         </div>
+        <script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD"></script>
+        <script>
+            // Render the PayPal button into #paypal-button-container
+            paypal.Buttons({
+    
+                style: {
+                    color:  'blue',
+                    shape:  'pill',
+                    label:  'pay',
+                    height: 40
+                },
+                
+                // Call your server to set up the transaction
+                createOrder: function(data, actions) {
+                    return fetch('/demo/checkout/api/paypal/order/create/', {
+                        method: 'post'
+                    }).then(function(res) {
+                        return res.json();
+                    }).then(function(orderData) {
+                        return orderData.id;
+                    });
+                },
+    
+                // Call your server to finalize the transaction
+                onApprove: function(data, actions) {
+                    return fetch('/demo/checkout/api/paypal/order/' + data.orderID + '/capture/', {
+                        method: 'post'
+                    }).then(function(res) {
+                        return res.json();
+                    }).then(function(orderData) {
+                        // Three cases to handle:
+                        //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
+                        //   (2) Other non-recoverable errors -> Show a failure message
+                        //   (3) Successful transaction -> Show confirmation or thank you
+    
+                        // This example reads a v2/checkout/orders capture response, propagated from the server
+                        // You could use a different API or structure for your 'orderData'
+                        var errorDetail = Array.isArray(orderData.details) && orderData.details[0];
+    
+                        if (errorDetail && errorDetail.issue === 'INSTRUMENT_DECLINED') {
+                            return actions.restart(); // Recoverable state, per:
+                            // https://developer.paypal.com/docs/checkout/integration-features/funding-failure/
+                        }
+    
+                        if (errorDetail) {
+                            var msg = 'Sorry, your transaction could not be processed.';
+                            if (errorDetail.description) msg += '\n\n' + errorDetail.description;
+                            if (orderData.debug_id) msg += ' (' + orderData.debug_id + ')';
+                            return alert(msg); // Show a failure message (try to avoid alerts in production environments)
+                        }
+    
+                        // Successful capture! For demo purposes:
+                        console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                        var transaction = orderData.purchase_units[0].payments.captures[0];
+                        alert('Transaction '+ transaction.status + ': ' + transaction.id + '\n\nSee console for all available details');
+    
+                        // Replace the above to show a success message within this page, e.g.
+                        // const element = document.getElementById('paypal-button-container');
+                        // element.innerHTML = '';
+                        // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+                        // Or go to another URL:  actions.redirect('thank_you.html');
+                    });
+                }
+    
+            }).render('#paypal-button-container');
+        </script>
         <script>
                 var shipping = "{{ order.shipping }}"
                 var user = "{{ request.user }}"
@@ -88,15 +158,17 @@
                         document.getElementById("form-button").classList.add('hidden')
                         document.getElementById("payment-info").classList.remove('hidden')
                 })
-                
+                /*
                 document.getElementById('make-payment').addEventListener('click', function(e){
                         submitFormData()
-                })
+                })*/
+                
                 function submitFormData(){
                         console.log("Payment button clicked.")
                         
                         var userFormData = {
-                                'name':null,
+                                'first_name':null,
+                                'last_name':null,
                                 'email':null,
                                 'total':total,
                         }
@@ -116,12 +188,13 @@
                                 shippingInfo.country = form.country.value
                         }
                         
-                        if (shipping == 'False'){
-                                userFormData.name = form.name.value
-                                userFormData.email = form.email.value
-                        }
+                        userFormData.first_name = form.first_name.value
+                        userFormData.last_name = form.last_name.value
+                        userFormData.email = form.email.value
                         
                         var url = '/process-order/'
+                        
+                        console.log(userFormData, shippingInfo)
                         
                         fetch(url, {
                                 method:"POST",
@@ -135,6 +208,9 @@
                         .then((data) => {
                                 console.log("Success: ", data)
                                 alert("Transaction successful!")
+                                
+                                cart = {}
+                                document.cookie = "cart=" + JSON.stringify(cart) + ";domain=;path=/"
                                 window.location.href = "{% url 'shop' %}"
                         })
                 }
