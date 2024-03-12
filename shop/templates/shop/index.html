@@ -1,19 +1,59 @@
 {% extends 'shop/main.html' %}
-{% block content %}'
+{% block content %}
 {% load static  %}
-<div class="banner">
-    <span class="text">
-        <small>MEN'S</small>
-        <small>FOOTWEAR</small>
-        <small>SHOES</small>
-    </span>
-    <img src="{% static 'images/banner.jpg' %}" alt="the banner">
-    <a href="#"><button class="banner-btn">BUY!</button></a>
-    <span class="offer">
-        <small>50%</small>
-        <small>OFF</small>
-    </span>
-</div>
+<style>
+    #banner {
+        background-image: url("{% static 'images/hero4.png' %}");
+    }
+    #banner button {
+    background-image: url("{% static 'images/button.png' %}")
+}
+</style>
+<section id="banner">
+    <h4>Trade-in-offer</h4>
+    <h2>Super value deals</h2>
+    <h1>On all products</h1>
+    <p>Save more with us!</p>
+    <a href="#"><button>Shop Now</button></a>
+</section>
+<section id="feature" class="section-p1">
+    <div class="fe-box">
+        <img src="{% static 'images/features/f1.png' %}" alt="">
+        <h6>Free shipping on big purchases!</h6>
+    </div>
+    <div class="fe-box">
+        <img src="{% static 'images/features/f2.png' %}" alt="">
+        <h6>Online Order!</h6>
+    </div>
+    <div class="fe-box">
+        <img src="{% static 'images/features/f3.png' %}" alt="">
+        <h6>Big Savings!</h6>
+    </div>
+    <div class="fe-box">
+        <img src="{% static 'images/features/f4.png' %}" alt="">
+        <h6>Big Promotions Monthly!</h6>
+    </div>
+    <div class="fe-box">
+        <img src="{% static 'images/features/f5.png' %}" alt="">
+        <h6>Happy customers!</h6>
+    </div>
+    <div class="fe-box">
+        <img src="{% static 'images/features/f6.png' %}" alt="">
+        <h6>Support!</h6>
+    </div>
+</section>
+<section class="categories">
+    <a href="#"><button>Food</button></a>
+    <a href="#"><button>Accessories</button></a>
+    <a href="#"><button>Laptops & desktops</button></a>
+    <a href="#"><button>Mobile Phones</button></a>
+    <a href="#"><button>Monitors</button></a>
+    <a href="#"><button>Televisions</button></a>
+    <a href="#"><button>Tech</button></a>
+    <a href="#"><button>Clothes</button></a>
+    <a href="#"><button>Ornaments</button></a>
+    <a href="#"><button>Misc</button></a>
+</section>
 <div class="row">
         {% for product in products %}
                 <div class="col-lg-4">

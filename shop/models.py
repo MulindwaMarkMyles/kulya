@@ -2,12 +2,22 @@ from django.db import models
 from authentication.models import Customer, Business
 
 
+class Category(models.Model):
+    category_name = models.CharField(unique=True,max_length=200)
+
+    def __str__(self):
+        return f"{self.category_name}"
+
+
 class Product(models.Model):
     name = models.CharField(max_length=100)
     owner = models.ForeignKey(Business, on_delete=models.CASCADE, null=True)
     price = models.DecimalField(max_digits=12, decimal_places=2)
     digital = models.BooleanField(default=False)
     image = models.ImageField(null=True, blank=True)
+    category = models.ForeignKey(
+        Category, on_delete=models.SET_NULL, null=True, blank=True
+    )
 
     def __str__(self):
         return f"{self.name} costs {self.price}"
