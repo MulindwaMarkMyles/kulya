@@ -13,6 +13,7 @@ def index(request):
     products = Product.objects.all()
     context = {
         "title": "SHOP",
+        "range": range(5),
         "products": products,
         "cartItems": cartItems,
         "shipping": False,

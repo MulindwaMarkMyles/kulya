@@ -1,6 +1,12 @@
 from django.db import models
 from authentication.models import Customer, Business
+from django.conf import settings
+import os, uuid
 
+def rename_image(instance, form_picture):
+    _ , f_ext = os.path.splitext(form_picture)
+    new_file_name = "%s.%s" % (uuid.uuid4(), f_ext)
+    return os.path.join(settings.MEDIA_ROOT, new_file_name)
 
 class Category(models.Model):
     category_name = models.CharField(unique=True,max_length=200)
@@ -14,10 +20,11 @@ class Product(models.Model):
     owner = models.ForeignKey(Business, on_delete=models.CASCADE, null=True)
     price = models.DecimalField(max_digits=12, decimal_places=2)
     digital = models.BooleanField(default=False)
-    image = models.ImageField(null=True, blank=True)
+    image = models.ImageField(null=True, blank=True, upload_to=rename_image, max_length=500)
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, null=True, blank=True
     )
+    rating = models.DecimalField(default=0.0, decimal_places=1, max_digits=3)
 
     def __str__(self):
         return f"{self.name} costs {self.price}"

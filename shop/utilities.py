@@ -1,5 +1,7 @@
-import json
+import json, os
+import uuid
 from .models import *
+from authentication.models import *
 
 
 def cookieCart(request):
@@ -83,3 +85,4 @@ def guestOrder(request, data):
             product=product, order=order, quantity=item["quantity"]
         )
     return customer, order
+

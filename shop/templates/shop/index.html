@@ -65,11 +65,15 @@
                         <h5>{{ product.name }}</h5>
                     </div>
                     <div class="star">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
+                        {% if product.rating > 0.0 %}
+                            {% for rating in range %}
+                                {% if product.rating > rating %}
+                                    <i class="fas fa-star h"></i>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            <i class="fas fa-star b"></i>
+                        {% endif %}
                     </div>
                     <h4>{{ product.price }}</h4>
                 </div>
@@ -80,4 +84,5 @@
             </div>
             {% endfor %}
         </section>
+        
 {% endblock %}

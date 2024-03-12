@@ -172,6 +172,7 @@ p {
     display:flex;
     flex-direction: row;
     justify-content: space-evenly;
+    flex-wrap:wrap;
     width:100%;
 }
 #categories a {
@@ -241,9 +242,13 @@ p {
     font-size:22px;
     color:#1a1a1a;
 }
-#products .pro-container .pro i {
+#products .pro-container .pro .h {
     font-size:17px;
     color:rgb(243, 181, 25);
+}
+#products .pro-container .pro .b {
+    font-size:17px;
+    color: #222;
 }
 #products .pro-container .pro h4 {
     font-size:20px;
