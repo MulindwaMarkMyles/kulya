@@ -17,6 +17,7 @@ class Category(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=100)
+    description = models.TextField(null=True, blank=True)
     owner = models.ForeignKey(Business, on_delete=models.CASCADE, null=True)
     price = models.DecimalField(max_digits=12, decimal_places=2)
     digital = models.BooleanField(default=False)
