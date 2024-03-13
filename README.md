@@ -1,85 +1,74 @@
-Here's a revised version of the README with a more organized and visually appealing format:
-Django Web App
-Functional Specification
-Overview
+# Django Web App
 
-This web platform aims to connect customers to basic necessities and needs all at their convenience through services like online ordering, delivery, or booking services.
-User Roles
+## Functional Specification
 
-    Guest User:
-        Can browse products.
-        Can register or log in.
+### Overview
 
-    Registered User (Customer):
-        Inherits guest user privileges.
-        Can add/remove products to/from the shopping cart.
-        Can place orders.
+This web platform aims to connect customers to basic necessities and needs all at their convenience through services like online ordering, delivery or booking services.
 
-    Registered User (Business):
-        Inherits guest user privileges and registered user privileges for a customer.
-        Can setup, manage, and maintain online stores on the web platform.
+### User Roles
 
-    Admin User:
-        Inherits registered user privileges.
-        Can add/update/remove products and also online stores.
-        Can manage user accounts and orders.
+1. _Guest User:_
+    - Can browse products.
+    - Can register or log in.
+2. _- Registered User(Customer):_
+    - Inherits guest user privileges.
+    - Can add/remove products to/from the shopping cart.
+    - Can place orders.
+3. _Registered User(Business):_
+    - Inherits guest user privileges and registered user privileges for a customer.
+    - Can setup, manage, and maintain online stores on the web platform.
+4. _Admin User:_
+    - Inherits registered user privileges.
+    - Can add/update/remove products and also online stores
+    - Can manage user accounts and orders
 
-Features
+### Features
 
-    Product Catalog:
-        Display products with details.
-        Filter and search functionality.
+1. _Product Catalog:_
+   - Display products with details.
+   - Filter and search functionality.
+2. _User Authentication:_
+   - Registration and login.
+   - Password reset functionality.
+3. _Shopping Cart:_
+   - Add/remove products.
+   - Adjust quantities.
+   - Calculate total price.
+   - Rate products.
+4. _Order Processing:_
+   - Confirm order details.
+   - Payment integration (e.g., Stripe).
+   - Order confirmation and tracking.
+5. _Admin Panel:_
+   - Manage products.
+   - View and process orders.
+   - User management.
 
-    User Authentication:
-        Registration and login.
-        Password reset functionality.
+## Technological Specification
 
-    Shopping Cart:
-        Add/remove products.
-        Adjust quantities.
-        Calculate total price.
-        Rate products.
+1.  _Backend:_
+    - Django
+    - Django REST Framework for APIs.
+2.  _Frontend:_
+    - HTML, CSS, JavaScript.
+    - Bootstrap for responsive design.
+3.  _Database:_
+    - PostgreSQL or MySQL for data storage.
+    • Authentication:
+    - Django's built-in authentication system.
+4.  _Misc:_
+    - Payment Integration like: Stripe API
+    - Email API like Sendgrid, Mailgun for email related tasks
 
-    Order Processing:
-        Confirm order details.
-        Payment integration (e.g., Stripe).
-        Order confirmation and tracking.
+## Development Methodology:
 
-    Admin Panel:
-        Manage products.
-        View and process orders.
-        User management.
+        -	Pair Programming: This involves collaboration on gitlab so as to ease tasks and ensure agile development and high quality code.
+        -	Testing the platform: User acceptance testing to ensure platform functionality and stability.
 
-Technological Specification
+## Evaluation Criteria:
 
-    Backend:
-        Django
-        Django REST Framework for APIs.
-
-    Frontend:
-        HTML, CSS, JavaScript.
-        Bootstrap for responsive design.
-
-    Database:
-        PostgreSQL or MySQL for data storage.
-
-    Authentication:
-        Django's built-in authentication system.
-
-    Misc:
-        Payment Integration like: Stripe API.
-        Email API like Sendgrid, Mailgun for email related tasks.
-
-Development Methodology
-
-    Pair Programming:
-        Collaboration on GitLab to ease tasks and ensure agile development and high-quality code.
-    Testing the Platform:
-        User acceptance testing to ensure platform functionality and stability.
-
-Evaluation Criteria
-
-    Ease of Use of the Platform
-    Technical Implementation
-    Deployment and Scalability
-    Functionality
+        -	Ease of use of the platform
+        -	Technical Implementation
+        -	Deployment and Scalability
+        -	Functionality
