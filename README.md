@@ -1,4 +1,4 @@
-# Django Web App
+# SHOPPIE
 
 ## Functional Specification
 
@@ -63,12 +63,12 @@ This web platform aims to connect customers to basic necessities and needs all a
 
 ## Development Methodology:
 
-        -	Pair Programming: This involves collaboration on gitlab so as to ease tasks and ensure agile development and high quality code.
-        -	Testing the platform: User acceptance testing to ensure platform functionality and stability.
+        - Pair Programming: This involves collaboration on gitlab so as to ease tasks and ensure agile development and high quality code.
+        - Testing the platform: User acceptance testing to ensure platform functionality and stability.
 
 ## Evaluation Criteria:
 
-        -	Ease of use of the platform
-        -	Technical Implementation
-        -	Deployment and Scalability
-        -	Functionality
+        - Ease of use of the platform
+        - Technical Implementation
+        - Deployment and Scalability
+        - Functionality
