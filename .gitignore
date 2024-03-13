@@ -1,8 +1,8 @@
-authentication/migrations
-shop/migrations
-shop/__pycache__
-authentication/__pycache__
-home/migrations
-home/__pycache__
-shoppie/__pycache__
-db.sqlite3
+#authentication/migrations
+#shop/migrations
+#shop/__pycache__
+#authentication/__pycache__
+#home/migrations
+#home/__pycache__
+#shoppie/__pycache__
+#db.sqlite3
