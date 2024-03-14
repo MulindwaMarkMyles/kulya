@@ -25,7 +25,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=12, decimal_places=2)
     digital = models.BooleanField(default=False)
     image = models.ImageField(
-        null=True, blank=True, upload_to=rename_image, max_length=500
+        null=True, blank=True, max_length=500
     )
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, null=True, blank=True
