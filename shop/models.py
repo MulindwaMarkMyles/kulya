@@ -1,13 +1,12 @@
 from django.db import models
 from authentication.models import Customer, Business
-from django.conf import settings
 import os, uuid
 
 
 def rename_image(instance, form_picture):
     _, f_ext = os.path.splitext(form_picture)
     new_file_name = "%s.%s" % (uuid.uuid4(), f_ext)
-    return os.path.join(settings.MEDIA_ROOT, new_file_name)
+    return new_file_name
 
 
 class Category(models.Model):
@@ -42,6 +41,11 @@ class Product(models.Model):
         except:
             url = ""
         return url
+        
+    def save(self, *args, **kwargs):
+        if self.image:
+            self.image.name = rename_image(self, self.image.name)
+            super().save(*args, **kwargs)
 
 
 class Order(models.Model):
