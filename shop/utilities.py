@@ -1,5 +1,4 @@
-import json, os
-import uuid
+import json
 from .models import *
 from authentication.models import *
 
