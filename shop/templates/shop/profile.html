@@ -1,132 +1,146 @@
 {% extends 'shop/main.html' %} {% block content %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Profile</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: white;
-            color: blue;
-            padding: 10px 20px;
-            text-align:center;
-        }
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-        }
-        .profile {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .profile-pic {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 20px;
-        }
-        .bio-data, .cart, .login-form, .signup-form {
-            width: 100%;
-            margin-bottom: 35px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .bio-data h2, .cart h2, .login-form h2, .signup-form h2 {
-            margin-top: 0;
-        }
-        .cart ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        .cart li {
-            margin-bottom: 5px;
-        }
-        .edit-profile-btn, .logout-btn {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .edit-profile-btn:hover, .logout-btn:hover {
-            background-color:green;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      header {
+        background-color: white;
+        color: blue;
+        padding: 10px 20px;
+        text-align: center;
+      }
+      .container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+      }
+      .profile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .profile-pic {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 20px;
+      }
+      .bio-data,
+      .cart,
+      .login-form,
+      .signup-form {
+        width: 100%;
+        margin-bottom: 35px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      .bio-data h2,
+      .cart h2,
+      .login-form h2,
+      .signup-form h2 {
+        margin-top: 0;
+      }
+      .cart ul {
+        list-style-type: none;
+        padding: 0;
+      }
+      .cart li {
+        margin-bottom: 5px;
+      }
+      .edit-profile-btn,
+      .logout-btn {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      .edit-profile-btn:hover,
+      .logout-btn:hover {
+        background-color: green;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <h1>Profile</h1>
-        <!-- Display login/logout buttons based on user authentication status -->
-   
+      <h1>Profile</h1>
+      <!-- Display login/logout buttons based on user authentication status -->
     </header>
     <div class="container">
-        <div class="profile">
-            <img src="/media/profile.jpeg" alt="Profile Picture" class="profile-pic">
-            <?php if ($loggedIn): ?>
-            <div class="bio-data">
-                <h2>Bio Data</h2>
-                <p>Name: John Doe</p>
-                <p>Email: johndoe@example.com</p>
-                <p>Address: 123 Main Street, City, Country</p>
-                <!-- Add more bio data fields as needed -->
-                <button class="edit-profile-btn">Edit Profile</button>
-            </div>
-            <div class="cart">
-                <h2>Shopping Cart</h2>
-                <ul>
-                    <li>Product 1</li>
-                    <li>Product 2</li>
-                    <li>Product 3</li>
-                    <!-- Display user's cart items here -->
-                </ul>
-                <button class="checkout-btn">Checkout</button>
-            </div>
-            <?php else: ?>
-            <!-- Display login/signup forms if user is not logged in -->
-            <div class="login-form">
-                <h2>Login</h2>
-                <!-- Add login form here -->
-                <!-- Input fields: username/email and password -->
-                <!-- Submit button -->
-            </div>
-            <div class="signup-form">
-                <h2>Sign Up</h2>
-                <!-- Add signup form here -->
-                <!-- Input fields: username, email, password -->
-                <!-- Submit button -->
-            </div>
-            <?php endif; ?>
+      <div class="profile">
+        <img
+          src="/media/profile.jpeg"
+          alt="Profile Picture"
+          class="profile-pic"
+        />
+        <?php if ($loggedIn): ?>
+        <div class="bio-data">
+          <h2>Bio Data</h2>
+          <p>Name: John Doe</p>
+          <p>Email: johndoe@example.com</p>
+          <p>Address: 123 Main Street, City, Country</p>
+          <!-- Add more bio data fields as needed -->
+          <button class="edit-profile-btn">Edit Profile</button>
         </div>
+        <div class="cart">
+          <h2>Shopping Cart</h2>
+          <ul>
+            <li>Product 1</li>
+            <li>Product 2</li>
+            <li>Product 3</li>
+            <!-- Display user's cart items here -->
+          </ul>
+          <button class="checkout-btn">Checkout</button>
+        </div>
+        <?php else: ?>
+        <!-- Display login/signup forms if user is not logged in -->
+        <div class="login-form">
+          <h2>Login</h2>
+          <!-- Add login form here -->
+          <!-- Input fields: username/email and password -->
+          <!-- Submit button -->
+        </div>
+        <div class="signup-form">
+          <h2>Sign Up</h2>
+          <!-- Add signup form here -->
+          <!-- Input fields: username, email, password -->
+          <!-- Submit button -->
+        </div>
+        <?php endif; ?>
+      </div>
     </div>
 
     <!-- JavaScript functionalities -->
     <script>
-        // Add JavaScript functionalities here if needed
-        document.querySelector('.edit-profile-btn').addEventListener('click', function() {
-            // Add functionality to edit profile
-            alert('Editing profile...');
+      // Add JavaScript functionalities here if needed
+      document
+        .querySelector(".edit-profile-btn")
+        .addEventListener("click", function () {
+          // Add functionality to edit profile
+          alert("Editing profile...");
         });
 
-        document.querySelector('.logout-btn').addEventListener('click', function() {
-            // Add functionality to log out
-            alert('Logging out...');
-            // Redirect user to logout page or perform logout operation
+      document
+        .querySelector(".logout-btn")
+        .addEventListener("click", function () {
+          // Add functionality to log out
+          alert("Logging out...");
+          // Redirect user to logout page or perform logout operation
         });
     </script>
-</body>
+  </body>
 </html>
-
 
 {% endblock %}
