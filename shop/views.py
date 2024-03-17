@@ -12,7 +12,7 @@ def index(request):
 
     products = Product.objects.all()
     context = {
-        "title": "SHOP",
+        "title": "Home",
         "range": range(5),
         "products": products,
         "cartItems": cartItems,
@@ -108,7 +108,7 @@ def processOrder(request):
 
 def profile(request):
     context={
-        'title':'USER PROFILE',
+        'title':'Uer Profile',
         'name':'USER NAME',
         'email':'USER EMAIL',
         'phone_number':'PHONE NUMBER'

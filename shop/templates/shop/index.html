@@ -1,88 +1,90 @@
-{% extends 'shop/main.html' %}
-{% block content %}
-{% load static  %}
-        <style>
-            #banner {
-                background-image: url("{% static 'images/hero4.png' %}");
-            }
-            #banner button {
-            background-image: url("{% static 'images/button.png' %}")
-        }
-        </style>
-        <section id="banner">
-            <h4>Trade-in-offer</h4>
-            <h2>Super value deals</h2>
-            <h1>On all products</h1>
-            <p>Save more with us!</p>
-            <a href="#"><button>Shop Now</button></a>
-        </section>
-        <section id="feature" class="section-p1">
-            <div class="fe-box">
-                <img src="{% static 'images/features/f1.png' %}" alt="">
-                <h6>Free shipping on big purchases!</h6>
-            </div>
-            <div class="fe-box">
-                <img src="{% static 'images/features/f2.png' %}" alt="">
-                <h6>Online Order!</h6>
-            </div>
-            <div class="fe-box">
-                <img src="{% static 'images/features/f3.png' %}" alt="">
-                <h6>Big Savings!</h6>
-            </div>
-            <div class="fe-box">
-                <img src="{% static 'images/features/f4.png' %}" alt="">
-                <h6>Big Promotions Monthly!</h6>
-            </div>
-            <div class="fe-box">
-                <img src="{% static 'images/features/f5.png' %}" alt="">
-                <h6>Happy customers!</h6>
-            </div>
-            <div class="fe-box">
-                <img src="{% static 'images/features/f6.png' %}" alt="">
-                <h6>Support!</h6>
-            </div>
-        </section>
-        <h4 class="category-title">Categories</h4>
-        <section id="categories">
-            <a href="#"><button>Food</button></a>
-            <a href="#"><button>Accessories</button></a>
-            <a href="#"><button>Laptops & desktops</button></a>
-            <a href="#"><button>Mobile Phones</button></a>
-            <a href="#"><button>Monitors</button></a>
-            <a href="#"><button>Televisions</button></a>
-            <a href="#"><button>Tech</button></a>
-            <a href="#"><button>Clothes</button></a>
-            <a href="#"><button>Ornaments</button></a>
-            <a href="#"><button>Misc</button></a>
-        </section>
-        <section id="products" class="section-p1">
-            {% for product in products %}
-            <div class="pro-container">
-                <div class="pro">
-                    <img class="thumbnail" src="{{ product.imageurl }}" alt="product image">
-                    <div class="des">
-                        <span>{{ product.category }}</span>
-                        <h5>{{ product.name }}</h5>
-                    </div>
-                    <div class="star">
-                        {% if product.rating > 0.0 %}
-                            {% for rating in range %}
-                                {% if product.rating > rating %}
-                                    <i class="fas fa-star h"></i>
-                                {% endif %}
-                            {% endfor %}
-                        {% else %}
-                            <i class="fas fa-star b"></i>
-                        {% endif %}
-                    </div>
-                    <h4>{{ product.price }}</h4>
-                </div>
-                <div class="btns">
-                    <button href="#" class="update-cart" data-product="{{ product.id }}" data-action="add"><i class="fal fa-shopping-cart add-cart"></i></button>
-                    <a href="#" class="view-btn"><button>View</button></a>
-                </div>
-            </div>
-            {% endfor %}
-        </section>
-        
+{% extends 'shop/main.html' %} {% block content %} {% load static %}
+<style>
+  #banner {
+    background-image: url("{% static 'images/hero4.png' %}");
+  }
+  #banner button {
+    background-image: url("{% static 'images/button.png' %}");
+  }
+</style>
+<section id="banner">
+  <h4>Trade-in-offer</h4>
+  <h2>Super value deals</h2>
+  <h1>On all products</h1>
+  <p>Save more with us!</p>
+  <a href="#"><button>Shop Now</button></a>
+</section>
+<section id="feature" class="section-p1">
+  <div class="fe-box">
+    <img src="{% static 'images/features/f1.png' %}" alt="" />
+    <h6>Free shipping on big purchases!</h6>
+  </div>
+  <div class="fe-box">
+    <img src="{% static 'images/features/f2.png' %}" alt="" />
+    <h6>Online Order!</h6>
+  </div>
+  <div class="fe-box">
+    <img src="{% static 'images/features/f3.png' %}" alt="" />
+    <h6>Big Savings!</h6>
+  </div>
+  <div class="fe-box">
+    <img src="{% static 'images/features/f4.png' %}" alt="" />
+    <h6>Big Promotions Monthly!</h6>
+  </div>
+  <div class="fe-box">
+    <img src="{% static 'images/features/f5.png' %}" alt="" />
+    <h6>Happy customers!</h6>
+  </div>
+  <div class="fe-box">
+    <img src="{% static 'images/features/f6.png' %}" alt="" />
+    <h6>Support!</h6>
+  </div>
+</section>
+<h4 class="category-title">Categories</h4>
+<section id="categories">
+  <a href="#"><button>Food</button></a>
+  <a href="#"><button>Accessories</button></a>
+  <a href="#"><button>Laptops & desktops</button></a>
+  <a href="#"><button>Mobile Phones</button></a>
+  <a href="#"><button>Monitors</button></a>
+  <a href="#"><button>Televisions</button></a>
+  <a href="#"><button>Tech</button></a>
+  <a href="#"><button>Clothes</button></a>
+  <a href="#"><button>Ornaments</button></a>
+  <a href="#"><button>Misc</button></a>
+</section>
+<section id="products" class="section-p1">
+  {% for product in products %}
+  <div class="pro-container">
+    <div class="pro">
+      <img class="thumbnail" src="{{ product.imageurl }}" alt="product image" />
+      <div class="des">
+        <span>{{ product.category }}</span>
+        <h5>{{ product.name }}</h5>
+      </div>
+      <div class="star">
+        {% if product.rating > 0.0 %} {% for rating in range %} {% if
+        product.rating > rating %}
+        <i class="fas fa-star h"></i>
+        {% endif %} {% endfor %} {% else %}
+        <i class="fas fa-star b"></i>
+        {% endif %}
+      </div>
+      <h4>{{ product.price }}</h4>
+    </div>
+    <div class="btns">
+      <button
+        href="#"
+        class="update-cart"
+        data-product="{{ product.id }}"
+        data-action="add"
+      >
+        <i class="fal fa-shopping-cart add-cart"></i>
+      </button>
+      <a href="#" class="view-btn"><button>View</button></a>
+    </div>
+  </div>
+  {% endfor %}
+</section>
+
 {% endblock %}
