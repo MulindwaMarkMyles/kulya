@@ -8,11 +8,11 @@ from .utilities import *
 
 def index(request):
     data = cartData(request)
-    cartItems = data['cartItems']
+    cartItems = data["cartItems"]
 
     products = Product.objects.all()
     context = {
-        "title": "Home",
+        "title": "SHOP",
         "range": range(5),
         "products": products,
         "cartItems": cartItems,
@@ -23,10 +23,10 @@ def index(request):
 
 def cart(request):
     data = cartData(request)
-    cartItems = data['cartItems']
-    order = data['order']
-    items = data['items']
-        
+    cartItems = data["cartItems"]
+    order = data["order"]
+    items = data["items"]
+
     context = {
         "title": "CART",
         "items": items,
@@ -39,10 +39,10 @@ def cart(request):
 
 def checkout(request):
     data = cartData(request)
-    cartItems = data['cartItems']
-    order = data['order']
-    items = data['items']
-    
+    cartItems = data["cartItems"]
+    order = data["order"]
+    items = data["items"]
+
     context = {
         "title": "CHECKOUT",
         "items": items,
@@ -84,27 +84,25 @@ def processOrder(request):
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
     else:
         customer, order = guestOrder(request, data)
-    
+
     total = float(data["form"]["total"])
     order.transaction_id = transaction_id
 
     if total == order.get_cart_total:
         order.complete = True
     order.save()
-    
+
     if order.shipping == True:
-            ShippingAddress.objects.create(
-                customer=customer,
-                order=order,
-                address=data["shipping"]["address"],
-                city=data["shipping"]["city"],
-                state=data["shipping"]["state"],
-                zipcode=data["shipping"]["zipcode"],
-            )
-            
+        ShippingAddress.objects.create(
+            customer=customer,
+            order=order,
+            address=data["shipping"]["address"],
+            city=data["shipping"]["city"],
+            state=data["shipping"]["state"],
+            zipcode=data["shipping"]["zipcode"],
+        )
+
     return JsonResponse("Payment completed.", safe=False)
-
-
 
 def profile(request):
     context={
@@ -114,8 +112,20 @@ def profile(request):
         'phone_number':'PHONE NUMBER'
          }
 
-    return render(request, "shop/profile.html",context)    
+    return render(request, "shop/profile.html",context)  
 
-    
-    
+def login(request):
 
+    return render(request, "shop/login.html") 
+
+
+def viewProduct(request, id):
+    product = Product.objects.filter(id=id).first()
+    data = cartData(request)
+    try:
+        quantity = data["items"].filter(product=product).first().quantity
+    except:
+        quantity = 0
+    cartItems = data["cartItems"]
+    context = {"product": product, "cartItems": cartItems, "title":"PRODUCT", "quantity": quantity}
+    return render(request, "shop/product.html", context)
