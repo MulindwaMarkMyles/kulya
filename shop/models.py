@@ -5,7 +5,7 @@ import os, uuid
 
 def rename_image(instance, form_picture):
     _, f_ext = os.path.splitext(form_picture)
-    new_file_name = "%s.%s" % (uuid.uuid4(), f_ext)
+    new_file_name = "%s%s" % (uuid.uuid4(), f_ext)
     return new_file_name
 
 
@@ -23,9 +23,7 @@ class Product(models.Model):
     description = models.TextField(null=True, blank=True)
     price = models.DecimalField(max_digits=12, decimal_places=2)
     digital = models.BooleanField(default=False)
-    image = models.ImageField(
-        null=True, blank=True, max_length=500
-    )
+    image = models.ImageField(null=True, blank=True, max_length=500)
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, null=True, blank=True
     )
@@ -41,11 +39,10 @@ class Product(models.Model):
         except:
             url = ""
         return url
-        
+
     def save(self, *args, **kwargs):
-        if self.image:
-            self.image.name = rename_image(self, self.image.name)
-            super().save(*args, **kwargs)
+        self.image.name = rename_image(self, self.image.name)
+        super().save(*args, **kwargs)
 
 
 class Order(models.Model):

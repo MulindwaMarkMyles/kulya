@@ -10,6 +10,6 @@ urlpatterns = [
         path('profile/',profile, name="profile"),
         path('login/', login,name='login'),
         path('loginn/', login, name='loginn'), 
-        #path('register/', register,   
+        path('product-view/<int:id>', viewProduct, name="view-product"),
 ]
 
