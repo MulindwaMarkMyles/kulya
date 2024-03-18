@@ -9,7 +9,6 @@ urlpatterns = [
         path('process-order/', processOrder, name="process-order"),
         path('profile/',profile, name="profile"),
         path('login/', login,name='login'),
-        path('loginn/', login, name='loginn'), 
         path('product-view/<int:id>', viewProduct, name="view-product"),
 ]
 
