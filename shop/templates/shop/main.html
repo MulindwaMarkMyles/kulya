@@ -6,6 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="{% static 'css/main.css' %}">
         <link rel="stylesheet" href="{% static 'css/index.css' %}">
+        {% if title == "PRODUCT" %}
+            <link rel="stylesheet" href="{% static 'css/product.css' %}">
+        {% endif %}
         <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
         <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" >
         <title>SHOPPIE - {{ title }}</title>
@@ -15,11 +18,11 @@
                 <a class="logo" >SHOPPIE</a>
                 <div>
                     <ul id="navbar">
-                        <li><a class="active" href="{% url 'shop' %}" >Home</a></li>
-                        <li><a  href="#">Profile</a></li>
+                        <li><a {% if title == 'SHOP' %} class="active" {% endif %} href="{% url 'shop' %}" >Home</a></li>
+                        <li><a {% if title == 'PROFILE' %} class="active" {% endif %} href="#">Profile</a></li>
                         <li><a href="#">About Us</a></li>
                         <li><a href="#">Search</a></li>
-                        <li><a href="{% url 'cart' %}"><i class="icon far fa-shopping-bag">
+                        <li><a {% if title == 'CART' %} class="active" {% endif %} href="{% url 'cart' %}"><i class="icon far fa-shopping-bag">
                             <span id="cart-total">{{ cartItems }}</span>
                         </i></a></li>
                     </ul>
