@@ -8,5 +8,8 @@ urlpatterns = [
         path('update-item/', updateitem, name="update-item"),
         path('process-order/', processOrder, name="process-order"),
         path('profile/',profile, name="profile"),
+        path('login/', login,name='login'),
+        path('loginn/', login, name='loginn'), 
+        #path('register/', register,   
 ]
 

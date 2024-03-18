@@ -65,6 +65,8 @@
       .update-btn,
       .delete-item-btn,
       .remove-from-cart-btn,
+      .log-in,
+      .sign-up,
       .logout-btn {
         background-color: #4caf50;
         color: white;
@@ -75,6 +77,9 @@
         transition: background-color 0.3s;
       }
       .edit-profile-btn:hover,
+      .checkout-btn:hover,
+      .log-in:hover,
+      .sign-up:hover,
       .logout-btn:hover {
         background-color: green;
       }
@@ -113,20 +118,7 @@
         </div>
         <?php else: ?>
         <!-- Display login/signup forms if user is not logged in -->
-        <div class="login-form">
-          <h2>Login</h2>
-          <!-- Add login form here -->
-          <!-- Input fields: username/email and password -->
-          <!-- Submit button -->
-        </div>
-        <div class="signup-form">
-          <h2>Sign Up</h2>
-          <!-- Add signup form here -->
-          <!-- Input fields: username, email, password -->
-          <!-- Submit button -->
-        </div>
-        <?php endif; ?>
-      </div>
+        
     </div>
 
     <!-- JavaScript functionalities -->
