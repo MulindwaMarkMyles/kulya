@@ -90,11 +90,11 @@
                             <i class="fas fa-star b"></i>
                         {% endif %}
                     </div>
-                    <h4>{{ product.price }}</h4>
+                    <h4>{{ product.price|floatformat:0 }}</h4>
                 </div>
                 <div class="btns">
                     <button href="#" class="update-cart" data-product="{{ product.id }}" data-action="add"><i class="fal fa-shopping-cart add-cart"></i></button>
-                    <a href="#" class="view-btn"><button>View</button></a>
+                    <a href="{% url 'view-product' product.id %}" class="view-btn"><button>View</button></a>
                 </div>
             </div>
             {% endfor %}

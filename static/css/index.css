@@ -118,8 +118,7 @@
 }
 
 #products .pro-container {
-    width:23%;
-    min-width:250px;
+    width:100%;
     padding: 10px 12px;
     border: 1px solid #cce7d0;
     border-radius:15px;
@@ -202,7 +201,7 @@
 
 #products {
     display:grid;
-    grid-template-columns: repeat(auto-fit, 250px);
+    grid-template-columns: repeat(auto-fill, 250px);
     gap:50px;
     padding-top:20px;   
 }
