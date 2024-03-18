@@ -7,7 +7,8 @@ urlpatterns = [
         path('checkout/', checkout, name="checkout"),
         path('update-item/', updateitem, name="update-item"),
         path('process-order/', processOrder, name="process-order"),
+        path('profile/',profile, name="profile"),
+        path('login/', login,name='login'),
         path('product-view/<int:id>', viewProduct, name="view-product"),
-        #path('profile/', profile, name="profile"),
 ]
 

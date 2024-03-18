@@ -1,159 +1,166 @@
-{% extends 'shop/main.html' %}
-{% block content %}
-{% load static  %}
-        <style>
-            #banner {
-                background-image: url("{% static 'images/banner-mine.jpg' %}");
-            }
-            #banner button {
-            background-image: url("{% static 'images/button.png' %}")
-            }
-            #sm-banner .banner-box {
-                background-image: url("{% static 'images/banner/b17.jpg' %}");
-            }
-            #sm-banner .banner-box-2 {
-                background-image: url("{% static 'images/banner/b10.jpg' %}");
-            }
-            #banner3 .banner-box{
-                background-image: url("{% static 'images/banner/b7.jpg' %}");
-            }
-            #banner3 .banner-box-2{
-                background-image: url("{% static 'images/banner/b4.jpg' %}");
-            }
-            #banner3 .banner-box-3{
-                background-image: url("{% static 'images/banner/b18.jpg' %}");
-            }
-        </style>
-        <section id="banner">
-            <h4>Trade-in-offer</h4>
-            <h2>Super value deals</h2>
-            <h1>On all products</h1>
-            <p>Save more with us!</p>
-            <a href="#"><button>Shop Now</button></a>
-        </section>
-        <section id="feature" class="section-p1">
-            <div class="fe-box">
-                <img src="{% static 'images/features/f1.png' %}" alt="">
-                <h6>Free shipping on big purchases!</h6>
-            </div>
-            <div class="fe-box">
-                <img src="{% static 'images/features/f2.png' %}" alt="">
-                <h6>Online Order!</h6>
-            </div>
-            <div class="fe-box">
-                <img src="{% static 'images/features/f3.png' %}" alt="">
-                <h6>Big Savings!</h6>
-            </div>
-            <div class="fe-box">
-                <img src="{% static 'images/features/f4.png' %}" alt="">
-                <h6>Big Promotions Monthly!</h6>
-            </div>
-            <div class="fe-box">
-                <img src="{% static 'images/features/f5.png' %}" alt="">
-                <h6>Happy customers!</h6>
-            </div>
-            <div class="fe-box">
-                <img src="{% static 'images/features/f6.png' %}" alt="">
-                <h6>Support!</h6>
-            </div>
-        </section>
-        <h4 class="category-title">Categories</h4>
-        <section id="categories">
-            <a href="#"><button>Food</button></a>
-            <a href="#"><button>Accessories</button></a>
-            <a href="#"><button>Laptops & desktops</button></a>
-            <a href="#"><button>Mobile Phones</button></a>
-            <a href="#"><button>Monitors</button></a>
-            <a href="#"><button>Televisions</button></a>
-            <a href="#"><button>Tech</button></a>
-            <a href="#"><button>Clothes</button></a>
-            <a href="#"><button>Ornaments</button></a>
-            <a href="#"><button>Misc</button></a>
-        </section>
-        <section id="products" class="section-p1">
-            {% for product in products %}
-            <div class="pro-container">
-                <div class="pro">
-                    <img class="thumbnail" src="{{ product.imageurl }}" alt="product image">
-                    <div class="des">
-                        <span>{{ product.category }}</span>
-                        <h5>{{ product.name }}</h5>
-                    </div>
-                    <div class="star">
-                        {% if product.rating > 0.0 %}
-                            {% for rating in range %}
-                                {% if product.rating > rating %}
-                                    <i class="fas fa-star h"></i>
-                                {% endif %}
-                            {% endfor %}
-                        {% else %}
-                            <i class="fas fa-star b"></i>
-                        {% endif %}
-                    </div>
-                    <h4>{{ product.price|floatformat:0 }}</h4>
-                </div>
-                <div class="btns">
-                    <button href="#" class="update-cart" data-product="{{ product.id }}" data-action="add"><i class="fal fa-shopping-cart add-cart"></i></button>
-                    <a href="{% url 'view-product' product.id %}" class="view-btn"><button>View</button></a>
-                </div>
-            </div>
-            {% endfor %}
-        </section>
-        <section id="sm-banner" class="section-p1">
-            <div class="banner-box">
-                <h4>Crazy Deals</h4>
-                <h2>Buy 2 get 4 free</h2>
-                <span>The best classics are on sale</span>
-                <button class="white">Learn More</button>
-            </div>
-            <div class="banner-box banner-box-2">
-                <h4>rain/cold</h4>
-                <h2>Upcoming Season</h2>
-                <span>Anything to keep you warm</span>
-                <button class="white">Collection</button>
-            </div>
-        </section>
-        <section id="banner3">
-            <div class="banner-box">
-                <h2>SEASONAL SALE</h2>
-                <h3>50% OFF THIS SEASON!</h3>
-            </div>
-            <div class="banner-box banner-box-2">
-                <h2>GREAT FOOTWEAR</h2>
-                <h3>AT VERY AFFORDABLE PRICES!</h3>
-            </div>
-            <div class="banner-box banner-box-3">
-                <h2>T-SHIRTS</h2>
-                <h3>ALL NEW THIS SEASON!</h3>
-            </div>
-        </section>
-        <footer >
-            <div class="footer">
-                <div class="col">
-                    <span class="logo">SHOPPIE</span>
-                    <h4>Contact</h4>
-                    <p><strong>Address</strong>: Makerere Hill, SHOPPIE TOWERS</p>
-                    <p><strong>Phone</strong>: +256 759534787, +256 708503025</p>
-                    <p><strong>Hours</strong>: 24hrs-7days</p>
-                </div>
-                <div class="col">
-                    <h4>About</h4>
-                    <a href="#">Terms and conditions</a>
-                    <a href="#">Offers</a>
-                    <a href="#">Contact Us</a>
-                    <a href="#">Report a Bug</a>
-                </div>
-                <div class="col">
-                    <h4>My Account</h4>
-                    <a href="#">Profile</a>
-                    <a href="#">Sign In</a>
-                    <a href="#">Help</a>
-                    <!-- <a href="#">Report a Bug</a> -->
-                </div>
-            </div>
-            <div class="copyright">
-                <p>©️ 2024,SHOPPIE</p>
-            </div>
-        </footer>
-        
+{% extends 'shop/main.html' %} {% block content %} {% load static %}
+<style>
+  #banner {
+    background-image: url("{% static 'images/banner-mine.jpg' %}");
+  }
+  #banner button {
+    background-image: url("{% static 'images/button.png' %}");
+  }
+  #sm-banner .banner-box {
+    background-image: url("{% static 'images/banner/b17.jpg' %}");
+  }
+  #sm-banner .banner-box-2 {
+    background-image: url("{% static 'images/banner/b10.jpg' %}");
+  }
+  #banner3 .banner-box {
+    background-image: url("{% static 'images/banner/b7.jpg' %}");
+  }
+  #banner3 .banner-box-2 {
+    background-image: url("{% static 'images/banner/b4.jpg' %}");
+  }
+  #banner3 .banner-box-3 {
+    background-image: url("{% static 'images/banner/b18.jpg' %}");
+  }
+</style>
+<section id="banner">
+  <h4>Trade-in-offer</h4>
+  <h2>Super value deals</h2>
+  <h1>On all products</h1>
+  <p>Save more with us!</p>
+  <a href="#"><button>Shop Now</button></a>
+</section>
+<section id="feature" class="section-p1">
+  <div class="fe-box">
+    <img src="{% static 'images/features/f1.png' %}" alt="" />
+    <h6>Free shipping on big purchases!</h6>
+  </div>
+  <div class="fe-box">
+    <img src="{% static 'images/features/f2.png' %}" alt="" />
+    <h6>Online Order!</h6>
+  </div>
+  <div class="fe-box">
+    <img src="{% static 'images/features/f3.png' %}" alt="" />
+    <h6>Big Savings!</h6>
+  </div>
+  <div class="fe-box">
+    <img src="{% static 'images/features/f4.png' %}" alt="" />
+    <h6>Big Promotions Monthly!</h6>
+  </div>
+  <div class="fe-box">
+    <img src="{% static 'images/features/f5.png' %}" alt="" />
+    <h6>Happy customers!</h6>
+  </div>
+  <div class="fe-box">
+    <img src="{% static 'images/features/f6.png' %}" alt="" />
+    <h6>Support!</h6>
+  </div>
+</section>
+<h4 class="category-title">Categories</h4>
+<section id="categories">
+  <a href="#"><button>Food</button></a>
+  <a href="#"><button>Accessories</button></a>
+  <a href="#"><button>Laptops & desktops</button></a>
+  <a href="#"><button>Mobile Phones</button></a>
+  <a href="#"><button>Monitors</button></a>
+  <a href="#"><button>Televisions</button></a>
+  <a href="#"><button>Tech</button></a>
+  <a href="#"><button>Clothes</button></a>
+  <a href="#"><button>Ornaments</button></a>
+  <a href="#"><button>Misc</button></a>
+</section>
+<section id="products" class="section-p1">
+  {% for product in products %}
+  <div class="pro-container">
+    <div class="pro">
+      <img class="thumbnail" src="{{ product.imageurl }}" alt="product image" />
+      <div class="des">
+        <span>{{ product.category }}</span>
+        <h5>{{ product.name }}</h5>
+      </div>
+      <div class="star">
+        {% if product.rating > 0.0 %} 
+        {% for rating in range %} 
+        {% if product.rating > rating %}
+        <i class="fas fa-star h"></i>
+        {% endif %} 
+        {% endfor %} 
+        {% else %}
+        <i class="fas fa-star b"></i>
+        {% endif %}
+      </div>
+      <h4>{{ product.price|floatformat:0 }}</h4>
+    </div>
+    <div class="btns">
+      <button
+        href="#"
+        class="update-cart"
+        data-product="{{ product.id }}"
+        data-action="add"
+      >
+        <i class="fal fa-shopping-cart add-cart"></i>
+      </button>
+      <a href="{% url 'view-product' product.id %}" class="view-btn"
+        ><button>View</button></a
+      >
+    </div>
+  </div>
+  {% endfor %}
+</section>
+<section id="sm-banner" class="section-p1">
+  <div class="banner-box">
+    <h4>Crazy Deals</h4>
+    <h2>Buy 2 get 4 free</h2>
+    <span>The best classics are on sale</span>
+    <button class="white">Learn More</button>
+  </div>
+  <div class="banner-box banner-box-2">
+    <h4>rain/cold</h4>
+    <h2>Upcoming Season</h2>
+    <span>Anything to keep you warm</span>
+    <button class="white">Collection</button>
+  </div>
+</section>
+<section id="banner3">
+  <div class="banner-box">
+    <h2>SEASONAL SALE</h2>
+    <h3>50% OFF THIS SEASON!</h3>
+  </div>
+  <div class="banner-box banner-box-2">
+    <h2>GREAT FOOTWEAR</h2>
+    <h3>AT VERY AFFORDABLE PRICES!</h3>
+  </div>
+  <div class="banner-box banner-box-3">
+    <h2>T-SHIRTS</h2>
+    <h3>ALL NEW THIS SEASON!</h3>
+  </div>
+</section>
+<footer>
+  <div class="footer">
+    <div class="col">
+      <span class="logo">SHOPPIE</span>
+      <h4>Contact</h4>
+      <p><strong>Address</strong>: Makerere Hill, SHOPPIE TOWERS</p>
+      <p><strong>Phone</strong>: +256 759534787, +256 708503025</p>
+      <p><strong>Hours</strong>: 24hrs-7days</p>
+    </div>
+    <div class="col">
+      <h4>About</h4>
+      <a href="#">Terms and conditions</a>
+      <a href="#">Offers</a>
+      <a href="#">Contact Us</a>
+      <a href="#">Report a Bug</a>
+    </div>
+    <div class="col">
+      <h4>My Account</h4>
+      <a href="#">Profile</a>
+      <a href="#">Sign In</a>
+      <a href="#">Help</a>
+      <!-- <a href="#">Report a Bug</a> -->
+    </div>
+  </div>
+  <div class="copyright">
+    <p>©️ 2024,SHOPPIE</p>
+  </div>
+</footer>
+
 {% endblock %}
