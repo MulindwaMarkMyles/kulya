@@ -114,7 +114,7 @@
             <li>Product 3</li>
             <!-- Display user's cart items here -->
           </ul>
-          <button class="checkout-btn">Checkout</button>
+          <button class="checkout-btn" href="{% url 'checkout' %}">Checkout</button>
         </div>
         <?php else: ?>
         <!-- Display login/signup forms if user is not logged in -->

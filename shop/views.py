@@ -104,19 +104,7 @@ def processOrder(request):
 
     return JsonResponse("Payment completed.", safe=False)
 
-def profile(request):
-    context={
-        'title':'Uer Profile',
-        'name':'USER NAME',
-        'email':'USER EMAIL',
-        'phone_number':'PHONE NUMBER'
-         }
 
-    return render(request, "shop/profile.html",context)  
-
-def login(request):
-
-    return render(request, "shop/login.html") 
 
 
 def viewProduct(request, id):

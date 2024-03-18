@@ -19,7 +19,7 @@
                 <div>
                     <ul id="navbar">
                         <li><a {% if title == 'SHOP' %} class="active" {% endif %} href="{% url 'shop' %}" >Home</a></li>
-                        <li><a {% if title == 'PROFILE' %} class="active" {% endif %} href="#">Profile</a></li>
+                        <li><a {% if title == 'PROFILE' %} class="active" {% endif %} href="{% url 'profile' %}">Profile</a></li>
                         <li><a href="#">About Us</a></li>
                         <li><a href="#">Search</a></li>
                         <li><a {% if title == 'CART' %} class="active" {% endif %} href="{% url 'cart' %}"><i class="icon far fa-shopping-bag">
