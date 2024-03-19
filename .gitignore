@@ -1,4 +1,5 @@
-
+.DS_Store
+.vscode
 #authentication/migrations
 #shop/migrations
 shop/__pycache__
