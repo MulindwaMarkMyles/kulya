@@ -39,11 +39,11 @@
 .cart-btn {
     display:block;
     padding:10px 15px;
-    background-color: #000;
-    color: #fff;
+    background-color: #fff;
+    color: black;
     font-size: 15px;
     text-align:center;
-    border:none;
+    border:1px solid #1d3a58;
     cursor:pointer;
     transition: all 0.3s ease;
     width:fit-content;
@@ -57,4 +57,14 @@
     display:flex;
     gap:10px;
     flex-direction: row;
+}
+.a {
+    background-color: #1d3a58;
+    color:white;
+    border:none;
+}
+.r {
+    background-color: #ff4d4d;
+    color:white;
+    border:none;
 }
