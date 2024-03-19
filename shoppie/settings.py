@@ -57,7 +57,7 @@ ROOT_URLCONF = "shoppie.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": ["TEMPLATES"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
