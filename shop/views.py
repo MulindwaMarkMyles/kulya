@@ -104,10 +104,33 @@ def processOrder(request):
 
     return JsonResponse("Payment completed.", safe=False)
 
+def profile(request):
+    context={
+        'title':'Uer Profile',
+        'name':'USER NAME',
+        'email':'USER EMAIL',
+        'phone_number':'PHONE NUMBER'
+         }
+
+    return render(request, "shop/profile.html",context)  
+
+def login(request):
+
+    return render(request, "shop/login.html") 
+
 
 def viewProduct(request, id):
     product = Product.objects.filter(id=id).first()
     data = cartData(request)
+    try:
+        quantity = data["items"].filter(product=product).first().quantity
+    except:
+        quantity = 0
     cartItems = data["cartItems"]
-    context = {"product": product, "cartItems": cartItems, "title":"PRODUCT"}
+    context = {"product": product, "cartItems": cartItems, "title":"PRODUCT", "quantity": quantity}
     return render(request, "shop/product.html", context)
+
+def about(request):
+    data = cartData(request)
+    cartItems = data["cartItems"]
+    return render(request, "shop/about.html", {"title":"ABOUT", "cartItems": cartItems})
