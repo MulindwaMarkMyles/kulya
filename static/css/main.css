@@ -107,3 +107,12 @@ p {
     border-radius:5px;
 }
 
+#about img{
+    width: 50%;
+    height:auto;
+}
+#about {
+    display: flex;
+    align-items: center;
+    gap:50px;
+}

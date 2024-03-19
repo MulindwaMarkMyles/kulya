@@ -129,3 +129,8 @@ def viewProduct(request, id):
     cartItems = data["cartItems"]
     context = {"product": product, "cartItems": cartItems, "title":"PRODUCT", "quantity": quantity}
     return render(request, "shop/product.html", context)
+
+def about(request):
+    data = cartData(request)
+    cartItems = data["cartItems"]
+    return render(request, "shop/about.html", {"title":"ABOUT", "cartItems": cartItems})
