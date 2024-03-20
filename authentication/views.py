@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from .models import Customer, Business
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.hashers import make_password
 
 
 def customer_signup(request):
@@ -22,7 +23,12 @@ def business_signup(request):
              business_name = request.POST.get('business_name')
              email = request.POST.get('email')
              password = request.POST.get('password')
-             new_business = Business.objects.create(first_name=first_name, last_name=last_name,business_name=business_name, email=email,password=password)
+             password_confirm = request.POST.get('password_confirm')
+             # Check if the passwords match
+             if password != password_confirm:
+                 return render(request, "authentication/business_signup.html", {'error': 'Passwords do not match'})
+             hashed_password = make_password(password)
+             new_business = Business.objects.create(first_name=first_name, last_name=last_name,business_name=business_name, email=email,password=hashed_password)
              new_business.save()
              return redirect('login')
     else:
