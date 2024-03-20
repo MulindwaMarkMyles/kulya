@@ -1,6 +1,5 @@
 from django.shortcuts import render,redirect
 from .models import Customer, Business
-from django.urls import reverse
 from django.contrib.auth import authenticate, login
 
 
@@ -12,7 +11,7 @@ def customer_signup(request):
              password = request.POST.get('password')
              new_customer = Customer.objects.create(first_name=first_name, last_name=last_name,email=email,password=password)
              new_customer.save()
-             return redirect(reverse('login'))
+             return redirect('login')
         else:
              return render(request,'authentication/customer_signup.html')
         
@@ -25,7 +24,7 @@ def business_signup(request):
              password = request.POST.get('password')
              new_business = Business.objects.create(first_name=first_name, last_name=last_name,business_name=business_name, email=email,password=password)
              new_business.save()
-             return redirect(reverse('login'))
+             return redirect('login')
     else:
           return render(request, "authentication/business_signup.html")
 
@@ -37,9 +36,18 @@ def login(request):
              customer = authenticate(email=email, password=password)
              if customer is not None:
                    login(request,customer)
-                   return redirect(reverse('product'))
+                   return redirect('product')
              else:
             # Return an invalid login message
                    return render(request, 'authentication/login.html', {'error_message': 'Invalid email or password'})
         return render(request, 'authentication/login.html')
                    
+def Sign_Up(request):
+      if request.method == 'POST':
+            account_type = request.POST.get("account_type")
+            if account_type == "customer":
+                  return redirect('customer_signup')
+            elif account_type == 'business':
+                     return redirect('business_signup')
+      return render(request, 'authentication/Sign_Up.html')    
+        
