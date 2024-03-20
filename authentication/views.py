@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from shop.views import *
 
+<<<<<<< HEAD
 # Create your views here.
 def profile(request):
     context={
@@ -15,3 +16,6 @@ def profile(request):
 def login(request):
 
     return render(request, "shop/profile.html") 
+=======
+# Create your views here.
+>>>>>>> df37b3c8285b5ff32c46c058c956a0c36cc59067

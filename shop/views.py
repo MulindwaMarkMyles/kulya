@@ -110,6 +110,15 @@ def processOrder(request):
 def viewProduct(request, id):
     product = Product.objects.filter(id=id).first()
     data = cartData(request)
+    try:
+        quantity = data["items"].filter(product=product).first().quantity
+    except:
+        quantity = 0
     cartItems = data["cartItems"]
-    context = {"product": product, "cartItems": cartItems, "title":"PRODUCT"}
+    context = {"product": product, "cartItems": cartItems, "title":"PRODUCT", "quantity": quantity}
     return render(request, "shop/product.html", context)
+
+def about(request):
+    data = cartData(request)
+    cartItems = data["cartItems"]
+    return render(request, "shop/about.html", {"title":"ABOUT", "cartItems": cartItems})
