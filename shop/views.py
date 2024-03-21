@@ -4,7 +4,9 @@ from django.http import JsonResponse
 import json
 import datetime
 from .utilities import *
-
+from django.contrib.auth.forms import  AuthenticationForm, UserCreationForm
+from authentication.templates import *
+# Create your views here.
 
 def index(request):
     data = cartData(request)
@@ -122,3 +124,22 @@ def about(request):
     data = cartData(request)
     cartItems = data["cartItems"]
     return render(request, "shop/about.html", {"title":"ABOUT", "cartItems": cartItems})
+
+def profile(request):
+    context={
+        'title':'Uer Profile',
+        'name':'USER NAME',
+        'email':'USER EMAIL',
+        'phone_number':'PHONE NUMBER'
+         }
+
+    return render(request, "shop/login.html",context) 
+
+
+def login(request):
+
+    return render(request, "shop/login.html")  
+
+def signup(request):
+
+    return render(request, "shop/signup.html") 
