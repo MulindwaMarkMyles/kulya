@@ -1,5 +1,4 @@
-import json, os
-import uuid
+import json
 from .models import *
 from authentication.models import *
 
@@ -57,9 +56,6 @@ def cartData(request):
 
 
 def guestOrder(request, data):
-    print("User is not authenticated..")
-    print(data["form"])
-    print("\n\n\n\n")
     first_name = data["form"]["first_name"]
     last_name = data["form"]["last_name"]
     email = data["form"]["email"]
