@@ -5,7 +5,6 @@ import json
 import datetime
 from .utilities import *
 from django.contrib.auth.forms import  AuthenticationForm, UserCreationForm
-from authentication.templates import *
 # Create your views here.
 
 def index(request):
