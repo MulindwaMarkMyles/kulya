@@ -123,32 +123,7 @@
         }
     }
     </script>
-    <script>
-      function validateForm() {
-          var firstName = document.getElementById('first_name').value;
-          var lastName = document.getElementById('last_name').value;
-          var businessName = document.getElementById('business_name').value;
-          var email = document.getElementById('email').value;
-          var password = document.getElementById('password').value;
-          var confirmPassword = document.getElementById('confirm_password').value;
-
-          if (firstName === '' || lastName === '' || businessName === '' || email === '' || password === '' || confirmPassword === '') {
-              alert('Please fill in all required fields.');
-              return false;
-          }
-
-          return true;
-      }
-
-      function togglePasswordVisibility(fieldId) {
-          var passwordField = document.getElementById(fieldId);
-          if (passwordField.type === 'password') {
-              passwordField.type = 'text';
-          } else {
-              passwordField.type = 'password';
-          }
-      }
-  </script>
+    
 
       <a   href="{%url 'login'%}" class="signup_button">Sign Up as business</a><br>
       </form>

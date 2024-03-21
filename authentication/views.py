@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from .models import Customer, Business
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.hashers import make_password
-
+from django.http import HttpResponse
 
 def customer_signup(request):
         if request.method == 'POST':
@@ -57,3 +57,5 @@ def Sign_Up(request):
                      return redirect('business_signup')
       return render(request, 'authentication/Sign_Up.html')    
         
+def profile(request):
+      return HttpResponse('profile')
