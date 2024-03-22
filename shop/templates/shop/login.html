@@ -7,25 +7,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login or Sign Up</title>
     <style>
-      body {
+     body {
         font-family: Arial, sans-serif;
         margin: 0;
         padding: 0;
         background-color: #f4f4f4;
       }
-      .container {g
-        max-width: 400px;
-        margin: 100px auto;
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      }
+
+      
       h2 {
         text-align: center;
         margin-bottom: 20px;
       }
-      form .login {
+      form .signup {
         display: flex;
         flex-direction: column;
       }
@@ -54,22 +48,27 @@
       .signup-link {
         text-align: center;
       }
-      .signup-link a {
+      .signup-link {
         color: #007bff;
         text-decoration: none;
       }
-      .signup-link a:hover {
+      .signup-link :hover {
         text-decoration: underline;
       }
-      .log-in:hover{
-        background-color:green
-      }
+    .container {
+        max-width: 400px;
+        margin: 100px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
     </style>
   </head>
   <body>
     <div class="container">
       <h2>Login</h2>
-      <form id="login-form" action="/login.html" method="post">
+      <form id="login-form" action="/profile" method="post">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required />
 
