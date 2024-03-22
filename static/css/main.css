@@ -309,7 +309,7 @@ p {
 .box-elem {
     margin-bottom:10px;
 }
-.animate {
+#make-payment.active {
     background-color: #1d3a58;
     color:white;
 }

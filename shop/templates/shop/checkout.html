@@ -97,7 +97,7 @@
     </div>
     <div class="hidden" id="payment-info">
         <div id="paypal-button-container"></div>
-        <button id="make-payment" type="button">Make Payment</button>
+        <button id="make-payment" class="" type="button">Make Payment</button>
       </div>
       <hr>
   </div>
@@ -109,6 +109,8 @@
   var user = "{{ request.user }}";
   var orderQuantity = "{{ cartItems }}";
   var total = "{{ order.get_cart_total }}";
+  var paymentButton = document.getElementById('make-payment')
+  
   if (shipping == "False") {
     document.getElementById("shipping-info").innerHTML = "";
   }
@@ -126,6 +128,9 @@
     console.log("form submited....");
     document.getElementById("form-button").classList.add("hidden");
     document.getElementById("payment-info").classList.remove("hidden");
+    setInterval(function () {
+        paymentButton.classList.toggle("active")
+  }, 1000)
   });
   
     document.getElementById('make-payment').addEventListener('click', function(e){
