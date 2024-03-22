@@ -22,34 +22,42 @@
                     <td><img class="product-img" src="{{ item.product.imageurl }}" alt=""></td>
                     <td>{{ item.product.name }}</td>
                     <td>Shs.{{ item.product.price|floatformat:0 }}</td>
-                    <td class="qnty">{{ item.quantity }}
-                        <div class="quantity">
-                            <img
+                    <td class="qnty">
+                            <span
                               class="chg-quantity update-cart"
                               data-action="add"
                               data-product="{{ item.product.id }}"
-                              src="{% static  'images/up-arrow.png' %}"
-                            />
-                            <img
+                            >+</span>
+                            <span>{{ item.quantity }}</span>
+                            <span
                               class="chg-quantity update-cart"
                               data-action="remove"
                               data-product="{{ item.product.id }}"
-                              src="{% static  'images/down-arrow.png' %}"
-                            />
-                          </div>
+                            >-</span>
+
                     </td>
-                    <td>{{ item.get_total }}</td>
+                    <td>Shs.{{ item.get_total }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
       </section>
       <section class="section-p1" id="cart-details">
-        <div id="subtotal">
-            <h3>Cart Total</h3>
-            <h5>Items: <strong>{{ order.get_cart_items }}</strong></h5>
-            <h5>Total: <strong>Shs.{{ order.get_cart_total }}</strong></h5>
-        </div>
+          <h3>Cart Total</h3>
+        <table id="subtotal">
+            <thead>
+                <tr>
+                <td>Items</td>
+                <td>Total</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ order.get_cart_items }}</td>
+                    <td>Shs.{{ order.get_cart_total }}</td>
+                </tr>
+            </tbody>
+        </table>
         <a class="btn btn-success"
         href="{% url 'checkout' %}"
         >Checkout</a>

@@ -1,10 +1,10 @@
 {% extends 'shop/main.html' %} {% load static %} {% block content %}
-<div class="section-p1 top">
-      <form action="" id="form">
+<div class="section-p1 top checkout">
+      <form action="" id="form-checkout" method="POST">
         {% csrf_token %}
-        <p>User Info: </p>
+        <p>Billing Info </p>
         <div id="user-info">
-          <div class="form-field">
+            <div class="names">
             <input
               required
               class="form-control"
@@ -13,8 +13,6 @@
               placeholder="First Name"
               value="{{ request.user.first_name }}"
             />
-          </div>
-          <div class="form-field">
             <input
               required
               class="form-control"
@@ -35,10 +33,11 @@
             />
           </div>
         </div>
-        <p>Shipping Information:</p>
+        <p>Shipping Information</p>
         <div id="shipping-info">
           <div class="form-field">
             <input
+            required
               class="form-control"
               type="text"
               name="address"
@@ -47,6 +46,7 @@
           </div>
           <div class="form-field">
             <input
+            required
               class="form-control"
               type="text"
               name="city"
@@ -55,6 +55,7 @@
           </div>
           <div class="form-field">
             <input
+            required
               class="form-control"
               type="text"
               name="state"
@@ -63,6 +64,7 @@
           </div>
           <div class="form-field">
             <input
+            required
               class="form-control"
               type="text"
               name="zipcode"
@@ -71,6 +73,7 @@
           </div>
           <div class="form-field">
             <input
+            required
               class="form-control"
               type="text"
               name="country"
@@ -84,20 +87,19 @@
             <a class="btn btn-success" href="{% url 'cart' %}"
         >&#x2190; Back to cart</a>
         </div>
+        <hr>
       </form>
-    <br>
-    <div class="box-element hidden" id="payment-info">
-      <small class="pay-op">Payment options</small>
-      <div id="paypal-button-container"></div>
-      <button id="make-payment">Make Payment</button>
-    </div>
-  <div class="col-lg-6">
-    <div class="box-element">
+  <div class="order">
+    <div class="box-elem">
       <h3 class="order-title">Order Summary</h3>
-      <hr>
-      <h5 class="summary">Items: {{ order.get_cart_items }}</h5>
-      <h5 class="summary">Total: Shs.{{ order.get_cart_total|floatformat:2 }}</h5>
+      <span class="summary"><span>Items</span><small>{{ order.get_cart_items }}</small></span>
+      <span class="summary"><span>Total </span><small>Shs.{{ order.get_cart_total|floatformat:2 }}</small></span>
     </div>
+    <div class="hidden" id="payment-info">
+        <div id="paypal-button-container"></div>
+        <button id="make-payment" type="button">Make Payment</button>
+      </div>
+      <hr>
   </div>
 </div>
 
@@ -117,7 +119,7 @@
       document.getElementById("payment-info").classList.remove("hidden");
   }
 
-  var form = document.getElementById("form");
+  var form = document.getElementById("form-checkout");
   csrftoken = document.getElementsByTagName("input")[0].value;
   form.addEventListener("submit", function (e) {
     e.preventDefault();
@@ -174,7 +176,7 @@
       .then((response) => response.json())
       .then((data) => {
         console.log("Success: ", data);
-        alert("Transaction successful!");
+        alert("Transaction successful, please come again!");
 
         cart = {};
         document.cookie = "cart=" + JSON.stringify(cart) + ";domain=;path=/";
