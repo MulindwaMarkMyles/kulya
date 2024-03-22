@@ -1,9 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import *
 from django.http import JsonResponse
 import json
 import datetime
 from .utilities import *
+#from django.froms import inlineformset_factory
+from django.http import HttpResponse
 from django.contrib.auth.forms import  AuthenticationForm, UserCreationForm
 # Create your views here.
 
@@ -140,5 +142,12 @@ def login(request):
     return render(request, "shop/login.html")  
 
 def signup(request):
+    form = UserCreationForm()
+   
+    if request.methode == 'post':
+        form = UserCreationForm(request.post)
+        if form.is_valid():
+            form.save()
+    context= {'form': form}
 
-    return render(request, "shop/signup.html") 
+    return render(request, "shop/signup.html", context) 
