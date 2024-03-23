@@ -1,18 +1,16 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from .models import *
 from django.http import JsonResponse
 import json
 import datetime
 from .utilities import *
-#from django.froms import inlineformset_factory
-from django.http import HttpResponse
-from django.contrib.auth.forms import  AuthenticationForm, UserCreationForm
 # Create your views here.
 
 def index(request):
     data = cartData(request)
     cartItems = data["cartItems"]
-
+    
+    categories = Category.objects.all()
     products = Product.objects.order_by("-id")[:30]
     context = {
         "title": "HOME",
@@ -20,6 +18,7 @@ def index(request):
         "products": products,
         "cartItems": cartItems,
         "shipping": False,
+        "categories": categories,
     }
     return render(request, "shop/index.html", context)
 
@@ -164,18 +163,20 @@ def profile(request):
 
     return render(request, "shop/login.html",context) 
 
-
-def login(request):
-
-    return render(request, "shop/login.html")  
-
-def signup(request):
-    form = UserCreationForm()
-   
-    if request.methode == 'post':
-        form = UserCreationForm(request.post)
-        if form.is_valid():
-            form.save()
-    context= {'form': form}
-
-    return render(request, "shop/signup.html", context) 
+def category(request, category_name):
+    category = Category.objects.filter(category_name=category_name).first()
+    products = Product.objects.filter(category=category).all()
+    data = cartData(request)
+    cartItems = data["cartItems"]
+    
+    
+    context = {
+        "title": "CATEGORY",
+        "range": range(5),
+        "products": products,
+        "category": category,
+        "shipping": False,
+        "cartItems": cartItems,
+    }
+    
+    return render(request, "shop/shop.html", context)
