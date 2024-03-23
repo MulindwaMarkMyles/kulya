@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 
 class Customer(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True, unique=True)
     first_name = models.CharField(max_length=300, null=True)
     last_name = models.CharField(max_length=300, null=True)
     email = models.EmailField()
@@ -17,7 +17,7 @@ class Customer(models.Model):
 
 
 class Business(models.Model):
-    owner = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+    owner = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True, unique=True)
     first_name = models.CharField(max_length=300, null=True)
     last_name = models.CharField(max_length=300, null=True)
     business_name = models.CharField(max_length=300, null=True)

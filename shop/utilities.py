@@ -2,7 +2,6 @@ import json
 from .models import *
 from authentication.models import *
 
-
 def cookieCart(request):
     try:
         cart = json.loads(request.COOKIES["cart"])
@@ -37,13 +36,16 @@ def cookieCart(request):
                 order["shipping"] = True
         except:
             pass
+    print(items)
     return {"cartItems": cartItems, "items": items, "order": order}
 
 
 def cartData(request):
     if request.user.is_authenticated:
         customer = request.user.customer
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        order = Order.objects.filter(customer=customer, complete=False).first()
+        if order == None:
+            order = Order.objects.create(customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
     else:

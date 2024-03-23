@@ -1,19 +1,37 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from .models import *
 from django.http import JsonResponse
 import json
 import datetime
 from .utilities import *
-#from django.froms import inlineformset_factory
-from django.http import HttpResponse
-from django.contrib.auth.forms import  AuthenticationForm, UserCreationForm
 # Create your views here.
 
 def index(request):
     data = cartData(request)
     cartItems = data["cartItems"]
+    
+    categories = Category.objects.all()
+    products = Product.objects.order_by("-id")[:30]
+    context = {
+        "title": "HOME",
+        "range": range(5),
+        "products": products,
+        "cartItems": cartItems,
+        "shipping": False,
+        "categories": categories,
+    }
+    return render(request, "shop/index.html", context)
 
-    products = Product.objects.all()
+def shop(request):
+    data = cartData(request)
+    cartItems = data["cartItems"]
+    
+    if request.method == 'POST':
+        searchterm = request.POST.get("searchterm")
+        products = Product.objects.filter(name__contains=searchterm)
+    else:
+        products = Product.objects.order_by("-id")[:]
+        
     context = {
         "title": "SHOP",
         "range": range(5),
@@ -21,7 +39,7 @@ def index(request):
         "cartItems": cartItems,
         "shipping": False,
     }
-    return render(request, "shop/index.html", context)
+    return render(request, "shop/shop.html", context)
 
 
 def cart(request):
@@ -60,13 +78,14 @@ def updateitem(request):
     data = json.loads(request.body)
     productId = data.get("productId")
     action = data.get("action")
-    print(action, productId)
+    
 
     customer = request.user.customer
     product = Product.objects.get(id=productId)
-    order, created = Order.objects.get_or_create(customer=customer, complete=False)
+    order = Order.objects.filter(customer=customer, complete=False).first()
+    if order == None:
+        order = Order.objects.create(customer=customer, complete=False)    
     orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
-
     if action == "add":
         orderItem.quantity = orderItem.quantity + 1
     elif action == "remove":
@@ -107,16 +126,24 @@ def processOrder(request):
 
     return JsonResponse("Payment completed.", safe=False)
 
-
-
-
 def viewProduct(request, id):
     product = Product.objects.filter(id=id).first()
     data = cartData(request)
-    try:
-        quantity = data["items"].filter(product=product).first().quantity
-    except:
+    
+    if request.user.is_authenticated:
+        try:
+            quantity = OrderItem.objects.filter(product=product).first().quantity
+        except:
+            quantity = 0
+    else:
         quantity = 0
+        try:
+            for item in data["items"]:
+                if item['product']['id'] == id:
+                    quantity = item['quantity']
+        except:
+            pass
+        
     cartItems = data["cartItems"]
     context = {"product": product, "cartItems": cartItems, "title":"PRODUCT", "quantity": quantity}
     return render(request, "shop/product.html", context)
@@ -136,18 +163,20 @@ def profile(request):
 
     return render(request, "shop/login.html",context) 
 
-
-def login(request):
-
-    return render(request, "shop/login.html")  
-
-def signup(request):
-    form = UserCreationForm()
-   
-    if request.methode == 'post':
-        form = UserCreationForm(request.post)
-        if form.is_valid():
-            form.save()
-    context= {'form': form}
-
-    return render(request, "shop/signup.html", context) 
+def category(request, category_name):
+    category = Category.objects.filter(category_name=category_name).first()
+    products = Product.objects.filter(category=category).all()
+    data = cartData(request)
+    cartItems = data["cartItems"]
+    
+    
+    context = {
+        "title": "CATEGORY",
+        "range": range(5),
+        "products": products,
+        "category": category,
+        "shipping": False,
+        "cartItems": cartItems,
+    }
+    
+    return render(request, "shop/shop.html", context)
