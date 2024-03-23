@@ -13,7 +13,26 @@ def index(request):
     data = cartData(request)
     cartItems = data["cartItems"]
 
-    products = Product.objects.all()
+    products = Product.objects.order_by("-id")[:30]
+    context = {
+        "title": "HOME",
+        "range": range(5),
+        "products": products,
+        "cartItems": cartItems,
+        "shipping": False,
+    }
+    return render(request, "shop/index.html", context)
+
+def shop(request):
+    data = cartData(request)
+    cartItems = data["cartItems"]
+    
+    if request.method == 'POST':
+        searchterm = request.POST.get("searchterm")
+        products = Product.objects.filter(name__contains=searchterm)
+    else:
+        products = Product.objects.order_by("-id")[:]
+        
     context = {
         "title": "SHOP",
         "range": range(5),
@@ -21,7 +40,7 @@ def index(request):
         "cartItems": cartItems,
         "shipping": False,
     }
-    return render(request, "shop/index.html", context)
+    return render(request, "shop/shop.html", context)
 
 
 def cart(request):
@@ -108,16 +127,24 @@ def processOrder(request):
 
     return JsonResponse("Payment completed.", safe=False)
 
-
-
-
 def viewProduct(request, id):
     product = Product.objects.filter(id=id).first()
     data = cartData(request)
-    try:
-        quantity = data["items"].filter(product=product).first().quantity
-    except:
+    
+    if request.user.is_authenticated:
+        try:
+            quantity = OrderItem.objects.filter(product=product).first().quantity
+        except:
+            quantity = 0
+    else:
         quantity = 0
+        try:
+            for item in data["items"]:
+                if item['product']['id'] == id:
+                    quantity = item['quantity']
+        except:
+            pass
+        
     cartItems = data["cartItems"]
     context = {"product": product, "cartItems": cartItems, "title":"PRODUCT", "quantity": quantity}
     return render(request, "shop/product.html", context)

@@ -313,10 +313,36 @@ footer {
     margin-bottom:10px;
     color:#fff;
 }
+.footer a:hover {
+    color:#1a1a1a;
+}
 .copyright {
     text-align:center;
     padding-bottom:50px;
 }
 .copyright p {
     color:#fff;
+}
+.footer .email {
+    background-color: transparent;
+    padding:7px 12px;
+    border:1px solid #fff;
+    color:white;
+    margin-bottom:15px;
+    outline:none;
+}
+.footer .email::placeholder {
+    color:#ffffff;
+}
+.footer a button {
+    background-color: #fff;
+    border:1px solid #fff;
+    color: #1d3a58;
+    padding:7px 10px;
+    cursor: pointer;
+    transition:all linear 0.2s;
+}
+.footer a button:hover {
+    background-color: transparent;
+    color: #fff;
 }

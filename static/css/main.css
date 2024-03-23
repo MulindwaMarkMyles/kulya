@@ -7,7 +7,9 @@
   box-sizing: border-box;
   font-family:"Poppins";
 }
-
+body {
+    overflow-x: hidden;
+}
 html {
   scroll-behavior: smooth;
 }
@@ -70,7 +72,7 @@ p {
     background-color: #1d3a58;
     box-shadow:0 5px 15px rgba(0,0,0,0.1);
     z-index:1000;
-    position:sticky;
+    position:fixed;
     top:0;
     right:0;
     left:0;
@@ -312,4 +314,60 @@ p {
 #make-payment.active {
     background-color: #1d3a58;
     color:white;
+}
+.searchbar {
+    position: absolute;
+    background-color: #1d3a58;
+    width:100%;
+    top:0px;
+    z-index:2000;
+    padding:20px;
+    transition:all linear 0.3s;
+}
+.searchbar form {
+    display:flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+.searchbar input {
+    background-color: #fff;
+    color:#000;
+    border:none;
+    padding:7px 10px;
+    flex:10;
+    outline:none;
+}
+.searchbar button {
+    background-color: transparent;
+    border:none;
+    flex:1;
+    width:100%;
+    text-align: center;
+    font-size:20px;
+    color:white;
+    cursor: pointer;
+    position:relative;
+    transition:all linear 0.3s;
+}
+.searchbar button span {
+    position: absolute;
+    top:50%;
+    transform:translateY(-50%);
+    width:20px;
+    height:5px;
+    background-color: #fff;
+    border-radius:5px;
+    transition:all linear 0.3s;
+}
+.searchbar button span:nth-child(1) {
+    transform: rotate(45deg);
+}
+.searchbar button span:nth-child(2) {
+    transform: rotate(-45deg);
+}
+.hide {
+    top:-200px;
+}
+.mar-100 {
+    margin-top:100px;
 }

@@ -2,7 +2,6 @@ import json
 from .models import *
 from authentication.models import *
 
-
 def cookieCart(request):
     try:
         cart = json.loads(request.COOKIES["cart"])
@@ -37,6 +36,7 @@ def cookieCart(request):
                 order["shipping"] = True
         except:
             pass
+    print(items)
     return {"cartItems": cartItems, "items": items, "order": order}
 
 
