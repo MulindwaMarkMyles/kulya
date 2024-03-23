@@ -36,7 +36,6 @@ def cookieCart(request):
                 order["shipping"] = True
         except:
             pass
-    print(items)
     return {"cartItems": cartItems, "items": items, "order": order}
 
 
