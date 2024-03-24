@@ -80,7 +80,7 @@ def updateitem(request):
     action = data.get("action")
     
 
-    customer = request.user.customer
+    customer = request.user
     product = Product.objects.get(id=productId)
     order = Order.objects.filter(customer=customer, complete=False).first()
     if order == None:
@@ -102,7 +102,7 @@ def processOrder(request):
     transaction_id = datetime.datetime.now().timestamp()
     data = json.loads(request.body)
     if request.user.is_authenticated:
-        customer = request.user.customer
+        customer = request.user
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
     else:
         customer, order = guestOrder(request, data)

@@ -454,6 +454,10 @@ p {
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0,0,0,0.15);
 }
+.profile .card--container .logout {
+    margin:20px 0;
+    text-align:left;
+}
 .profile .card--wrapper {
     display:flex;
     flex-wrap:wrap;

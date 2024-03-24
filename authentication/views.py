@@ -3,7 +3,7 @@ from shop.utilities import cartData
 from .models import *
 from.forms import *
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 
 @login_required
 def profile(request):
@@ -78,7 +78,7 @@ def signup_business(request):
         if customer_form.is_valid() and business_form.is_valid():
             customer_form.save()
             user = User.objects.filter(username=request.POST.get("username")).first()
-            Business.objects.create(user=user,business_name=request.POST.get("business_name"),first_name=user.first_name,last_name=user.last_name, email=user.email)
+            Business.objects.create(owner=user,business_name=request.POST.get("business_name"),first_name=user.first_name,last_name=user.last_name, email=user.email)
             Profile.objects.create(user=user)
             return redirect("login")
     else:
@@ -92,4 +92,8 @@ def signup_business(request):
         'business_form':business_form
         }
     return render(request, "auth/signup-business.html", context)    
+
+def logout_u(request):
+    logout(request)
+    return redirect("home")
 
