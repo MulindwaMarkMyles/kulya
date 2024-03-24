@@ -86,8 +86,14 @@
     display:flex;
     flex-direction: row;
     justify-content: space-evenly;
-    flex-wrap:wrap;
+    gap:10px;
+    flex-wrap:nowrap;
     width:100%;
+    overflow-x: auto;
+}
+#categories {
+    scrollbar-width: thin;
+    scrollbar-color: #0B2027 #6060637C;
 }
 #categories a {
     text-decoration: none;
@@ -103,6 +109,8 @@
     box-shadow: 0 5px 15px rgba(0,0,0,0.09);
     border-radius:5px;
     transition:0.3s all ease;
+    text-wrap: nowrap;
+    margin-bottom:20px;
 }
 #categories a button:hover {
     background-color: #1a1a1a;
@@ -313,10 +321,36 @@ footer {
     margin-bottom:10px;
     color:#fff;
 }
+.footer a:hover {
+    color:#1a1a1a;
+}
 .copyright {
     text-align:center;
     padding-bottom:50px;
 }
 .copyright p {
     color:#fff;
+}
+.footer .email {
+    background-color: transparent;
+    padding:7px 12px;
+    border:1px solid #fff;
+    color:white;
+    margin-bottom:15px;
+    outline:none;
+}
+.footer .email::placeholder {
+    color:#ffffff;
+}
+.footer a button {
+    background-color: #fff;
+    border:1px solid #fff;
+    color: #1d3a58;
+    padding:7px 10px;
+    cursor: pointer;
+    transition:all linear 0.2s;
+}
+.footer a button:hover {
+    background-color: transparent;
+    color: #fff;
 }

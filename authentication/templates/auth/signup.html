@@ -1,0 +1,143 @@
+{% extends 'shop/main.html' %} {% block content %}{%load static%}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      form .signup {
+        display: flex;
+        flex-direction: column;
+      }
+      label {
+        margin-bottom: 10px;
+      }
+      input[type="text"],
+      input[type="email"],
+      input[type="password"],
+      input[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-sizing: border-box;
+      }
+      input[type="submit"] {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+      }
+      input[type="submit"]:hover {
+        background-color: #0056b3;
+      }
+      .login-link {
+        text-align: center;
+      }
+      .login-link a {
+        color: #007bff;
+        text-decoration: none;
+      }
+      .login-link a:hover {
+        text-decoration: underline;
+      }
+      .container {
+        max-width: 400px;
+        margin: 100px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Sign Up</h2>
+      <form id="signup-form">
+        <!-- Your form fields here -->
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Email"
+          required
+        />
+        <input
+          type="text"
+          id="username"
+          name="username"
+          placeholder="Desired Username"
+          required
+        />
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Password"
+          required
+        />
+        <input
+          type="password"
+          id="confirm_password"
+          name="confirm_password"
+          placeholder="Confirm Password"
+          required
+        />
+        <input type="submit" value="Sign Up" />
+      </form>
+      <div class="login-link">
+        <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("signup-form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault(); // Prevent the form from submitting normally
+
+          var formData = {
+            email: document.getElementById("email").value,
+            username: document.getElementById("username").value,
+            password: document.getElementById("password").value,
+            confirm_password: document.getElementById("confirm_password").value,
+          };
+
+          // Make AJAX request to your backend API
+          var xhr = new XMLHttpRequest();
+          xhr.open("POST", "/signup", true);
+          xhr.setRequestHeader("Content-Type", "application/json");
+          xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+              if (xhr.status === 200) {
+                // Successful signup
+                window.location.href = "{% url 'profile' %}"; // Redirect to profile page
+              } else {
+                // Signup failed, handle errors
+                console.error("Signup failed:", xhr.responseText);
+                alert("Signup failed. Please try again.");
+              }
+            }
+          };
+          xhr.send(JSON.stringify(formData));
+        });
+    </script>
+  </body>
+</html>
+
+{% endblock %}
