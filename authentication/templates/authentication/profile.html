@@ -9,7 +9,7 @@
                 <li><a href="#"><i class="fas fa-briefcase"></i><span>Careers</span></a></li>
                 <li><a href="#"><i class="fas fa-question-circle"></i><span>FAQ</span></a></li>
                 <li><a href="#"><i class="fas fa-cog"></i><span>Settings</span></a></li>
-                <li><a href="#"><i class="fas fa-sign-out-alt"></i><span>Log Out</span></a></li>
+                <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i><span>Log Out</span></a></li>
             </ul>
         </div>
         <div class="main--content">
@@ -24,7 +24,6 @@
             </div>
             <div class="card--container">
                 <h3 class="main--title">Today's data</h3>
-                <h3 class="logout">Want to Logout: <a href="{% url 'logout' %}">Logout</a></h3>
                 <div class="card--wrapper">
                     <div class="payment--card light-gold">
                         <div class="card--header">
