@@ -1,5 +1,6 @@
 from django.db import models
-from authentication.models import Customer, Business
+from authentication.models import Business
+from django.contrib.auth.models import User
 import os, uuid
 
 
@@ -47,7 +48,7 @@ class Product(models.Model):
 
 class Order(models.Model):
     customer = models.ForeignKey(
-        Customer, on_delete=models.SET_NULL, null=True, blank=True
+        User, on_delete=models.SET_NULL, null=True, blank=True
     )
     date_ordered = models.DateTimeField(auto_now_add=True)
     complete = models.BooleanField(default=False)
@@ -97,7 +98,7 @@ class OrderItem(models.Model):
 
 class ShippingAddress(models.Model):
     customer = models.ForeignKey(
-        Customer, on_delete=models.SET_NULL, null=True, blank=True
+        User, on_delete=models.SET_NULL, null=True, blank=True
     )
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True, blank=True)
     address = models.CharField(max_length=50)

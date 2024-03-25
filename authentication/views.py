@@ -1,61 +1,99 @@
-from django.shortcuts import render,redirect
-from .models import Customer, Business
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.hashers import make_password
-from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from shop.utilities import cartData
+from .models import *
+from.forms import *
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login, authenticate, logout
 
-def customer_signup(request):
-        if request.method == 'POST':
-             first_name = request.POST.get('first_name')
-             last_name = request.POST.get('last_name')
-             email = request.POST.get('email')
-             password = request.POST.get('password')
-             new_customer = Customer.objects.create(first_name=first_name, last_name=last_name,email=email,password=password)
-             new_customer.save()
-             return redirect('login')
-        else:
-             return render(request,'authentication/customer_signup.html')
-        
-def business_signup(request):
-    if request.method == 'POST':
-             first_name = request.POST.get('first_name')
-             last_name = request.POST.get('last_name')
-             business_name = request.POST.get('business_name')
-             email = request.POST.get('email')
-             password = request.POST.get('password')
-             password_confirm = request.POST.get('password_confirm')
-             # Check if the passwords match
-             if password != password_confirm:
-                 return render(request, "authentication/business_signup.html", {'error': 'Passwords do not match'})
-             hashed_password = make_password(password)
-             new_business = Business.objects.create(first_name=first_name, last_name=last_name,business_name=business_name, email=email,password=hashed_password)
-             new_business.save()
-             return redirect('login')
-    else:
-          return render(request, "authentication/business_signup.html")
-
-def login(request):
-        if request.method == 'POST':
-             email = request.POST.get('email')
-             password = request.POST.get('password')
-             #check for account
-             customer = authenticate(email=email, password=password)
-             if customer is not None:
-                   login(request,customer)
-                   return redirect('product')
-             else:
-            # Return an invalid login message
-                   return render(request, 'authentication/login.html', {'error_message': 'Invalid email or password'})
-        return render(request, 'authentication/login.html')
-                   
-def Sign_Up(request):
-      if request.method == 'POST':
-            account_type = request.POST.get("account_type")
-            if account_type == "customer":
-                  return redirect('customer_signup')
-            elif account_type == 'business':
-                     return redirect('business_signup')
-      return render(request, 'authentication/Sign_Up.html')    
-        
+@login_required
 def profile(request):
-      return HttpResponse('profile')
+    data = cartData(request)
+    cartItems = data["cartItems"]
+    profile_ = Profile.objects.filter(user=request.user).first()
+    
+    context={
+        'title':'PROFILE',
+        'cartItems':cartItems,
+        'profile': profile_,
+        }
+    print(profile_.imageurl)
+    return render(request, "auth/profile.html",context)  
+
+def login_user(request):
+    data = cartData(request)
+    cartItems = data["cartItems"]
+    if request.method == 'POST':
+        form = UserLoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
+            
+            user = authenticate(request, username=username, password=password)
+            
+            if user is not None:
+                login(request, user)
+                return redirect("home")
+            else:
+                form.add_error(None, "Invalid username or password")
+    else:
+        form = UserLoginForm()
+            
+    context={
+        'title':'LOGIN',
+        'cartItems':cartItems,
+        'form':form
+        }
+            
+    return render(request, "auth/login.html", context)
+
+def signup_user(request):
+    data = cartData(request)
+    cartItems = data["cartItems"]
+    
+    if request.method == 'POST':
+        form = CustomerRegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            user = User.objects.filter(username=request.POST.get("username")).first()
+            Customer.objects.create(user=user,first_name=user.first_name,last_name=user.last_name, email=user.email)
+            Profile.objects.create(user=user)
+            return redirect("login")
+    else:
+        form = CustomerRegisterForm()
+        
+    context={
+        'title':'SIGNUP',
+        'cartItems':cartItems,
+        'form':form
+        }
+    return render(request, "auth/signup-user.html", context)    
+
+def signup_business(request):
+    data = cartData(request)
+    cartItems = data["cartItems"]
+    
+    if request.method == 'POST':
+        customer_form = CustomerRegisterForm(request.POST)
+        business_form = BusinessRegisterForm(request.POST)
+        if customer_form.is_valid() and business_form.is_valid():
+            customer_form.save()
+            user = User.objects.filter(username=request.POST.get("username")).first()
+            Business.objects.create(owner=user,business_name=request.POST.get("business_name"),first_name=user.first_name,last_name=user.last_name, email=user.email)
+            Profile.objects.create(user=user)
+            return redirect("login")
+    else:
+        customer_form = CustomerRegisterForm()
+        business_form = BusinessRegisterForm()
+        
+    context={
+        'title':'SIGNUP',
+        'cartItems':cartItems,
+        'customer_form':customer_form,
+        'business_form':business_form
+        }
+    return render(request, "auth/signup-business.html", context)    
+
+def logout_u(request):
+    logout(request)
+    return redirect("home")
+

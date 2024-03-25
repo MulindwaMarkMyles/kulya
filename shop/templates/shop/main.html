@@ -11,16 +11,31 @@
         {% endif %}
         <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" >
         <title>SHOPPIE - {{ title }}</title>
+        {% if title == "SIGNUP" %}
+        <script defer src="{% static 'js/signup.js' %}"></script>
+        {%  endif %}
 </head>
 <body>
+        <div class="searchbar hide" id="searchbar">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <input type="text" name="searchterm" placeholder="Looking for something...">
+                <button type="button" id="exitButton">
+                    <span></span>
+                    <span></span>
+                </button>
+            </form>
+        </div>
         <section id="header">
                 <a class="logo" >SHOPPIE</a>
                 <div>
                     <ul id="navbar">
-                        <li><a {% if title == 'SHOP' %} class="active" {% endif %} href="{% url 'shop' %}" >Home</a></li>
-                        <li><a {% if title == 'PROFILE' %} class="active" {% endif %} href="#">Profile</a></li>
+                        <li><a {% if title == 'HOME' %} class="active" {% endif %} href="{% url 'home' %}" >Home</a></li>
+                        <li><a {% if title == 'SHOP' %} class="active" {% endif %} href="{% url 'shop' %}" >Shop</a></li>
+                        <li><a {% if title == 'PROFILE' %} class="active" {% endif %} href="{% url 'profile' %}">Profile</a></li>
                         <li><a {% if title == 'ABOUT' %} class="active" {% endif %} href="{% url 'about' %}">About Us</a></li>
-                        <li><a href="#">Search</a></li>
+                        {% if not request.user.is_authenticated %}<li><a href="{% url 'login' %}">Log IN</a></li>{% endif %}
+                        {% if title == 'SHOP' %}<li><a href="#" id="searchButton"><i class="fas fa-search"></i></a></li>{% endif %}
                         <li><a {% if title == 'CART' or title == 'CHECKOUT' %} class="active" {% endif %} href="{% url 'cart' %}"><i class="icon far fa-shopping-bag">
                             <span id="cart-total">{{ cartItems }}</span>
                         </i></a></li>
@@ -70,6 +85,19 @@
         console.log("Cart was created:", cart);
         document.cookie = "cart=" + JSON.stringify(cart) + ";domain=;path=/";
       }
+      
+      var searchbar = document.getElementById("searchbar")
+      var exitButton = document.getElementById("exitButton")
+      var searchButton = document.getElementById("searchButton")
+      
+      searchButton.addEventListener('click', function () {
+        searchbar.classList.remove("hide")
+      })
+      
+      exitButton.addEventListener('click', function () {
+        searchbar.classList.add("hide")
+      })
+      
     </script>
   </body>
 </html>
