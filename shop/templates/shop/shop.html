@@ -1,6 +1,7 @@
 {% extends 'shop/main.html' %}
 {% block content %}
 {% load static  %}
+        {% if products %}
         <section id="products" class="section-p1 mar-100">
             {% for product in products %}
             <div class="pro-container">
@@ -30,6 +31,9 @@
             </div>
             {% endfor %}
         </section>
+        {% else %}
+        <span style="display: block; margin-left:100px;" class="mar-100">Sadly no products fit that query.</span>
+        {% endif %}
         <footer >
             <div class="footer">
                 <div class="col">
