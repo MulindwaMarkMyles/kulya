@@ -166,6 +166,7 @@ def profile(request):
 def category(request, category_name):
     category = Category.objects.filter(category_name=category_name).first()
     products = Product.objects.filter(category=category).all()
+    
     data = cartData(request)
     cartItems = data["cartItems"]
     

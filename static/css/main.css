@@ -665,6 +665,7 @@ p {
     font-size:12px;
     max-width:80%;
 }
+.errors,
 .errorlist li{
     list-style: none;
     font-size:14px;
