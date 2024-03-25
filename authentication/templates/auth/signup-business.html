@@ -1,13 +1,20 @@
 {% extends 'shop/main.html' %} {% block content %}{% load static %}
-    <div class="cont-f mar-100">
+    <div class="cont-r mar-100">
         <div class="log-cont">
             <hr>
         <form class="login-form"  method="POST">
             {% csrf_token %}
             <div class="shop-info">
                 <div class="c">
-                    <h2>Login</h2>
+                    <h2>Sign Up</h2>
                     <img src="{% static 'images/logo.jpg' %}" alt="">
+                </div>
+                <div class="help-text">
+                    <span>- The username is required. It should be 150 characters or fewer. Letters, digits and @/./+/-/_ only.</span>
+                    <span>- Your password can’t be too similar to your other personal information.</span>
+                    <span>- Your password must contain at least 8 characters.</span>
+                    <span>- Your password can’t be a commonly used password.</span>
+                    <span>- Your password can’t be entirely numeric.</span>
                 </div>
                 <span>Copyright© SHOPPIE 2024. All Rights Reserved.</span>
             </div>
@@ -19,21 +26,15 @@
                     {% endfor %}
                 </div>
                 {% endif %}
-                <h3>{{ form.username.label }}</h3>
-                {{ form.username }}
-                <h3>{{ form.password.label }}</h3>
-                {{ form.password }}
-
-                <input type="submit" value="Login" class="btn-sub"/>
+                {{ business_form }}
+                {{ customer_form }}
+                <input type="submit" value="Sign Up" class="btn-sub" />
                 <div class="signup-link">
-                    <p>Don't have an account? Sign Up.</p>
-                    <div class="signup-btns">
-                        <a class="signup-btn" href="{% url 'signup' %}">As a Customer</a>
-                        <a class="signup-btn" href="{% url 'signup-b' %}">As a Store Owner</a>
-                    </div>
+                    <p>Already have an account? <a href="{% url 'login' %}">Log In</a></p>
                 </div>
             </div>
         </form>
         </div>
     </div>
 {% endblock %}
+
