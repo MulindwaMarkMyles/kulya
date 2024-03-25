@@ -86,12 +86,15 @@
     <div class="container">
       <h2>Sign Up as business:</h2>
       <form id="business_signup-form" action="/business_signup.html" method="post">
+
         <label for="first_name">First_name:</label>
         <input type="text" id="first_name" name="first_name"required />
         <label for="last_name">Last_name:</label>
         <input type="text" id="last_name"name="last_name"required />
         <label for="business_name">Business_name:</label>
         <input type="text" id="business_name" name="business_name"required />
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email"required />
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required />
         <div class="showpassword">
@@ -122,10 +125,11 @@
             passwordField.type = 'password';
         }
     }
-    </script>
     
+    </script>
+    <a href="{% url 'login' %}" class="signup_button">Sign Up as business</a>
 
-      <a   href="{%url 'login'%}" class="signup_button">Sign Up as business</a><br>
+      
       </form>
   </body>
 </html>
