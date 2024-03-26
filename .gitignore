@@ -1,7 +1,8 @@
 .DS_Store
 .vscode
-#authentication/migrations
-#shop/migrations
+tests/__pycache__
+authentication/migrations/__pycache__
+shop/migrations/__pycache__
 shop/__pycache__
 authentication/__pycache__
 #home/migrations
