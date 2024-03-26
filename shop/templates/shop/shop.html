@@ -47,13 +47,13 @@
                     <h4>About</h4>
                     <a href="#">Terms and conditions</a>
                     <a href="#">Offers</a>
-                    <a href="#">Contact Us</a>
-                    <a href="#">Report a Bug</a>
+                    <a href="mailto:shoppie@gmail.com">Contact Us</a>
+                    <a href="mailto:shoppie.bugs@gmail.com">Report a Bug</a>
                 </div>
                 <div class="col">
                     <h4>My Account</h4>
                     <a href="{% url 'profile' %}">Profile</a>
-                    <a href="#">Sign In</a>
+                    <a href="{% url 'login' %}">Log In</a>
                     <a href="{% url 'cart' %}">My Cart</a>
                     <a href="{% url 'checkout' %}">Checkout</a>
                 </div>

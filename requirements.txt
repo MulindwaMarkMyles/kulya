@@ -1,4 +1,4 @@
-asgiref==3.7.2
+asgiref
 asttokens==2.4.1
 certifi==2024.2.2
 charset-normalizer==3.3.2
@@ -12,13 +12,21 @@ django-debug-toolbar==4.2.0
 django-extensions==3.2.3
 executing==2.0.1
 idna==3.6
+iniconfig==2.0.0
 ipython==8.20.0
 jedi==0.19.1
 matplotlib-inline==0.1.6
+mysqlclient==2.2.1
+packaging==24.0
 parso==0.8.3
+pillow==10.2.0
+pluggy==1.4.0
 prompt-toolkit==3.0.43
+psycopg2==2.9.9
 pure-eval==0.2.2
 Pygments==2.17.2
+pytest==8.1.1
+pytest-django==4.8.0
 python-magic==0.4.27
 requests==2.31.0
 six==1.16.0
