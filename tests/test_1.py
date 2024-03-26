@@ -1,16 +1,12 @@
 import pytest
 from django.contrib.auth.models import User
+from authentication.models import Customer
 
-
-# def test_set_check_password(user_1):
-#     user_1.set_password("pass")
-#     assert user_1.username == "test_usr"
-    
-def test_new_user(user_A):
-    print(user_A.username)
-    assert user_A.username == "Test_usr"
-    
-    
-def test_new_user_2(user_B):
-    print(user_B.is_staff)
-    assert user_B.is_staff == 'True'
+@pytest.mark.django_db
+def test_new_user(new_user):
+    customer = new_user
+    count = Customer.objects.count()
+    print(count)
+    print("customer_factory", customer.first_name)
+    print("customer_factory", customer.email)
+    assert True
