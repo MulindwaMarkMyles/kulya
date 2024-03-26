@@ -4,13 +4,34 @@ from django.http import JsonResponse
 import json
 import datetime
 from .utilities import *
-
+# Create your views here.
 
 def index(request):
     data = cartData(request)
-    cartItems = data['cartItems']
+    cartItems = data["cartItems"]
+    
+    categories = Category.objects.all()
+    products = Product.objects.order_by("-id")[:30]
+    context = {
+        "title": "HOME",
+        "range": range(5),
+        "products": products,
+        "cartItems": cartItems,
+        "shipping": False,
+        "categories": categories,
+    }
+    return render(request, "shop/index.html", context)
 
-    products = Product.objects.all()
+def shop(request):
+    data = cartData(request)
+    cartItems = data["cartItems"]
+    
+    if request.method == 'POST':
+        searchterm = request.POST.get("searchterm")
+        products = Product.objects.filter(name__contains=searchterm)
+    else:
+        products = Product.objects.order_by("-id")[:]
+        
     context = {
         "title": "SHOP",
         "range": range(5),
@@ -18,15 +39,15 @@ def index(request):
         "cartItems": cartItems,
         "shipping": False,
     }
-    return render(request, "shop/index.html", context)
+    return render(request, "shop/shop.html", context)
 
 
 def cart(request):
     data = cartData(request)
-    cartItems = data['cartItems']
-    order = data['order']
-    items = data['items']
-        
+    cartItems = data["cartItems"]
+    order = data["order"]
+    items = data["items"]
+
     context = {
         "title": "CART",
         "items": items,
@@ -39,10 +60,10 @@ def cart(request):
 
 def checkout(request):
     data = cartData(request)
-    cartItems = data['cartItems']
-    order = data['order']
-    items = data['items']
-    
+    cartItems = data["cartItems"]
+    order = data["order"]
+    items = data["items"]
+
     context = {
         "title": "CHECKOUT",
         "items": items,
@@ -57,13 +78,14 @@ def updateitem(request):
     data = json.loads(request.body)
     productId = data.get("productId")
     action = data.get("action")
-    print(action, productId)
+    
 
-    customer = request.user.customer
+    customer = request.user
     product = Product.objects.get(id=productId)
-    order, created = Order.objects.get_or_create(customer=customer, complete=False)
+    order = Order.objects.filter(customer=customer, complete=False).first()
+    if order == None:
+        order = Order.objects.create(customer=customer, complete=False)    
     orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
-
     if action == "add":
         orderItem.quantity = orderItem.quantity + 1
     elif action == "remove":
@@ -80,26 +102,82 @@ def processOrder(request):
     transaction_id = datetime.datetime.now().timestamp()
     data = json.loads(request.body)
     if request.user.is_authenticated:
-        customer = request.user.customer
+        customer = request.user
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
     else:
         customer, order = guestOrder(request, data)
-    
+
     total = float(data["form"]["total"])
     order.transaction_id = transaction_id
 
     if total == order.get_cart_total:
         order.complete = True
     order.save()
-    
+
     if order.shipping == True:
-            ShippingAddress.objects.create(
-                customer=customer,
-                order=order,
-                address=data["shipping"]["address"],
-                city=data["shipping"]["city"],
-                state=data["shipping"]["state"],
-                zipcode=data["shipping"]["zipcode"],
-            )
-            
+        ShippingAddress.objects.create(
+            customer=customer,
+            order=order,
+            address=data["shipping"]["address"],
+            city=data["shipping"]["city"],
+            state=data["shipping"]["state"],
+            zipcode=data["shipping"]["zipcode"],
+        )
+
     return JsonResponse("Payment completed.", safe=False)
+
+def viewProduct(request, id):
+    product = Product.objects.filter(id=id).first()
+    data = cartData(request)
+    
+    if request.user.is_authenticated:
+        try:
+            quantity = OrderItem.objects.filter(product=product).first().quantity
+        except:
+            quantity = 0
+    else:
+        quantity = 0
+        try:
+            for item in data["items"]:
+                if item['product']['id'] == id:
+                    quantity = item['quantity']
+        except:
+            pass
+        
+    cartItems = data["cartItems"]
+    context = {"product": product, "cartItems": cartItems, "title":"PRODUCT", "quantity": quantity}
+    return render(request, "shop/product.html", context)
+
+def about(request):
+    data = cartData(request)
+    cartItems = data["cartItems"]
+    return render(request, "shop/about.html", {"title":"ABOUT", "cartItems": cartItems})
+
+def profile(request):
+    context={
+        'title':'Uer Profile',
+        'name':'USER NAME',
+        'email':'USER EMAIL',
+        'phone_number':'PHONE NUMBER'
+         }
+
+    return render(request, "shop/login.html",context) 
+
+def category(request, category_name):
+    category = Category.objects.filter(category_name=category_name).first()
+    products = Product.objects.filter(category=category).all()
+    
+    data = cartData(request)
+    cartItems = data["cartItems"]
+    
+    
+    context = {
+        "title": "CATEGORY",
+        "range": range(5),
+        "products": products,
+        "category": category,
+        "shipping": False,
+        "cartItems": cartItems,
+    }
+    
+    return render(request, "shop/shop.html", context)

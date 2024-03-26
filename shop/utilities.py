@@ -1,8 +1,6 @@
-import json, os
-import uuid
+import json
 from .models import *
 from authentication.models import *
-
 
 def cookieCart(request):
     try:
@@ -43,8 +41,10 @@ def cookieCart(request):
 
 def cartData(request):
     if request.user.is_authenticated:
-        customer = request.user.customer
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        customer = request.user
+        order = Order.objects.filter(customer=customer, complete=False).first()
+        if order == None:
+            order = Order.objects.create(customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
     else:
@@ -57,9 +57,6 @@ def cartData(request):
 
 
 def guestOrder(request, data):
-    print("User is not authenticated..")
-    print(data["form"])
-    print("\n\n\n\n")
     first_name = data["form"]["first_name"]
     last_name = data["form"]["last_name"]
     email = data["form"]["email"]
@@ -67,7 +64,7 @@ def guestOrder(request, data):
     cookieData = cookieCart(request)
     items = cookieData["items"]
 
-    customer, created = Customer.objects.get_or_create(
+    customer, created = User.objects.get_or_create(
         email=email,
     )
     customer.first_name = first_name

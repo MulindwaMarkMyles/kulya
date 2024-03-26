@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-xek)7+oj7z4nem*=6$-q#6s8y))-e9(pe#(2s&!#a*6o3!z%+^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -40,9 +40,11 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "shop",
     "authentication",
+    "corsheaders"
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -128,3 +130,13 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+LOGIN_URL = 'login'
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://b29a-102-134-149-110.ngrok-free.app'
+]
+CORS_ORIGIN_WHITELIST = [
+    'https://b29a-102-134-149-110.ngrok-free.app',
+]
+

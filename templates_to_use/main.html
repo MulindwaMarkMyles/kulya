@@ -11,9 +11,6 @@
         {% endif %}
         <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" >
         <title>SHOPPIE - {{ title }}</title>
-        {% if title == "SIGNUP" %}
-        <script defer src="{% static 'js/signup.js' %}"></script>
-        {%  endif %}
 </head>
 <body>
         <div class="searchbar hide" id="searchbar">
@@ -34,8 +31,7 @@
                         <li><a {% if title == 'SHOP' %} class="active" {% endif %} href="{% url 'shop' %}" >Shop</a></li>
                         <li><a {% if title == 'PROFILE' %} class="active" {% endif %} href="{% url 'profile' %}">Profile</a></li>
                         <li><a {% if title == 'ABOUT' %} class="active" {% endif %} href="{% url 'about' %}">About Us</a></li>
-                        {% if not request.user.is_authenticated %}<li><a href="{% url 'login' %}">Log IN</a></li>{% endif %}
-                        {% if title == 'SHOP' %}<li><a href="#" id="searchButton"><i class="fas fa-search"></i></a></li>{% endif %}
+                        {% if title == 'SHOP' %}<li><a href="#" id="searchButton">Search</a></li>{% endif %}
                         <li><a {% if title == 'CART' or title == 'CHECKOUT' %} class="active" {% endif %} href="{% url 'cart' %}"><i class="icon far fa-shopping-bag">
                             <span id="cart-total">{{ cartItems }}</span>
                         </i></a></li>
