@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "shop",
     "authentication",
-    "corsheaders"
+    "corsheaders",
+    "Admin_dashboard"
 ]
 
 MIDDLEWARE = [

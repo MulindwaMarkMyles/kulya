@@ -1,0 +1,98 @@
+{% extends 'shop/main.html' %} {% block content %}{% load static %}
+<!--================ navigation ===============-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+          <ul>
+             <li>
+                 <a href="">
+                     <span class="icon"><ion-icon name="planet-outline"></ion-icon></span>
+                     <span class="title">Dashboard</span>
+                 </a>
+             </li>
+              <li>
+                 <a href="">
+                      <span class="icon"><ion-icon name="business-outline"></ion-icon></span>
+                     <span class="title">Business</span>
+                 </a>
+             </li>
+             <li>
+                  <a href="">
+                     <span class="icon"><ion-icon name="accessibility-outline"></ion-icon></span>
+                     <span class="title">Customer</span>
+                 </a>
+             </li>
+              <li>
+                  <a href="">
+                     <span class="icon"><ion-icon name="person-circle-outline"></ion-icon></span>
+                     <span class="title">Profiles</span>
+                 </a>
+             </li>
+              <li>
+                  <a href="">
+                     <span class="icon"><ion-icon name="people-circle-outline"></ion-icon></span>
+                     <span class="title">Groups</span>
+                 </a>
+              </li>
+              <li>
+                 <a href="">
+                     <span class="icon"><ion-icon name="people-circle-outline"></ion-icon></span>
+                     <span class="title">Users</span>
+                 </a>
+             </li>
+              <li>
+                 <a href="">
+                     <span class="icon"><ion-icon name="folder-open-outline"></ion-icon></span>
+                     <span class="title">Category</span>
+                 </a>
+             </li>
+            <li>
+                  <a href="">
+                     <span class="icon"><ion-icon name="cart-outline"></ion-icon></span>
+                     <span class="title">Order items</span>
+                  </a>
+             </li>
+             <li>
+                  <a href="">
+                     <span class="icon"><ion-icon name="bag-handle-outline"></ion-icon></span>
+                     <span class="title">Orders</span>
+                 </a>
+             </li>
+            <li>
+                  <a href="">
+                      <span class="icon"><ion-icon name="grid-outline"></ion-icon></span>
+                      <span class="title">Products</span>
+                 </a>
+             </li>
+            <li>
+                 <a href="">
+                     <span class="icon"><ion-icon name="pin-outline"></ion-icon></span>
+                    <span class="title">Shipping Address</span>
+                 </a>
+            </li>
+            <li>
+                <a href="">
+                    <span class="icon"><ion-icon name="document-lock-outline"></ion-icon></span>
+                   <span class="title">Password</span>
+                </a>
+           </li>
+            <li>
+                <a href="">
+                    <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
+                   <span class="title">Sign out</span>
+                </a>
+           </li>
+          </ul>
+        </div>
+    </div>
+</body>
+</html>
+{%endblock%}
