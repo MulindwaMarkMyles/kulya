@@ -1,0 +1,61 @@
+{% extends 'shop/main.html' %} {% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <style>
+        body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+      }
+        .container{
+            background-color: #fff;
+            margin: 100px auto;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 400px
+        }
+        h2{
+            margin-top: 0;
+            font-size: medium;
+            text-align: center;
+        }
+        .signup_button{
+            display: block;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            color: black;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 0px;
+            margin-left: 70px;
+            padding: 10px 20px;
+            transition: background-color 0.3s ease;
+            width: 60%;
+            margin-bottom: 0px;
+            text-decoration: none;
+        }
+        .signup_button:hover{
+            background-color: #fff;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Sign Up as:</h2>
+        <form>
+            <a   href="{%url 'signup-business'%}" class="signup_button">Sign Up as business</a><br>
+            <a href="{%url 'signup-customer'%}" class="signup_button">Sign Up as customer</a><br>
+        </form>
+    </div>
+</body>
+</html>
+{%endblock%}
+
