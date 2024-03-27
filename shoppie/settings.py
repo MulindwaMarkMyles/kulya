@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "shop",
     "authentication",
-    "corsheaders"
+    "corsheaders",
+    "Admin_dashboard"
 ]
 
 MIDDLEWARE = [
@@ -59,7 +60,7 @@ ROOT_URLCONF = "shoppie.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": ["TEMPLATES"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [

@@ -1,0 +1,35 @@
+def deadlock_detection(processes, resources, alloc, max, available):
+    # Create a list to track the status of each process
+    status = [False] * processes
+
+    # Iterate over each process
+    for p in range(processes):
+        # Check if the process is already marked as deadlocked
+        if status[p]:
+            continue
+
+        # Check if the process can be completed with the available resources
+        can_complete = True
+        for r in range(resources):
+            if alloc[p][r] + available[r] < max[p][r]:
+                can_complete = False
+                break
+
+        # If the process cannot be completed, mark it as deadlocked
+        if not can_complete:
+            status[p] = True
+
+    # Return the list of deadlocked processes
+    return [p for p in range(processes) if status[p]]
+    
+processes = 5
+resources = 3
+alloc = [[0, 1, 0], [2, 0, 0], [3, 0, 3], [2, 1, 1], [0, 0, 2]]
+max_demand = [[0, 0, 0], [2, 0, 2], [0, 0, 0], [1, 0, 0], [0, 0, 2]]
+available = [0, 0, 0]
+
+deadlocked_processes = deadlock_detection(processes, resources, alloc, max_demand, available)
+if deadlocked_processes:
+    print("Deadlock detected in processes:", ", ".join(["T{}".format(t) for t in deadlocked_processes]))
+else:
+    print("No deadlock detected.")

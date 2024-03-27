@@ -29,6 +29,7 @@ class Profile(models.Model):
                     self.image.name = rename_image(self, self.image.name)
                 super().save(*args, **kwargs)
 
+
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True, unique=True)
     first_name = models.CharField(max_length=300, null=True)
@@ -37,7 +38,7 @@ class Customer(models.Model):
 
     @property
     def name(self):
-        return self.first_name + " " + self.last_name
+        return f"{self.first_name} {self.last_name}"
 
     def __str__(self):
         return f"{self.name}"
