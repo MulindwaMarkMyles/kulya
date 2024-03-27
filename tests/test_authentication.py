@@ -38,3 +38,5 @@ def test_profile(new_profile):
     profile = new_profile
     assert Profile.objects.filter(user=profile.user).exists()
      
+     
+    
