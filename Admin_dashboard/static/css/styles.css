@@ -139,3 +139,25 @@ body{
     box-shadow: 35px -35px 0 10px var(--white);
     pointer-events: none;
 }
+
+
+/*==============adminpage=================*/
+
+.adminpage{
+    position: absolute;
+    transition: 0.5s;
+    width: calc(100% -300px);
+    left: 300px;
+    min-height: 100vh;
+    background: var(--white)
+}
+
+.topbar{
+    margin-top: 80px;
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
