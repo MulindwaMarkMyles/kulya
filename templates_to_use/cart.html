@@ -1,0 +1,66 @@
+{% extends 'shop/main.html' %} {% load static %} {% block content %}
+      <div class="section-p1 mar-100">
+            <a class="btn btn-outline-dark" href="{% url 'shop' %}"
+        >&#x2190; Continue Shopping</a>
+        </div>
+      <br>
+      <br>
+      <section id="cart" class="section-p1">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td>IMAGE</td>
+                    <td>PRODUCT</td>
+                    <td>PRICE</td>
+                    <td>QUANTITY</td>
+                    <td>SUBTOTAL</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td><img class="product-img" src="{{ item.product.imageurl }}" alt=""></td>
+                    <td>{{ item.product.name }}</td>
+                    <td>Shs.{{ item.product.price|floatformat:0 }}</td>
+                    <td class="qnty">
+                            <span
+                              class="chg-quantity update-cart"
+                              data-action="add"
+                              data-product="{{ item.product.id }}"
+                            >+</span>
+                            <span>{{ item.quantity }}</span>
+                            <span
+                              class="chg-quantity update-cart"
+                              data-action="remove"
+                              data-product="{{ item.product.id }}"
+                            >-</span>
+
+                    </td>
+                    <td>Shs.{{ item.get_total }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+      </section>
+      <section class="section-p1" id="cart-details">
+          <h3>Cart Total</h3>
+        <table id="subtotal">
+            <thead>
+                <tr>
+                <td>Items</td>
+                <td>Total</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ order.get_cart_items }}</td>
+                    <td>Shs.{{ order.get_cart_total }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <a class="btn btn-success"
+        href="{% url 'checkout' %}"
+        >Checkout</a>
+      </section>
+            
+{% endblock content %}
