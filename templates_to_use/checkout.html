@@ -1,0 +1,192 @@
+{% extends 'shop/main.html' %} {% load static %} {% block content %}
+<div class="section-p1 mar-100 checkout">
+      <form action="" id="form-checkout" method="POST">
+        {% csrf_token %}
+        <p>Billing Info </p>
+        <div id="user-info">
+            <div class="names">
+            <input
+              required
+              class="form-control"
+              type="text"
+              name="first_name"
+              placeholder="First Name"
+              value="{{ request.user.first_name }}"
+            />
+            <input
+              required
+              class="form-control"
+              type="text"
+              name="last_name"
+              placeholder="Last Name"
+              value="{{ request.user.last_name }}"
+            />
+          </div>
+          <div class="form-field">
+            <input
+              required
+              class="form-control"
+              type="email"
+              name="email"
+              placeholder="Email.."
+              value="{{ request.user.email }}"
+            />
+          </div>
+        </div>
+        <p>Shipping Information</p>
+        <div id="shipping-info">
+          <div class="form-field">
+            <input
+            required
+              class="form-control"
+              type="text"
+              name="address"
+              placeholder="Address.."
+            />
+          </div>
+          <div class="form-field">
+            <input
+            required
+              class="form-control"
+              type="text"
+              name="city"
+              placeholder="City.."
+            />
+          </div>
+          <div class="form-field">
+            <input
+            required
+              class="form-control"
+              type="text"
+              name="state"
+              placeholder="State.."
+            />
+          </div>
+          <div class="form-field">
+            <input
+            required
+              class="form-control"
+              type="text"
+              name="zipcode"
+              placeholder="Zip code.."
+            />
+          </div>
+          <div class="form-field">
+            <input
+            required
+              class="form-control"
+              type="text"
+              name="country"
+              placeholder="Country.."
+            />
+          </div>
+        </div>
+        <br>
+        <div class="btns">
+            <button id="form-button" type="submit" class="btn btn-success">Continue</button>
+            <a class="btn btn-success" href="{% url 'cart' %}"
+        >&#x2190; Back to cart</a>
+        </div>
+        <hr>
+      </form>
+  <div class="order">
+    <div class="box-elem">
+      <h3 class="order-title">Order Summary</h3>
+      <span class="summary"><span>Items</span><small>{{ order.get_cart_items }}</small></span>
+      <span class="summary"><span>Total </span><small>Shs.{{ order.get_cart_total|floatformat:2 }}</small></span>
+    </div>
+    <div class="hidden" id="payment-info">
+        <div id="paypal-button-container"></div>
+        <button id="make-payment" class="" type="button">Make Payment</button>
+      </div>
+      <hr>
+  </div>
+</div>
+
+
+<script>
+  var shipping = "{{ order.shipping }}";
+  var user = "{{ request.user }}";
+  var orderQuantity = "{{ cartItems }}";
+  var total = "{{ order.get_cart_total }}";
+  var paymentButton = document.getElementById('make-payment')
+  
+  if (shipping == "False") {
+    document.getElementById("shipping-info").innerHTML = "";
+  }
+
+  if (shipping == "False" && user != "AnonymousUser") {
+    document.getElementById("form-wrapper").classList.add("hidden");
+    if (cartItems != 0)
+      document.getElementById("payment-info").classList.remove("hidden");
+  }
+
+  var form = document.getElementById("form-checkout");
+  csrftoken = document.getElementsByTagName("input")[0].value;
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    console.log("form submited....");
+    document.getElementById("form-button").classList.add("hidden");
+    document.getElementById("payment-info").classList.remove("hidden");
+    setInterval(function () {
+        paymentButton.classList.toggle("active")
+  }, 1000)
+  });
+  
+    document.getElementById('make-payment').addEventListener('click', function(e){
+            submitFormData()
+    })
+
+  function submitFormData() {
+    console.log("Payment button clicked.");
+
+    var userFormData = {
+      first_name: null,
+      last_name: null,
+      email: null,
+      total: total,
+    };
+    var shippingInfo = {
+      address: null,
+      city: null,
+      state: null,
+      zipcode: null,
+      country: null,
+    };
+
+    if (shipping != "False") {
+      shippingInfo.address = form.address.value;
+      shippingInfo.city = form.city.value;
+      shippingInfo.state = form.state.value;
+      shippingInfo.zipcode = form.zipcode.value;
+      shippingInfo.country = form.country.value;
+    }
+
+    userFormData.first_name = form.first_name.value;
+    userFormData.last_name = form.last_name.value;
+    userFormData.email = form.email.value;
+
+    var url = "/process-order/";
+
+    console.log(userFormData, shippingInfo);
+
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrftoken,
+      },
+      body: JSON.stringify({ form: userFormData, shipping: shippingInfo }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success: ", data);
+        alert("Transaction successful, please come again!");
+
+        cart = {};
+        document.cookie = "cart=" + JSON.stringify(cart) + ";domain=;path=/";
+        window.location.href = "{% url 'shop' %}";
+      });
+  }
+</script>
+{% endblock content %}
