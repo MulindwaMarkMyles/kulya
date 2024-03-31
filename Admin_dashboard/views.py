@@ -99,3 +99,5 @@ def profile_delete(request, pk):
     return render(request, 'Admin_dashboard/profile_delete.html', {'profile': profile})
 
 
+def index(request):
+    return render(request,"Admin_dashboard/customadminlogin.html")
