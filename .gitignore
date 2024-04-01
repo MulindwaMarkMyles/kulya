@@ -4,7 +4,10 @@ shop/__pycache__/
 authentication/__pycache__/
 home/__pycache__/
 shoppie/__pycache__/
+tests/__pycache__/
 htmlcov/
+__pycache__/
+.pytest_cache/
 .coverage
 
 
