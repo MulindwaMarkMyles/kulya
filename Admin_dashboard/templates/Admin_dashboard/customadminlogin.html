@@ -1,5 +1,4 @@
-{% extends 'shop/main.html' %}{% load static %}
-
+{% extends 'admin/login.html' %} {% load static%}
 {% block content %}
 <!DOCTYPE html>
 <html lang="en">
@@ -8,10 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adminloginform</title>
     <link rel="stylesheet" type="text/css" href= "{% static 'css/adminlogin.css'%}">
+    <h2>Shoppie Admin Panel</h2>
 </head>
 <body>
     <div class="wrapper">
-        <form action="">
+        <form method="post"action="{% url 'admin:login'%}">
+           
             <h1>Login</h1>
 
             <div class="input-box">
@@ -28,6 +29,8 @@
             
             <button type="submit" class="btn">Login</button>
 
+            
+
         </form>
     </div>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
@@ -35,3 +38,5 @@
 </body>
 </html>
 {% endblock %}
+
+
