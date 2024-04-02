@@ -42,4 +42,20 @@ class ProductFactory(factory.django.DjangoModelFactory):
     image = factory.Faker('image_url')
     category = factory.SubFactory(CategoryFactory)
     
+class OrderFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Order
+    
+    customer = factory.SubFactory(UserFactory)
+    complete = fake.boolean()
+    transaction_id = fake.random_number()
+    
+class OrderItemFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = OrderItem
+    
+    product = factory.SubFactory(ProductFactory)
+    order = factory.SubFactory(OrderFactory)
+    quantity = 0
+    
     
