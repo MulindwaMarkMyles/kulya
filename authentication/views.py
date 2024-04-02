@@ -16,8 +16,9 @@ def profile(request):
         'cartItems':cartItems,
         'profile': profile_,
         }
-    print(profile_.imageurl)
-    return render(request, "auth/profile.html",context)  
+    if profile_ is not None:
+        print(profile_.imageurl)
+    return render(request, "authentication/profile.html",context)  
 
 def login_user(request):
     data = cartData(request)
@@ -44,7 +45,7 @@ def login_user(request):
         'form':form
         }
             
-    return render(request, "auth/login.html", context)
+    return render(request, "authentication/login.html", context)
 
 def signup_user(request):
     data = cartData(request)
@@ -66,7 +67,7 @@ def signup_user(request):
         'cartItems':cartItems,
         'form':form
         }
-    return render(request, "auth/signup-user.html", context)    
+    return render(request, "authentication/signup-user.html", context)    
 
 def signup_business(request):
     data = cartData(request)
@@ -91,7 +92,7 @@ def signup_business(request):
         'customer_form':customer_form,
         'business_form':business_form
         }
-    return render(request, "auth/signup-business.html", context)    
+    return render(request, "authentication/signup-business.html", context)    
 
 def logout_u(request):
     logout(request)
