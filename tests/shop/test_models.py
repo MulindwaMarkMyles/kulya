@@ -34,6 +34,16 @@ class TestOrderModel:
         cart_items_total = 6
         assert order.get_cart_items == cart_items_total
     
+    def test_get_cart_total_return(self, order_factory, order_item_factory, product_factory):
+        order = order_factory()
+        product_one = product_factory(price=10000)
+        product_two = product_factory(price=20000)
+        order_item_factory(order=order, product=product_one,quantity=2)
+        order_item_factory(order=order, product=product_two, quantity=4)
+        cart_items_total = 100000
+        
+        assert order.get_cart_total == cart_items_total
+    
     def test_shipping_return(self, order_factory, order_item_factory, product_factory):
         order_one = order_factory()
         order_two = order_factory()
@@ -45,3 +55,22 @@ class TestOrderModel:
         
         assert order_one.shipping == False
         assert order_two.shipping == True
+        
+class TestOrderItem:
+    def test_str_return(self, order_item_factory, product_factory):
+        product = product_factory(name="shoe")
+        order_item = order_item_factory(product=product)
+        
+        assert order_item.__str__() == str(order_item.product.name)
+        
+    def test_get_total(self, order_item_factory, product_factory):
+        product = product_factory(price=4000)
+        order_item = order_item_factory(product=product, quantity=5)
+        
+        assert order_item.get_total == 20000
+        
+class TestShippingAddress:
+    def test_str_return(self, shipping_address_factory):
+        shipping_address = shipping_address_factory(address="Kyanja")
+        assert shipping_address.__str__() == "Kyanja"
+        

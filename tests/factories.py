@@ -5,6 +5,8 @@ from authentication.models import *
 
 fake = faker.Faker()
 
+#authentication factories
+
 class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = User
@@ -13,13 +15,7 @@ class UserFactory(factory.django.DjangoModelFactory):
     password = factory.Faker('password')
     is_superuser = True
     is_staff = True
-    
-class CategoryFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = Category
-        
-    category_name = factory.Faker("word")
-    
+
 class BusinessFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Business
@@ -29,6 +25,31 @@ class BusinessFactory(factory.django.DjangoModelFactory):
     last_name = factory.Faker('last_name')
     business_name = factory.Faker('company')
     email = fake.email()
+
+class ProfileFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Profile
+        
+    user = factory.SubFactory(UserFactory)
+    image = fake.image_url()
+    
+class CustomerFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Customer
+        
+    user = factory.SubFactory(UserFactory)
+    first_name = fake.first_name()
+    last_name = fake.last_name()
+    email = fake.email()
+    
+#shop factories
+    
+    
+class CategoryFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Category
+        
+    category_name = factory.Faker("word")
     
 class ProductFactory(factory.django.DjangoModelFactory):
     class Meta:
@@ -57,5 +78,15 @@ class OrderItemFactory(factory.django.DjangoModelFactory):
     product = factory.SubFactory(ProductFactory)
     order = factory.SubFactory(OrderFactory)
     quantity = 0
+
+class ShippingAddressFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = ShippingAddress
     
+    customer = factory.SubFactory(UserFactory)
+    order = factory.SubFactory(OrderFactory)
+    address = fake.address()
+    city = fake.city()
+    state = fake.state()
+    zipcode = fake.zipcode()
     
