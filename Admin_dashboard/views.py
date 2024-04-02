@@ -101,3 +101,6 @@ def profile_delete(request, pk):
 
 def index(request):
     return render(request,"Admin_dashboard/customadminlogin.html")
+
+def adminpage(request):
+    return render(request,"Admin_dashboard/adminpage.html")

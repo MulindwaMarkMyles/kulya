@@ -12,30 +12,31 @@ body{
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: solid white;
-}
-
-.wrapper{
-    width: 420px;
-    background: white;
-    border-radius: 10px;
-    padding: 30px 40px;
+    background: #f9f9f9; /* Change to a light gray background */
 }
 
 h2{
-    justify-content: center ;
-}
-.wrapper h1{
-    font-size: 36px;
-    margin-left: 100px;
     color: #154c79;
+    text-align: center;
+    font-size: large;
 }
 
-.wrapper .input-box{
+h1 {
+    font-size: 36px;
+    color: #154c79;
+    text-align: center; 
+    margin: 0 auto;
+    font-weight: 800;
+    margin-top: 20px;
+}
+
+
+.input-box{
     position: relative;
     width: 100%;
-    height: 50px;
+    height: 60px; /* Increase height */
     margin: 30px 0;
+    margin-top: 20px;
 }
 
 .input-box input{
@@ -43,12 +44,10 @@ h2{
     height: 100%;
     background: transparent;
     border: 2px solid rgba(255,255,255,.2);
-    border-right: 100px;
     border-radius: 40px;
     font-size: 15px;
-    border-radius: 40px;
     color: #154c79;
-    padding: 20px 45px 20px 20px;
+    padding: 20px 20px; /* Adjust padding */
     box-sizing: border-box;
 }
 
@@ -62,24 +61,23 @@ h2{
     top: 25%;
     transform: relative;
     font-size: 20px;
+    color: #154c79;
 }
 
-.wrapper .remember-forgot{
+.remember-forgot{
     display: flex;
-    margin-left: 30px;
+    justify-content: center; /* Center the text */
     font-size: 14.5px;
     margin: -15px 0 15px;
 }
 
 .remember-forgot label input{
-    accent-color: #fff;
-    margin-right: 30px;
+    margin-right: 5px; /* Adjust margin */
 }
 
-.wrapper .btn{
+.btn{
     width: 100%;
     height: 45px;
-    margin-left: 100px;
     background: #154c79;
     border: none;
     outline: none;
@@ -88,9 +86,9 @@ h2{
     cursor: pointer;
     font-size: 16px;
     font-weight: 600;
-    justify-content: center;
+    color: white;
 }
 
-.wrapper .btn:hover{
-    color: #fff;
+.btn :hover{
+    color: white;
 }
