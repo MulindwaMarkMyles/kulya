@@ -1,0 +1,39 @@
+{% extends 'shop/main.html' %} {% block content %}{% load static %}
+    <div class="cont-f mar-100">
+        <div class="log-cont">
+            <hr>
+        <form class="login-form"  method="POST">
+            {% csrf_token %}
+            <div class="shop-info">
+                <div class="c">
+                    <h2>Login</h2>
+                    <img src="{% static 'images/logo-2.jpg' %}" alt="">
+                </div>
+                <span>Copyright© SHOPPIE 2024. All Rights Reserved.</span>
+            </div>
+            <div class="credentials">
+                {% if form.non_field_errors %}
+                <div class="errors">
+                    {% for error in form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+                <h3>{{ form.username.label }}</h3>
+                {{ form.username }}
+                <h3>{{ form.password.label }}</h3>
+                {{ form.password }}
+
+                <input type="submit" value="Login" class="btn-sub"/>
+                <div class="signup-link">
+                    <p>Don't have an account? Sign Up Below.</p>
+                    <div class="signup-btns">
+                        <a class="signup-btn" href="{% url 'signup' %}">As a Customer</a>
+                        <a class="signup-btn" href="{% url 'signup-b' %}">As a Store Owner</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+{% endblock %}
