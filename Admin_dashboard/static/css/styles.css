@@ -50,5 +50,5 @@ body{
     list-style: none;
 }
 .navigation.ul.li:nth-child(1){
-    margin
+    margin: 0;
 }
