@@ -33,4 +33,53 @@ def business_delete(request, pk):
         return redirect('business_list')
     return render(request, 'Admin_dashboard/business_delete.html', {'businesses': business})
 
+def customer_list(request):
+    customers = Customer.objects.all()
+    return render(request, "Admin_dashboard/customer_list.html", {'customers': customers})
+
+def customer_detail(request, pk):
+    customer = get_object_or_404(Customer, pk=pk)
+    return render(request, 'customer_detail.html', {'customer': customer})
+
+def customer_create(request):
+    if request.method == 'POST':
+        form = CustomerForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('customer_list')
+    else:
+        form = CustomerForm()
+    return render(request, 'Admin_dashboard/customer_create.html', {'form': form})
+
+def customer_delete(request, pk):
+    customers = get_object_or_404(Customer, pk=pk)
+    if request.method == 'POST':
+        customers.delete()
+        return redirect('customer_list')
+    return render(request, 'Admin_dashboard/customer_delete.html', {'customers': customers})
+
+def profile_list(request):
+    profiles = Profile.objects.all()
+    return render(request, "Admin_dashboard/profile_list.html", {'profiles': profiles})
+
+def profile_detail(request, pk):
+    profile = get_object_or_404(Profile, pk=pk)
+    return render(request, 'profile_detail.html', {'profile': profile})
+
+def customer_create(request):
+    if request.method == 'POST':
+        form = CustomerForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('customer_list')
+    else:
+        form = CustomerForm()
+    return render(request, 'Admin_dashboard/customer_create.html', {'form': form})
+
+def customer_delete(request, pk):
+    customers = get_object_or_404(Customer, pk=pk)
+    if request.method == 'POST':
+        customers.delete()
+        return redirect('customer_list')
+    return render(request, 'Admin_dashboard/customer_delete.html', {'customers': customers})
 

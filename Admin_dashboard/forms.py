@@ -1,7 +1,22 @@
 from django import forms
+from django.contrib.auth.models import User
+from authentication.models import Profile,Business,Customer
 
-class BusinessForm(forms.Form):
-    first_name = forms.CharField(label='First Name', max_length=100)
-    last_name = forms.CharField(label='Last Name', max_length=100)
-    business_name = forms.CharField(label='Business Name', max_length=100)
-    email = forms.EmailField(label='Email')
+class BusinessForm(forms.ModelForm):
+    class Meta:
+        model = Business
+        fields = ['first_name', 'last_name', 'business_name', 'email']
+
+class CustomerForm(forms.ModelForm):
+    class Meta:
+        model = Customer
+        fields = ['first_name', 'last_name', 'email']
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['user', 'image']
+
+
+
+
