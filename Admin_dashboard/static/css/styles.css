@@ -23,14 +23,15 @@ body{
 }
 
 .container{
-    position: relative;
+    position: flex;
     width: 100%;
-    margin-top: 55px;
 }
 /*======navigation=====*/
 .navigation{
     position: fixed;
-    width: 300px;
+    width: 200px;
+    top: 100px;
+    left: 0;
     height: 100%;
     background: var(--blue);
     border-left:solid var(--blue);
@@ -50,7 +51,7 @@ body{
     display: flex;
     flex-direction: column;
     gap: 10px;
-    padding-bottom: 60px;
+    padding-bottom: 120px;
 }
 
 .navigation ul li{

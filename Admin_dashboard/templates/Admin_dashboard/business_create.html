@@ -1,0 +1,30 @@
+{% extends 'Admin_dashboard/admin_page.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Business</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/create.css' %}"></link>
+</head>
+<body>
+    <div class="container">
+         <h1>Create New Business</h1>
+    <form action="{% url 'business_create' %}" method="post">
+        {% csrf_token %}
+        <label for="business_name">Business Name:</label><br>
+        <input type="text" id="business_name" name="business_name"><br>
+        <label for="first_name">Owner's First Name:</label><br>
+        <input type="text" id="first_name" name="first_name"><br>
+        <label for="last_name">Owner's Last Name:</label><br>
+        <input type="text" id="last_name" name="last_name"><br>
+        <label for="email">Owner's Email:</label><br>
+        <input type="email" id="email" name="email"><br>
+        <button type="submit">Create Business</button>
+    </form>
+    </div>
+</body>
+</html>
+{%endblock%}
