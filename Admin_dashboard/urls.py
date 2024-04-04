@@ -2,5 +2,5 @@ from .views import *
 from django.urls import path
 
 urlpatterns = [
-    path("",index, name="index")
+    path("page/",page, name="page"),
 ]
