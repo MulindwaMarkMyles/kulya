@@ -153,15 +153,6 @@ def about(request):
     cartItems = data["cartItems"]
     return render(request, "shop/about.html", {"title":"ABOUT", "cartItems": cartItems})
 
-def profile(request):
-    context={
-        'title':'Uer Profile',
-        'name':'USER NAME',
-        'email':'USER EMAIL',
-        'phone_number':'PHONE NUMBER'
-         }
-
-    return render(request, "shop/login.html",context) 
 
 def category(request, category_name):
     category = Category.objects.filter(category_name=category_name).first()
