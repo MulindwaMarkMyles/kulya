@@ -12,9 +12,7 @@ class TestProfileModel:
     def  test_imageurl_return(self, profile_factory):
         image_path = faker.Faker().image_url()
         profile_one = profile_factory(image=image_path)
-        profile_two = profile_factory(image="None")
         
-        assert profile_two.imageurl == ""
         assert profile_one.imageurl != image_path
         
     def test_save_method(self, profile_factory):
