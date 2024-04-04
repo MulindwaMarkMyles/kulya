@@ -33,6 +33,9 @@ def login_user(request):
             
             if user is not None:
                 login(request, user)
+                next_url = request.GET.get("next")
+                if next_url:
+                    return redirect(next_url)
                 return redirect("home")
             else:
                 form.add_error(None, "Invalid username or password")

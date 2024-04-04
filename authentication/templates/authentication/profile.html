@@ -1,152 +1,117 @@
 {% extends 'shop/main.html' %} {% block content %}
-    <div class="profile">
-        <div class="sidebar">
-            <div class="logo"></div>
-            <ul class="main">
-                <li class="active"><a href="#"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
-                <li><a href="#"><i class="fas fa-user"></i><span>Profile</span></a></li>
-                <li><a href="#"><i class="fas fa-chart-bar"></i><span>Statistics</span></a></li>
-                <li><a href="#"><i class="fas fa-briefcase"></i><span>Careers</span></a></li>
-                <li><a href="#"><i class="fas fa-question-circle"></i><span>FAQ</span></a></li>
-                <li><a href="#"><i class="fas fa-cog"></i><span>Settings</span></a></li>
-                <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i><span>Log Out</span></a></li>
-            </ul>
+
+<!-- Container for the profile page -->
+<div class="profile">
+    <!-- Sidebar section -->
+    <div class="sidebar">
+        <!-- Logo section -->
+        <div class="logo"></div>
+        <!-- Main navigation menu -->
+        <ul class="main">
+            <!-- Dashboard link (active) -->
+            <li class="active"><a href="#"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+            <!-- Profile link -->
+            <li><a href="#"><i class="fas fa-user"></i><span>Profile</span></a></li>
+            <!-- Statistics link -->
+            <li><a href="#"><i class="fas fa-chart-bar"></i><span>Statistics</span></a></li>
+            <!-- Careers link -->
+            <li><a href="#"><i class="fas fa-briefcase"></i><span>Careers</span></a></li>
+            <!-- FAQ link -->
+            <li><a href="#"><i class="fas fa-question-circle"></i><span>FAQ</span></a></li>
+            <!-- Settings link -->
+            <li><a href="#"><i class="fas fa-cog"></i><span>Settings</span></a></li>
+            <!-- Log out link -->
+            <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i><span>Log Out</span></a></li>
+        </ul>
+    </div>
+    <!-- Main content section -->
+    <div class="main--content">
+        <!-- Header wrapper -->
+        <div class="header--wrapper">
+            <!-- Header title -->
+            <div class="header--title">
+                <span>Primary</span>
+                <h2>Dashboard</h2>
+            </div>
+            <!-- User information section -->
+            <div class="user--info">
+                <!-- User image -->
+                <img src="{{ profile.imageurl }}" alt="">
+            </div>
         </div>
-        <div class="main--content">
-            <div class="header--wrapper">
-                <div class="header--title">
-                    <span>Primary</span>
-                    <h2>Dashboard</h2>
+        <!-- Card container -->
+        <div class="card--container">
+            <!-- Today's data title -->
+            <h3 class="main--title">Today's data</h3>
+            <!-- Card wrapper -->
+            <div class="card--wrapper">
+                <!-- Payment cards -->
+                <!-- Each card represents a payment -->
+                <!-- Example card (light-gold) -->
+                <div class="payment--card light-gold">
+                    <!-- Card header -->
+                    <div class="card--header">
+                        <!-- Payment amount -->
+                        <div class="amount">
+                            <span class="title">Payment amount</span>
+                            <span class="amount-value">Shs.20000</span>
+                        </div>
+                        <!-- Dollar sign icon -->
+                        <i class="fas fa-dollar-sign icon"></i>
+                    </div>
+                    <!-- Card details -->
+                    <span class="card-detail">***** ***** ***** 3890</span>
                 </div>
-                <div class="user--info">
-                    <img src="{{ profile.imageurl }}" alt="">
-                </div>
+                <!-- Other payment cards with different colors and amounts -->
             </div>
-            <div class="card--container">
-                <h3 class="main--title">Today's data</h3>
-                <div class="card--wrapper">
-                    <div class="payment--card light-gold">
-                        <div class="card--header">
-                            <div class="amount">
-                                <span class="title">
-                                    Payment amount
-                                </span>
-                                <span class="amount-value">Shs.20000</span>
-                            </div>
-                            <i class="fas fa-dollar-sign icon"></i>
-                        </div>
-                        <span class="card-detail">***** ***** ***** 3890</span>
-                    </div>
-                    <div class="payment--card light-red">
-                        <div class="card--header">
-                            <div class="amount">
-                                <span class="title">
-                                    Payment amount
-                                </span>
-                                <span class="amount-value">Shs.40000</span>
-                            </div>
-                            <i class="fas fa-dollar-sign icon"></i>
-                        </div>
-                        <span class="card-detail">***** ***** ***** 3890</span>
-                    </div>
-                    <div class="payment--card light-brown">
-                        <div class="card--header">
-                            <div class="amount">
-                                <span class="title">
-                                    Payment amount
-                                </span>
-                                <span class="amount-value">Shs.40000</span>
-                            </div>
-                            <i class="fas fa-dollar-sign icon"></i>
-                        </div>
-                        <span class="card-detail">***** ***** ***** 3890</span>
-                    </div>
-                    <div class="payment--card light-green">
-                        <div class="card--header">
-                            <div class="amount">
-                                <span class="title">
-                                    Payment amount
-                                </span>
-                                <span class="amount-value">Shs.40000</span>
-                            </div>
-                            <i class="fas fa-dollar-sign icon"></i>
-                        </div>
-                        <span class="card-detail">***** ***** ***** 3890</span>
-                    </div>
-                    <div class="payment--card light-blue">
-                        <div class="card--header">
-                            <div class="amount">
-                                <span class="title">
-                                    Payment amount
-                                </span>
-                                <span class="amount-value">Shs.40000</span>
-                            </div>
-                            <i class="fas fa-dollar-sign icon"></i>
-                        </div>
-                        <span class="card-detail">***** ***** ***** 3890</span>
-                    </div>
-                    <div class="payment--card skyblue">
-                        <div class="card--header">
-                            <div class="amount">
-                                <span class="title">
-                                    Payment amount
-                                </span>
-                                <span class="amount-value">Shs.40000</span>
-                            </div>
-                            <i class="fas fa-dollar-sign icon"></i>
-                        </div>
-                        <span class="card-detail">***** ***** ***** 3890</span>
-                    </div>
-                    <div class="payment--card light-black">
-                        <div class="card--header">
-                            <div class="amount">
-                                <span class="title">
-                                    Payment amount
-                                </span>
-                                <span class="amount-value">Shs.40000</span>
-                            </div>
-                            <i class="fas fa-dollar-sign icon"></i>
-                        </div>
-                        <span class="card-detail">***** ***** ***** 3890</span>
-                    </div>
-                </div>
-            </div>
-            <div class="tabular--wrapper">
-                <h3 class="main--title">Finance data</h3>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Transaction type</th>
-                                <th>Description</th>
-                                <th>Description</th>
-                                <th>Amount</th>
-                                <th>Category</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>2023-05-01</td>
-                                <td>Expenses</td>
-                                <td>Office Supplies</td>
-                                <td>This is new and great.</td>
-                                <td>Shs.100000</td>
-                                <td>Office</td>
-                                <td>Pending</td>
-                                <td><button>Cancel Order</button></td>
-                            </tr>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="8">Total: Shs.150000</td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
+        </div>
+        <!-- Tabular data section -->
+        <div class="tabular--wrapper">
+            <!-- Finance data title -->
+            <h3 class="main--title">Finance data</h3>
+            <!-- Table container -->
+            <div class="table-container">
+                <!-- Data table -->
+                <table>
+                    <!-- Table header -->
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Transaction type</th>
+                            <th>Description</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <!-- Table body -->
+                    <tbody>
+                        <!-- Example table row -->
+                        <tr>
+                            <td>2023-05-01</td>
+                            <td>Expenses</td>
+                            <td>Office Supplies</td>
+                            <td>This is new and great.</td>
+                            <td>Shs.100000</td>
+                            <td>Office</td>
+                            <td>Pending</td>
+                            <td><button>Cancel Order</button></td>
+                        </tr>
+                        <!-- Additional rows can be added here -->
+                    </tbody>
+                    <!-- Table footer -->
+                    <tfoot>
+                        <tr>
+                            <!-- Total amount -->
+                            <td colspan="8">Total: Shs.150000</td>
+                        </tr>
+                    </tfoot>
+                </table>
             </div>
         </div>
     </div>
+</div>
+
 {% endblock %}

@@ -83,55 +83,63 @@
     </style>
   </head>
   <body>
-    <div class="container">
-      <h2>Sign Up as business:</h2>
-      <form id="business_signup-form" action="/business_signup.html" method="post">
 
-        <label for="first_name">First_name:</label>
-        <input type="text" id="first_name" name="first_name"required />
-        <label for="last_name">Last_name:</label>
-        <input type="text" id="last_name"name="last_name"required />
-        <label for="business_name">Business_name:</label>
-        <input type="text" id="business_name" name="business_name"required />
+  <!-- Container for the sign-up form -->
+<div class="container">
+    <!-- Heading for the sign-up form -->
+    <h2>Sign Up as business:</h2>
+    <!-- Form for business sign-up -->
+    <form id="business_signup-form" action="/business_signup.html" method="post">
+        <!-- Input field for first name -->
+        <label for="first_name">First Name:</label>
+        <input type="text" id="first_name" name="first_name" required />
+
+        <!-- Input field for last name -->
+        <label for="last_name">Last Name:</label>
+        <input type="text" id="last_name" name="last_name" required />
+
+        <!-- Input field for business name -->
+        <label for="business_name">Business Name:</label>
+        <input type="text" id="business_name" name="business_name" required />
+
+        <!-- Input field for email -->
         <label for="email">Email:</label>
-        <input type="text" id="email" name="email"required />
+        <input type="email" id="email" name="email" required />
+
+        <!-- Input field for password -->
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required />
+        
+        <!-- Checkbox to toggle password visibility -->
         <div class="showpassword">
-          <input type="checkbox" id="show-password"> Show Password</div>
-          <script>
-            document.getElementById('show-password').addEventListener('change', function() {
-                var passwordField = document.getElementById('password');
-                if (this.checked) {
-                    passwordField.setAttribute('type', 'text');
-                } else {
-                    passwordField.setAttribute('type', 'password');
-                }
-            });
-            </script>
-        <label for="confirm_password">Confirm_password:</label>
-          <input type="password" id="confirm_password" name="confirm_password" required>
-          <div class="showpassword">
+            <input type="checkbox" id="show-password"> Show Password
+        </div>
+
+        <!-- Input field for confirming password -->
+        <label for="confirm_password">Confirm Password:</label>
+        <input type="password" id="confirm_password" name="confirm_password" required />
+        
+        <!-- Checkbox to toggle confirm password visibility -->
+        <div class="showpassword">
             <input type="checkbox" id="show-confirm-password" onclick="togglePasswordVisibility('confirm_password')">
             <label for="show-confirm-password">Show Password</label>
-          </div>
-    
-    <script>
-    function togglePasswordVisibility(fieldId) {
-        var passwordField = document.getElementById(fieldId);
-        if (passwordField.type === 'password') {
-            passwordField.type = 'text';
-        } else {
-            passwordField.type = 'password';
-        }
-    }
-    
-    </script>
-    <a href="{% url 'login' %}" class="signup_button">Sign Up as business</a>
+        </div>
 
-      
-      </form>
-  </body>
-</html>
+        <!-- JavaScript function to toggle password visibility -->
+        <script>
+            function togglePasswordVisibility(fieldId) {
+                var passwordField = document.getElementById(fieldId);
+                if (passwordField.type === 'password') {
+                    passwordField.type = 'text';
+                } else {
+                    passwordField.type = 'password';
+                }
+            }
+        </script>
+
+        <!-- Button to submit the form -->
+        <button type="submit" class="signup_button">Sign Up as Business</button>
+    </form>
+</div>
 
 {%endblock%}
