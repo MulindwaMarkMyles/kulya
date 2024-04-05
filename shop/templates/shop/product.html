@@ -1,5 +1,7 @@
 {% extends 'shop/main.html' %} {% block content %}
+
 <a href="{%  url 'shop' %}" class="stb-link">Back to Shop</a>
+
 <section id="product" class="section-p1">
   <div class="product-image">
     <img src="{{ product.imageurl }}" alt="product image" />
@@ -15,16 +17,24 @@
     </select>
     <span>{{ quantity }} items</span>
     <div class="buttons">
-        <button 
+      <!-- Add to cart button -->
+      <button
         href="#"
         class="update-cart cart-btn a"
         data-product="{{ product.id }}"
-        data-action="add">Add To Cart</button>
-        <button 
+        data-action="add"
+      >
+        Add To Cart
+      </button>
+      <!-- Remove from cart button -->
+      <button
         href="#"
         class="update-cart cart-btn r"
         data-product="{{ product.id }}"
-        data-action="remove">Remove From Cart</button>
+        data-action="remove"
+      >
+        Remove From Cart
+      </button>
     </div>
     <h4>Product Details</h4>
     <span>{{ product.description }}</span>

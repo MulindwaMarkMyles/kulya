@@ -2,6 +2,14 @@ import json
 from .models import *
 from authentication.models import *
 
+
+# Function to rename the image file
+def rename_image(instance, form_picture):
+    _, f_ext = os.path.splitext(form_picture)
+    new_file_name = "%s%s" % (uuid.uuid4(), f_ext)
+    return new_file_name
+
+# Function to retrieve cart data from cookies
 def cookieCart(request):
     try:
         cart = json.loads(request.COOKIES["cart"])
@@ -38,7 +46,7 @@ def cookieCart(request):
             pass
     return {"cartItems": cartItems, "items": items, "order": order}
 
-
+# Function to retrieve cart data
 def cartData(request):
     if request.user.is_authenticated:
         customer = request.user
@@ -55,7 +63,7 @@ def cartData(request):
 
     return {"cartItems": cartItems, "items": items, "order": order}
 
-
+# Function to create an order for a guest user
 def guestOrder(request, data):
     first_name = data["form"]["first_name"]
     last_name = data["form"]["last_name"]
@@ -82,4 +90,5 @@ def guestOrder(request, data):
             product=product, order=order, quantity=item["quantity"]
         )
     return customer, order
+
 

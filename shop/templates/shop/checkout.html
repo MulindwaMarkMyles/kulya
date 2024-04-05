@@ -4,6 +4,7 @@
         {% csrf_token %}
         <p>Billing Info </p>
         <div id="user-info">
+            <!-- User Information -->
             <div class="names">
             <input
               required
@@ -23,6 +24,7 @@
             />
           </div>
           <div class="form-field">
+            <!-- Email -->
             <input
               required
               class="form-control"
@@ -35,6 +37,7 @@
         </div>
         <p>Shipping Information</p>
         <div id="shipping-info">
+          <!-- Shipping Address Information -->
           <div class="form-field">
             <input
             required
@@ -83,7 +86,9 @@
         </div>
         <br>
         <div class="btns">
+            <!-- Form Submission Button -->
             <button id="form-button" type="submit" class="btn btn-success">Continue</button>
+            <!-- Back to Cart Button -->
             <a class="btn btn-success" href="{% url 'cart' %}"
         >&#x2190; Back to cart</a>
         </div>
@@ -91,55 +96,65 @@
       </form>
   <div class="order">
     <div class="box-elem">
+      <!-- Order Summary -->
       <h3 class="order-title">Order Summary</h3>
       <span class="summary"><span>Items</span><small>{{ order.get_cart_items }}</small></span>
       <span class="summary"><span>Total </span><small>Shs.{{ order.get_cart_total|floatformat:2 }}</small></span>
     </div>
+    <!-- Payment Information -->
     <div class="hidden" id="payment-info">
         <div id="paypal-button-container"></div>
+        <!-- Make Payment Button -->
         <button id="make-payment" class="" type="button">Make Payment</button>
       </div>
       <hr>
   </div>
 </div>
 
-
 <script>
+  // Retrieve data from Django templates
   var shipping = "{{ order.shipping }}";
   var user = "{{ request.user }}";
   var orderQuantity = "{{ cartItems }}";
   var total = "{{ order.get_cart_total }}";
-  var paymentButton = document.getElementById('make-payment')
+  var paymentButton = document.getElementById('make-payment');
   
+  // Conditionally hide shipping information if shipping is not required
   if (shipping == "False") {
     document.getElementById("shipping-info").innerHTML = "";
   }
 
+  // Conditionally hide form wrapper and show payment info if user is logged in and shipping is not required
   if (shipping == "False" && user != "AnonymousUser") {
     document.getElementById("form-wrapper").classList.add("hidden");
     if (cartItems != 0)
       document.getElementById("payment-info").classList.remove("hidden");
   }
 
+  // Add event listener to form submission
   var form = document.getElementById("form-checkout");
   csrftoken = document.getElementsByTagName("input")[0].value;
   form.addEventListener("submit", function (e) {
     e.preventDefault();
-    console.log("form submited....");
+    console.log("form submitted....");
     document.getElementById("form-button").classList.add("hidden");
     document.getElementById("payment-info").classList.remove("hidden");
+    // Toggle payment button animation
     setInterval(function () {
-        paymentButton.classList.toggle("active")
-  }, 1000)
+        paymentButton.classList.toggle("active");
+    }, 1000);
   });
   
-    document.getElementById('make-payment').addEventListener('click', function(e){
-            submitFormData()
-    })
+  // Add event listener to make-payment button
+  document.getElementById('make-payment').addEventListener('click', function(e){
+      submitFormData();
+  });
 
+  // Function to submit form data
   function submitFormData() {
     console.log("Payment button clicked.");
 
+    // Define user and shipping data
     var userFormData = {
       first_name: null,
       last_name: null,
@@ -154,6 +169,7 @@
       country: null,
     };
 
+    // Populate shipping info if required
     if (shipping != "False") {
       shippingInfo.address = form.address.value;
       shippingInfo.city = form.city.value;
@@ -162,14 +178,18 @@
       shippingInfo.country = form.country.value;
     }
 
+    // Populate user form data
     userFormData.first_name = form.first_name.value;
     userFormData.last_name = form.last_name.value;
     userFormData.email = form.email.value;
 
+    // Define URL for processing order
     var url = "/process-order/";
 
+    // Log user and shipping data
     console.log(userFormData, shippingInfo);
 
+    // Fetch request to process order
     fetch(url, {
       method: "POST",
       headers: {
@@ -181,12 +201,17 @@
       .then((response) => response.json())
       .then((data) => {
         console.log("Success: ", data);
+        // Display success message
         alert("Transaction successful, please come again!");
 
+        // Reset cart and redirect to shop page
         cart = {};
         document.cookie = "cart=" + JSON.stringify(cart) + ";domain=;path=/";
         window.location.href = "{% url 'shop' %}";
       });
   }
 </script>
+
+
+
 {% endblock content %}

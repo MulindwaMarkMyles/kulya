@@ -66,7 +66,7 @@
       .signup-link a:hover {
         text-decoration: underline;
       }
-      .showpassword{
+      .showpassword {
         text-align: right;
         margin-top: 0px;
         margin-bottom: 20px;
@@ -74,30 +74,41 @@
     </style>
   </head>
   <body>
+    <!-- Container for login form -->
     <div class="container">
+      <!-- Login form -->
       <h2>Login</h2>
       <form id="login-form" action="/login.html" method="post">
+        <!-- Email input -->
         <label for="email">Email:</label>
         <input type="text" id="email" name="email" required />
 
+        <!-- Password input -->
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required />
+        <!-- Checkbox to show password -->
         <div class="showpassword">
-          <input type="checkbox" id="show-password"> Show Password</div>
-          <script>
-            document.getElementById('show-password').addEventListener('change', function() {
-                var passwordField = document.getElementById('password');
-                if (this.checked) {
-                    passwordField.setAttribute('type', 'text');
-                } else {
-                    passwordField.setAttribute('type', 'password');
-                }
+          <input type="checkbox" id="show-password" /> Show Password
+        </div>
+        <!-- Script to toggle password visibility -->
+        <script>
+          document
+            .getElementById("show-password")
+            .addEventListener("change", function () {
+              var passwordField = document.getElementById("password");
+              if (this.checked) {
+                passwordField.setAttribute("type", "text");
+              } else {
+                passwordField.setAttribute("type", "password");
+              }
             });
-           
-            </script>
+        </script>
+        <!-- Login button -->
         <input type="submit" value="Login" />
+        <!-- Link to shop as guest -->
         <a class="login" href="{% url 'profile' %}">SHOP AS GUEST</a>
       </form>
+      <!-- Sign up link -->
       <div class="signup-link">
         <p>Don't have an account? <a href="{%url 'Sign_Up'%}">Sign Up</a></p>
       </div>
