@@ -39,10 +39,10 @@ class TestUrls:
             
         def test_about_url(self):
             url = resolve('/about/')
-            assert url.view_name == about
+            assert url.view_name == 'about'
             assert url.func == about
             
         def test_category_url(self):
             url = resolve('/category/misc')
-            assert url.view_name == category
+            assert url.view_name == 'category'
             assert url.func == category
