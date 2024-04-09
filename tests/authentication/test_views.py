@@ -1,6 +1,6 @@
 from django.urls import reverse
 from django.test import Client
-from django.test.utils import assertTemplateUsed
+from pytest_django.asserts import assertTemplateUsed
 
 client = Client()
 
