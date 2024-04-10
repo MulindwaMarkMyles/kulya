@@ -101,3 +101,5 @@ def logout_u(request):
     logout(request)
     return redirect("home")
 
+def terms_conditions(request):
+    return render(request, "authentication/terms_conditions.html")
