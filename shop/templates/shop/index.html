@@ -86,12 +86,9 @@
       <div class="star">
         {% if product.rating > 0.0 %}
         <!-- Display Star Rating -->
-        {% for rating in range %}
-        {% if product.rating > rating %}
+        {% for rating in range %} {% if product.rating > rating %}
         <i class="fas fa-star h"></i>
-        {% endif %}
-        {% endfor %}
-        {% else %}
+        {% endif %} {% endfor %} {% else %}
         <!-- Display Blank Star -->
         <i class="fas fa-star b"></i>
         {% endif %}
@@ -101,7 +98,12 @@
     </div>
     <div class="btns">
       <!-- Add to Cart Button -->
-      <button href="#" class="update-cart" data-product="{{ product.id }}" data-action="add">
+      <button
+        href="#"
+        class="update-cart"
+        data-product="{{ product.id }}"
+        data-action="add"
+      >
         <i class="fal fa-shopping-cart add-cart"></i>
       </button>
       <!-- View Product Button -->
@@ -188,6 +190,5 @@
     <p>Copyright© SHOPPIE 2024. All Right Reserved.</p>
   </div>
 </footer>
-
 
 {% endblock %}
