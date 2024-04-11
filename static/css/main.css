@@ -45,7 +45,7 @@ p {
 }
 
 .cont {
-    /* background-image: radial-gradient(to right, white, rgb(95, 208, 243)); */
+    background-image: radial-gradient(to right, white, rgb(95, 208, 243)); 
 }
 .section-p1 {
   padding: 40px 40px;
