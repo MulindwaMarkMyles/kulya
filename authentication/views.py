@@ -6,6 +6,7 @@ from .forms import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
 import json, os
+from django.conf import settings
 
 @login_required
 def profile(request):
@@ -116,10 +117,9 @@ def add_products(request, business_name):
         if form.is_valid():
             form.save()
             product = Product.objects.filter(name=request.POST.get("name"), price=request.POST.get("price"), description=request.POST.get("description"), category=request.POST.get("category")).first()
-            old_image_name = product.imageurl
+            old_image_name = product.imageurl.replace("/media/","")
             product.owner = Business.objects.filter(business_name=business_name).first()
             product.save()
-            os.rename("../"+old_image_name, "../"+product.imageurl)
             return redirect("shop")
     else:
         form = BusinessAddProductsForm()

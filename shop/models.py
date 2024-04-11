@@ -44,7 +44,8 @@ class Product(models.Model):
 
     # Override save method to rename image file
     def save(self, *args, **kwargs):
-        self.image.name = rename_image(self, self.image.name)
+        if not self.id:
+            self.image.name = rename_image(self, self.image.name)
         super().save(*args, **kwargs)
 
 # Model representing orders
