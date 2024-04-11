@@ -99,7 +99,7 @@
                 Copyright.style = "padding-left:20px;"
                 helptext.innerHTML = ""
                 add.addEventListener("click", () => {
-                    window.location.href = "{% url 'shop' %}"
+                    window.location.href = `/auth/add-products/${Data['business_name']}/`
                 })
                 shop.addEventListener("click", () => {
                     window.location.href = "{% url 'shop' %}"

@@ -1,0 +1,13 @@
+{% extends 'shop/main.html' %}
+{% block content %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/add-products.css' %}">
+<div class="mar-100">
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit">ADD</button>
+    </form>
+</div>
+{% endblock %}

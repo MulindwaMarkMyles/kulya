@@ -2,10 +2,10 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from shop.utilities import cartData
 from .models import *
-from.forms import *
+from .forms import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
-import json
+import json, os
 
 @login_required
 def profile(request):
@@ -107,3 +107,26 @@ def logout_u(request):
     logout(request)
     return redirect("home")
 
+def add_products(request, business_name):
+    data = cartData(request)
+    cartItems = data["cartItems"]
+    
+    if request.method == 'POST':
+        form = BusinessAddProductsForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            product = Product.objects.filter(name=request.POST.get("name"), price=request.POST.get("price"), description=request.POST.get("description"), category=request.POST.get("category")).first()
+            old_image_name = product.imageurl
+            product.owner = Business.objects.filter(business_name=business_name).first()
+            product.save()
+            os.rename("../"+old_image_name, "../"+product.imageurl)
+            return redirect("shop")
+    else:
+        form = BusinessAddProductsForm()
+        
+    context={
+        'title':'ADD PRODUCTS',
+        'cartItems':cartItems,
+        'form':form
+        }
+    return render(request, "authentication/add-products.html", context)
