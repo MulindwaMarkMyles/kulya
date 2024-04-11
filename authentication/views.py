@@ -102,4 +102,6 @@ def logout_u(request):
     return redirect("home")
 
 def terms_conditions(request):
-    return render(request, "authentication/terms_conditions.html")
+    data = cartData(request)
+    cartItems = data["cartItems"]
+    return render(request, "authentication/terms_conditions.html", {'title':'TERMS & CONDITIONS', 'cartItems':cartItems})
