@@ -4,7 +4,7 @@
     <div class="log-cont">
         <hr>
         <!-- Login form -->
-        <form class="login-form" method="POST">
+        <form class="login-form" id="login-form" method="POST">
             <!-- CSRF token for security -->
             {% csrf_token %}
             <!-- Shop information section -->
@@ -49,7 +49,62 @@
                 </div>
             </div>
         </form>
+        <div class="after" id="after">
+        </div>
     </div>
 </div>
+<script>
+    var form = document.getElementById("login-form")
+    csrftoken = document.getElementsByTagName("input")[0].value;
+    var postaction = document.getElementById("after")
+    var credentials = document.getElementsByClassName("credentials")[0]
+    form.addEventListener("submit", (e) => {
+        e.preventDefault()
+        console.log("pressed..")
+        credentials.classList.add("hidden")
+        postaction.innerHTML = `
+                <h3> Do you want to add products now ?</h3 >
+                <div class="after-btns">
+                    <button>Yes, Add Products</button>
+                    <button>No, I'll do it Later</button>
+                </div>
+                `
+        submitData()
+        var add = postaction.getElementsByTagName("button")[0]
+        var shop = postaction.getElementsByTagName("button")[1]
+        add.addEventListener("click", () => {
+            window.location.href = "{% url 'shop' %}"
+        })
+        shop.addEventListener("click", () => {
+            window.location.href = "{% url 'shop' %}"
+        })
+    })
+    
+    function submitData() {
+        var url = "/auth/signup-b/"
+        var Data = {
+            business_name:form.business_name.value,
+            username:form.username.value,
+            first_name: form.first_name.value,
+            last_name: form.last_name.value,
+            email: form.email.value,
+            password1:form.password1.value,
+            password2:form.password2.value,
+        }
+        
+        fetch(url, {
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json",
+                "X-CSRFToken": csrftoken,
+            },
+            body:JSON.stringify({form: Data})
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log("Successfully posted data.", Data)
+        })
+    }
+</script>
 {% endblock %}
 

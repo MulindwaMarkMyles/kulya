@@ -60,6 +60,11 @@ p {
     font-weight: 700;
     color:black;
     text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s linear;
+}
+#header .logo:hover {
+    color: #000;
 }
 #header .logo {
     color: #fff;

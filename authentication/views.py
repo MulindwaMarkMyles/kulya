@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from shop.utilities import cartData
 from .models import *
 from.forms import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
+import json
 
 @login_required
 def profile(request):
@@ -73,18 +75,22 @@ def signup_user(request):
     return render(request, "authentication/signup-user.html", context)    
 
 def signup_business(request):
+    try:
+        signup_data = json.loads(request.body)
+    except:
+        signup_data = {}
     data = cartData(request)
     cartItems = data["cartItems"]
     
-    if request.method == 'POST':
-        customer_form = CustomerRegisterForm(request.POST)
-        business_form = BusinessRegisterForm(request.POST)
+    if signup_data:
+        customer_form = CustomerRegisterForm(signup_data['form'])
+        business_form = BusinessRegisterForm(signup_data['form'])
         if customer_form.is_valid() and business_form.is_valid():
             customer_form.save()
-            user = User.objects.filter(username=request.POST.get("username")).first()
-            Business.objects.create(owner=user,business_name=request.POST.get("business_name"),first_name=user.first_name,last_name=user.last_name, email=user.email)
+            user  = User.objects.filter(username=signup_data['form'].get("username")).first()
+            Business.objects.create(owner=user,business_name=signup_data['form'].get("business_name"),first_name=user.first_name,last_name=user.last_name, email=user.email)
             Profile.objects.create(user=user)
-            return redirect("login")
+            return JsonResponse("Business was created..", safe=False)
     else:
         customer_form = CustomerRegisterForm()
         business_form = BusinessRegisterForm()
