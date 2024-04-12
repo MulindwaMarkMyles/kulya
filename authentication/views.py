@@ -108,7 +108,8 @@ def logout_u(request):
     logout(request)
     return redirect("home")
 
-def add_products(request, business_name):
+@login_required
+def add_products(request):
     data = cartData(request)
     cartItems = data["cartItems"]
     
@@ -117,8 +118,8 @@ def add_products(request, business_name):
         if form.is_valid():
             form.save()
             product = Product.objects.filter(name=request.POST.get("name"), price=request.POST.get("price"), description=request.POST.get("description"), category=request.POST.get("category")).first()
-            old_image_name = product.imageurl.replace("/media/","")
-            product.owner = Business.objects.filter(business_name=business_name).first()
+            business = Business.objects.filter(owner=request.user).first()
+            product.owner = business
             product.save()
             return redirect("shop")
     else:
