@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     "shop",
     "authentication",
     "corsheaders",
-    "Admin_dashboard"
+    "Admin_dashboard",
+    "paypal.standard.ipn",
 ]
 
 MIDDLEWARE = [
@@ -142,4 +143,7 @@ CORS_ORIGIN_WHITELIST = [
     'https://b29a-102-134-149-110.ngrok-free.app',
     'https://d08e-102-134-149-110.ngrok-free.app'
 ]
+
+PAYPAL_RECEIVER_EMAIL = "sb-tnha4329824448@business.example.com"
+PAYPAL_TEST = True
 

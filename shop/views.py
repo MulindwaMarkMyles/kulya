@@ -1,9 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import *
 from django.http import JsonResponse
 import json
 import datetime
 from .utilities import *
+from paypal.standard.forms import PayPalPaymentsForm
+from django.conf import settings
+from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+from .forms import *
 # Create your views here.
 
 def index(request):
@@ -65,6 +70,7 @@ def cart(request):
     }
     return render(request, "shop/cart.html", context)
 
+@login_required
 def checkout(request):
     # Retrieve cart data
     data = cartData(request)
@@ -72,13 +78,41 @@ def checkout(request):
     order = data["order"]
     items = data["items"]
 
+    if request.method == 'POST':
+        shipping_form = ShippingAddressForm(request.POST)
+        if shipping_form.is_valid():
+            shipping_form.save()
+            shippingaddress = ShippingAddress.objects.filter(
+                address=shipping_form.cleaned_data['address'], 
+                city=shipping_form.cleaned_data['city'],
+                state=shipping_form.cleaned_data['state'],
+                zipcode=shipping_form.cleaned_data['zipcode'],
+                ).first()
+            customer = request.user
+            transaction_id = datetime.datetime.now().timestamp()
+            order, created = Order.objects.get_or_create(customer=customer, complete=False)
+            order.transaction_id = transaction_id
+            shippingaddress.customer = customer
+            shippingaddress.order = order
+            order.save()
+            shippingaddress.save()
+            
+            
+            return redirect("process-order")
+    else:
+        shipping_form = ShippingAddressForm()
+        user_form = UserInfoForm(initial={
+            "first_name":request.user.first_name, 
+            "last_name":request.user.last_name, 
+            "email":request.user.email})
     # Prepare context for rendering the checkout page
     context = {
         "title": "CHECKOUT",
         "items": items,
         "order": order,
         "cartItems": cartItems,
-        "shipping": False,
+        "shipping_form": shipping_form,
+        "user_form": user_form
     }
     return render(request, "shop/checkout.html", context)
 
@@ -113,34 +147,29 @@ def updateitem(request):
 
 def processOrder(request):
     # Process order
-    transaction_id = datetime.datetime.now().timestamp()
-    data = json.loads(request.body)
-    if request.user.is_authenticated:
-        customer = request.user
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
-    else:
-        customer, order = guestOrder(request, data)
+    
+    data = cartData(request)
+    cartItems = data["cartItems"]
+    
+    host = request.get_host()
+    order = Order.objects.filter(customer=request.user).first()
+    total = order.get_cart_total
 
-    total = float(data["form"]["total"])
-    order.transaction_id = transaction_id
-
-    # Mark order as complete if total matches cart total
-    if total == order.get_cart_total:
-        order.complete = True
-    order.save()
-
-    # Create shipping address if applicable
-    if order.shipping == True:
-        ShippingAddress.objects.create(
-            customer=customer,
-            order=order,
-            address=data["shipping"]["address"],
-            city=data["shipping"]["city"],
-            state=data["shipping"]["state"],
-            zipcode=data["shipping"]["zipcode"],
-        )
-
-    return JsonResponse("Payment completed.", safe=False)
+    paypal_checkout = {
+        'business': settings.PAYPAL_RECEIVER_EMAIL,
+        'amount': total,
+        'item_name': 'Order {}'.format(order.id),
+        'invoice': str(order.transaction_id),
+        'currency_code': 'USD',
+        ' notify_url': f'https://{host}{reverse("paypal-ipn")}',
+        'return_url': f'https://{host}{reverse("payment-success")}',
+        'cancel_url': f'https://{host}{reverse("payment-failure")}',
+    }
+    
+    paypal_payment = PayPalPaymentsForm(initial=paypal_checkout)
+    context = {"paypal": paypal_payment, "cartItems": cartItems}
+    
+    return render(request, "shop/payment.html", context)
 
 def viewProduct(request, id):
     # View product details
@@ -193,3 +222,15 @@ def category(request, category_name):
     }
     
     return render(request, "shop/shop.html", context)
+
+def paymentsuccessful(request):
+    # Render the payment successful page
+    data = cartData(request)
+    cartItems = data["cartItems"]
+    return render(request, "shop/paymentsuccessful.html", {"title":"PAYMENT SUCCESSFUL", "cartItems": cartItems})
+
+def paymentfailed(request):
+    # Render the payment failed page
+    data = cartData(request)
+    cartItems = data["cartItems"]
+    return render(request, "shop/paymentfailed.html", {"title":"PAYMENT FAILED", "cartItems": cartItems})
