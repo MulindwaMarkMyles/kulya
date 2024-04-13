@@ -17,6 +17,17 @@
                 <li>
                     <div class="child-list">{{ business.business_name }}</div>
                     <div class="business-details" style="display: none;">
+                        <p><strong>Owner:</strong> {{ business.owner.username}}
+                            <a href="{% url 'view_owner' business.owner.id %}">
+                                <span class="cild-icon"><ion-icon name="eye-outline"></ion-icon></span>
+                           </a>
+                           <a href="">
+                            <span class="child-icon"><ion-icon name="pencil-outline"></ion-icon></span>
+                           </a>
+                           <a href="">
+                            <span class="child-icon"><ion-icon name="add-circle-outline"></ion-icon></span>
+                            </a>
+                        </p>
                         <p><strong>Owner's First name:</strong> {{ business.first_name}}</p>
                         <p><strong>Owner's Last name:</strong> {{ business.last_name}}</p>
                         <p><strong>Owner's Email:</strong> {{ business.email}}</p>
