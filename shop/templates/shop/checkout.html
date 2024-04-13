@@ -2,13 +2,18 @@
 <div class="section-p1 mar-100 checkout">
       <form action="" id="form-checkout" method="POST">
         {% csrf_token %}
-        <p>Billing Info </p>
-        <div id="user-info">
-            <!-- User Information -->
-            {{ user_form }}
-        <p>Shipping Information</p>
-        {{ shipping_form }}
-        <br>
+        <div class="credentials">
+            <div id="user-info">
+                <!-- User Information -->
+                <p>Billing Info </p>
+                {{ user_form }}
+            </div>
+            <div id="shipping-info">
+                <!-- Shipping Information -->
+                <p>Shipping Information</p>
+                {{ shipping_form }}
+            </div>
+        </div>
         <div class="btns">
             <!-- Form Submission Button -->
             <button id="form-button" type="submit" class="btn btn-success">Continue</button>
@@ -38,7 +43,5 @@
 <script>
 
 </script>
-
-
 
 {% endblock content %}

@@ -161,13 +161,13 @@ def processOrder(request):
         'item_name': 'Order {}'.format(order.id),
         'invoice': str(order.transaction_id),
         'currency_code': 'USD',
-        ' notify_url': f'https://{host}{reverse("paypal-ipn")}',
-        'return_url': f'https://{host}{reverse("payment-success")}',
-        'cancel_url': f'https://{host}{reverse("payment-failure")}',
+        'notify_url': f'https://{host}{reverse("paypal-ipn")}',
+        'return_url': f'http://{host}{reverse("payment-success")}',
+        'cancel_url': f'http://{host}{reverse("payment-failure")}',
     }
     
     paypal_payment = PayPalPaymentsForm(initial=paypal_checkout)
-    context = {"paypal": paypal_payment, "cartItems": cartItems}
+    context = {"paypal": paypal_payment, "cartItems": cartItems, "title":"PAYMENT"}
     
     return render(request, "shop/payment.html", context)
 

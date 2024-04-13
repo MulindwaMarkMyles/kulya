@@ -44,9 +44,7 @@ p {
   margin: 15px 0 20px 0;
 }
 
-.cont {
-    /* background-image: radial-gradient(to right, white, rgb(95, 208, 243)); */
-}
+
 .section-p1 {
   padding: 40px 80px;
 }
@@ -239,17 +237,15 @@ p {
 .top {
     margin-top:20px;
 }
-.checkout
-{
+.checkout {
     display: flex;
     flex-direction: row;
     gap:20px;
-    
 }
 #form-checkout {
     display: flex;
     flex-direction: column;
-    width:50%;
+    width:fit-content;
     background-color: rgba(128, 128, 128, 0.233);
     padding:20px;
 }
@@ -266,7 +262,7 @@ p {
 #shipping-info {
     display: flex;
     justify-content: left;
-    flex-direction: row;
+    flex-direction: column;
     gap: 10px;
     margin: 10px 0;
 }
@@ -633,7 +629,7 @@ p {
     border-radius: 5px;
     margin-top:20px;
 }
-.credentials {
+.checkout .credentials {
     display:flex;
     flex-direction: column;
     justify-content: center;
