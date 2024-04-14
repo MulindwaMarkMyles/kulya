@@ -241,11 +241,12 @@ p {
     display: flex;
     flex-direction: row;
     gap:20px;
+    width:100%;
 }
 #form-checkout {
     display: flex;
     flex-direction: column;
-    width:fit-content;
+    width:100%;
     background-color: rgba(128, 128, 128, 0.233);
     padding:20px;
 }
@@ -633,9 +634,6 @@ p {
     display:flex;
     flex-direction: column;
     justify-content: center;
-    border: 1px solid #00000041;
-    padding:30px;
-    border-radius: 5px;
     height: 100%;
     width: 100%;
 }
@@ -697,4 +695,14 @@ p {
     color:#000;
     background-color: transparent;
     box-shadow: 0 0 10px rgba(0,0,0,0.25);
+}
+.payment {
+    display:flex;
+    flex-direction: row;
+    gap:20px;
+}
+.payment > div {
+    background-color: #e0e0e058;
+    flex:1;
+    padding:20px;
 }
