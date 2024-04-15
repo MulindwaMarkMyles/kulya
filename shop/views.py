@@ -9,8 +9,51 @@ from django.conf import settings
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from .forms import *
-# Create your views here.
+from rest_framework.views import APIView
+from rest_framework.decorators import api_view
 
+#Shop view using a rest api
+class ShopView(APIView):
+    #get method to retrieve all products
+    def get(self, request):
+        # Retrieve cart data
+        data = cartData(request)
+        cartItems = data["cartItems"]
+        
+        # Retrieve all products
+        products = Product.objects.order_by("-id")[:]
+
+        # Prepare context for rendering the shop page
+        context = {
+            "title": "SHOP",
+            "range": range(5),
+            "products": products,
+            "cartItems": cartItems,
+            "shipping": False,
+        }
+        return render(request, "shop/shop.html", context)
+
+    #post method to handle search functionality
+    def post(self, request):
+        # Retrieve cart data
+        data = cartData(request)
+        cartItems = data["cartItems"]
+        
+        # Handle search functionality
+        searchterm = request.data.get("searchterm")
+        products = Product.objects.filter(name__contains=searchterm)
+
+        # Prepare context for rendering the shop page
+        context = {
+            "title": "SHOP",
+            "range": range(5),
+            "products": products,
+            "cartItems": cartItems,
+            "shipping": False,
+        }
+        return render(request, "shop/shop.html", context)
+
+@api_view(['GET'])
 def index(request):
     # Retrieve cart data
     data = cartData(request)
@@ -31,28 +74,8 @@ def index(request):
     }
     return render(request, "shop/index.html", context)
 
-def shop(request):
-    # Retrieve cart data
-    data = cartData(request)
-    cartItems = data["cartItems"]
-    
-    # Handle search functionality
-    if request.method == 'POST':
-        searchterm = request.POST.get("searchterm")
-        products = Product.objects.filter(name__contains=searchterm)
-    else:
-        products = Product.objects.order_by("-id")[:]
-        
-    # Prepare context for rendering the shop page
-    context = {
-        "title": "SHOP",
-        "range": range(5),
-        "products": products,
-        "cartItems": cartItems,
-        "shipping": False,
-    }
-    return render(request, "shop/shop.html", context)
 
+@api_view(['GET'])
 def cart(request):
     # Retrieve cart data
     data = cartData(request)
@@ -171,6 +194,7 @@ def processOrder(request):
     
     return render(request, "shop/payment.html", context)
 
+@api_view(['GET'])
 def viewProduct(request, id):
     # View product details
     product = Product.objects.filter(id=id).first()
@@ -197,12 +221,14 @@ def viewProduct(request, id):
     context = {"product": product, "cartItems": cartItems, "title":"PRODUCT", "quantity": quantity}
     return render(request, "shop/product.html", context)
 
+@api_view(['GET'])
 def about(request):
     # Render the about page
     data = cartData(request)
     cartItems = data["cartItems"]
     return render(request, "shop/about.html", {"title":"ABOUT", "cartItems": cartItems})
 
+@api_view(['GET'])
 def category(request, category_name):
     # View products by category
     category = Category.objects.filter(category_name=category_name).first()
