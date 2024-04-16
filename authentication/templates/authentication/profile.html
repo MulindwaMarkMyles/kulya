@@ -1,5 +1,6 @@
 {% extends 'shop/main.html' %} {% block content %}
-
+{% load static %}
+<script defer src="{% static 'js/profile.js' %}"></script>
 <!-- Container for the profile page -->
 <div class="profile">
     <!-- Sidebar section -->
@@ -8,110 +9,142 @@
         <div class="logo"></div>
         <!-- Main navigation menu -->
         <ul class="main">
-            <!-- Dashboard link (active) -->
-            <li class="active"><a href="#"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+            <!-- Dashboard default link (active) -->
+            <li id="link" class="dashboard active"><span><i class="fas fa-tachometer-alt"></i>Dashboard</span></li>
             <!-- Profile link -->
-            <li><a href="#"><i class="fas fa-user"></i><span>Profile</span></a></li>
-            <!-- Statistics link -->
-            <li><a href="#"><i class="fas fa-chart-bar"></i><span>Statistics</span></a></li>
-            <!-- Careers link -->
-            <li><a href="#"><i class="fas fa-briefcase"></i><span>Careers</span></a></li>
+            <li id="link" class="profile"><span><i class="fas fa-user"></i>Profile</span></li>
+            <!-- Orders link -->
+            <li id="link" class="orders"><span ><i class="fas fa-briefcase"></i>Orders</span></li>
             <!-- FAQ link -->
-            <li><a href="#"><i class="fas fa-question-circle"></i><span>FAQ</span></a></li>
-            <!-- Settings link -->
-            <li><a href="#"><i class="fas fa-cog"></i><span>Settings</span></a></li>
+            <li id="link" class="faq"><span><i class="fas fa-question-circle"></i>FAQ</span></li>
             <!-- Log out link -->
-            <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i><span>Log Out</span></a></li>
+            <li ><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i>Log Out</a></li>
         </ul>
     </div>
     <!-- Main content section -->
     <div class="main--content">
+        <div class="1-content content-section">
         <!-- Header wrapper -->
         <div class="header--wrapper">
-            <!-- Header title -->
-            <div class="header--title">
-                <span>Primary</span>
-                <h2>Dashboard</h2>
-            </div>
-            <!-- User information section -->
-            <div class="user--info">
-                <!-- User image -->
-                <img src="{{ profile.imageurl }}" alt="">
-            </div>
-        </div>
-        <!-- Card container -->
-        <div class="card--container">
-            <!-- Today's data title -->
-            <h3 class="main--title">Today's data</h3>
-            <!-- Card wrapper -->
-            <div class="card--wrapper">
-                <!-- Payment cards -->
-                <!-- Each card represents a payment -->
-                <!-- Example card (light-gold) -->
-                <div class="payment--card light-gold">
-                    <!-- Card header -->
-                    <div class="card--header">
-                        <!-- Payment amount -->
-                        <div class="amount">
-                            <span class="title">Payment amount</span>
-                            <span class="amount-value">Shs.20000</span>
-                        </div>
-                        <!-- Dollar sign icon -->
-                        <i class="fas fa-dollar-sign icon"></i>
-                    </div>
-                    <!-- Card details -->
-                    <span class="card-detail">***** ***** ***** 3890</span>
+                <!-- Header title -->
+                <div class="header--title">
+                    <span>Primary</span>
+                    <h2>Dashboard</h2>
                 </div>
-                <!-- Other payment cards with different colors and amounts -->
+                <!-- User information section -->
+                <div class="user--info">
+                    <!-- User image -->
+                    <img src="{{ user.profile.imageurl }}" alt="">
+                </div>
+            </div>
+            <!-- Card container -->
+            <div class="card--container">
+                <!-- Today's data title -->
+                <h3 class="main--title">Today's data</h3>
+                <!-- Card wrapper -->
+                <div class="card--wrapper">
+                    <!-- Payment cards -->
+                    <!-- Each card represents a payment -->
+                    <!-- Example card (light-gold) -->
+                    <div class="payment--card light-gold">
+                        <!-- Card header -->
+                        <div class="card--header">
+                            <!-- Payment amount -->
+                            <div class="amount">
+                                <span class="title">Payment amount</span>
+                                <span class="amount-value">Shs.20000</span>
+                            </div>
+                            <!-- Dollar sign icon -->
+                            <i class="fas fa-dollar-sign icon"></i>
+                        </div>
+                        <!-- Card details -->
+                        <span class="card-detail">***** ***** ***** 3890</span>
+                    </div>
+                    <!-- Other payment cards with different colors and amounts -->
+                </div>
+            </div>
+            <!-- Tabular data section -->
+            <div class="tabular--wrapper">
+                <!-- Finance data title -->
+                <h3 class="main--title">Finance data</h3>
+                <!-- Table container -->
+                <div class="table-container">
+                    <!-- Data table -->
+                    <table>
+                        <!-- Table header -->
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Transaction type</th>
+                                <th>Description</th>
+                                <th>Description</th>
+                                <th>Amount</th>
+                                <th>Category</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <!-- Table body -->
+                        <tbody>
+                            <!-- Example table row -->
+                            <tr>
+                                <td>2023-05-01</td>
+                                <td>Expenses</td>
+                                <td>Office Supplies</td>
+                                <td>This is new and great.</td>
+                                <td>Shs.100000</td>
+                                <td>Office</td>
+                                <td>Pending</td>
+                                <td><button>Cancel Order</button></td>
+                            </tr>
+                            <!-- Additional rows can be added here -->
+                        </tbody>
+                        <!-- Table footer -->
+                        <tfoot>
+                            <tr>
+                                <!-- Total amount -->
+                                <td colspan="8">Total: Shs.150000</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
             </div>
         </div>
-        <!-- Tabular data section -->
-        <div class="tabular--wrapper">
-            <!-- Finance data title -->
-            <h3 class="main--title">Finance data</h3>
-            <!-- Table container -->
-            <div class="table-container">
-                <!-- Data table -->
-                <table>
-                    <!-- Table header -->
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Transaction type</th>
-                            <th>Description</th>
-                            <th>Description</th>
-                            <th>Amount</th>
-                            <th>Category</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <!-- Table body -->
-                    <tbody>
-                        <!-- Example table row -->
-                        <tr>
-                            <td>2023-05-01</td>
-                            <td>Expenses</td>
-                            <td>Office Supplies</td>
-                            <td>This is new and great.</td>
-                            <td>Shs.100000</td>
-                            <td>Office</td>
-                            <td>Pending</td>
-                            <td><button>Cancel Order</button></td>
-                        </tr>
-                        <!-- Additional rows can be added here -->
-                    </tbody>
-                    <!-- Table footer -->
-                    <tfoot>
-                        <tr>
-                            <!-- Total amount -->
-                            <td colspan="8">Total: Shs.150000</td>
-                        </tr>
-                    </tfoot>
-                </table>
+        <div class="2-content content-section hidden">
+            <!-- Header wrapper -->
+            <div class="header--wrapper">
+                <!-- Header title -->
+                <div class="header--title">
+                    <span>{{ user.first_name }} {{ user.last_name }}</span>
+                    <h2>Dashboard</h2>
+                </div>
+                <!-- User information section -->
+                <div class="user--info">
+                    <!-- User image -->
+                    <img src="{{ user.profile.imageurl }}" alt="">
+                </div>
             </div>
+            <div class="user-information">
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ user_form.first_name.label }}
+                    {{ user_form.first_name }}
+                    {{ user_form.last_name.label }}
+                    {{ user_form.last_name }}
+                    {{ user_form.email.label }}
+                    {{ user_form.email }}
+                    {{ profile_form.image.label }}
+                    {{ profile_form.image }}
+                    <button type="submit">Update</button>
+                </form>
+            </div>
+        </div>
+        <div class="3-content content-section hidden">
+            Order Section
+        </div>
+        <div class="4-content content-section hidden">
+            FAQ Section
         </div>
     </div>
 </div>
-
 {% endblock %}

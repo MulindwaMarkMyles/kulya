@@ -64,7 +64,30 @@ class BusinessAddProductsForm(forms.ModelForm):
             self.fields[field_name].widget.attrs['class'] = 'add-form-field'
         self.fields['description'].widget.attrs['required'] = True
 
-
-
-
+class ProfileForm(forms.ModelForm):
+    image = forms.ImageField()
+    
+    class Meta:
+        model = Profile
+        fields = ["image"]
+        
+    def __init__(self, *args, **kwargs):
+        super(ProfileForm, self).__init__(*args, **kwargs)
+        
+        self.fields["image"].widget.attrs["class"] = "form-field"
+        
+class UserUpdateForm(forms.ModelForm):
+    email = forms.EmailField(required=True)  # Email field
+    first_name = forms.CharField(required=True)  # First name field
+    last_name = forms.CharField(required=True)  # Last name field
+    
+    class Meta:
+        model = User
+        fields = ["email", "first_name", "last_name"]  
+        
+    def __init__(self, *args, **kwargs):
+        super(UserUpdateForm, self).__init__(*args, **kwargs)
+        
+        for field in self.fields:
+            self.fields[field].widget.attrs["class"] = "form-field"
 

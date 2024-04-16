@@ -415,7 +415,8 @@ p {
 .profile .main li:hover {
     background:#e0e0e058;
 }
-.profile .main a {
+.profile .main a,
+.profile .main span {
     color:#fff;
     font-size:14px;
     text-decoration: none;
@@ -423,8 +424,14 @@ p {
     align-items:center;
     gap:1.5rem;
     text-wrap:nowrap;
+    background: none!important;
 }
-.profile .main a span {
+.profile .main .active a,
+.profile .main .active span {
+    background: none!important;
+}
+.profile .main a,
+.profile .main span {
     overflow: hidden;
 }
 .profile .main--content {

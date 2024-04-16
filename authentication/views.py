@@ -12,15 +12,33 @@ from django.conf import settings
 def profile(request):
     data = cartData(request)
     cartItems = data["cartItems"]
-    profile_ = Profile.objects.filter(user=request.user).first()
     
+    if request.method == 'POST':
+        profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        user_form = UserUpdateForm(request.POST, instance=request.user)
+        
+        if profile_form.is_valid() and user_form.is_valid():
+            profile_form.save()
+            user_form.save()
+            customer = Customer.objects.filter(user=request.user).first()
+            customer.first_name = f"{user_form.cleaned_data.get('first_name')}"
+            customer.last_name = f"{user_form.cleaned_data.get('last_name')}"
+            customer.email = f"{user_form.cleaned_data.get('email')}"
+            
+            customer.save()
+            return redirect("profile")
+            
+    else: 
+        profile_form = ProfileForm(instance=request.user.profile)
+        user_form = UserUpdateForm(instance=request.user)
+
     context={
         'title':'PROFILE',
         'cartItems':cartItems,
-        'profile': profile_,
+        'profile_form': profile_form,
+        'user_form': user_form
         }
-    if profile_ is not None:
-        print(profile_.imageurl)
+    
     return render(request, "authentication/profile.html",context)  
 
 def login_user(request):

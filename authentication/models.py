@@ -33,7 +33,7 @@ class Profile(models.Model):
 
     # Override save method to rename image file
     def save(self, *args, **kwargs):
-        if self.image.name != "default-4.jpg":
+        if self.image.name != "default-4.jpg" and not self.id:
             self.image.name = rename_image(self, self.image.name)
         super().save(*args, **kwargs)
 
