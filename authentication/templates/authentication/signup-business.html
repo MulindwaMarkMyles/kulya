@@ -1,10 +1,11 @@
 {% extends 'shop/main.html' %} {% block content %}{% load static %}
 
+<link rel="stylesheet" href="{% static 'css/signup-b.css' %}">
 <div class="cont-r mar-100">
     <div class="log-cont">
         <hr>
         <!-- Login form -->
-        <form class="login-form" method="POST">
+        <form class="login-form" id="login-form" method="POST">
             <!-- CSRF token for security -->
             {% csrf_token %}
             <!-- Shop information section -->
@@ -16,7 +17,7 @@
                     <img src="{% static 'images/logo-2.jpg' %}" alt="">
                 </div>
                 <!-- Help text for sign-up -->
-                <div class="help-text">
+                <div class="help-text" id="help-text">
                     <!-- Guidelines for username and password -->
                     <span>- The username is required. It should be 150 characters or fewer. Letters, digits and @/./+/-/_ only.</span>
                     <span>- Your password can’t be too similar to your other personal information.</span>
@@ -25,11 +26,18 @@
                     <span>- Your password can’t be entirely numeric.</span>
                 </div>
                 <!-- Copyright information -->
-                <span>Copyright© SHOPPIE 2024. All Rights Reserved.</span>
+                <span id="Copyright">Copyright© SHOPPIE 2024. All Rights Reserved.</span>
             </div>
             <!-- Credentials section -->
             <div class="credentials">
                 <!-- Displaying non-field errors, if any -->
+                <div class="errors">
+                    {% if messages %}
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                    {% endif %}
+                </div>
                 {% if form.non_field_errors %}
                 <div class="errors">
                     {% for error in form.non_field_errors %}
@@ -51,5 +59,64 @@
         </form>
     </div>
 </div>
+<script>
+    var form = document.getElementById("login-form")
+    csrftoken = document.getElementsByTagName("input")[0].value
+    var credentials = document.getElementsByClassName("credentials")[0]
+    form.addEventListener("submit", (e) => {
+        e.preventDefault()
+        console.log("pressed submit button..")
+        submitData()
+    })
+    
+    function submitData() {
+        var url = "/auth/signup-b/"
+        var Data = {
+            business_name:form.business_name.value,
+            username:form.username.value,
+            first_name: form.first_name.value,
+            last_name: form.last_name.value,
+            email: form.email.value,
+            password1:form.password1.value,
+            password2:form.password2.value,
+        }
+        
+        fetch(url, {
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json",
+                "X-CSRFToken": csrftoken,
+            },
+            body:JSON.stringify({form: Data})
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data === "Business was not created..") {
+                console.log("Business was not created")
+                window.location.reload()
+            }
+            console.log("Successfully posted data.", Data)
+            credentials.innerHTML = `
+                <h3 style="display:block;text-align:center;"> Do you want to add products now?</h3 >
+                <div class="after-btns">
+                    <button class="btn-after">Yes, Add Products</button>
+                    <button class="btn-after">No, I'll do it Later</button>
+                </div>
+                `
+                var add = credentials.getElementsByTagName("button")[0]
+                var shop = credentials.getElementsByTagName("button")[1]
+                var helptext = document.getElementById("help-text")
+                var Copyright = document.getElementById("Copyright")
+                Copyright.style = "padding-left:20px;"
+                helptext.innerHTML = ""
+                add.addEventListener("click", () => {
+                    window.location.href = `/auth/add-products/`
+                })
+                shop.addEventListener("click", () => {
+                    window.location.href = "{% url 'shop' %}"
+                })
+        })
+    }
+</script>
 {% endblock %}
 

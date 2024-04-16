@@ -39,14 +39,12 @@
     <!-- Header section -->
     <section id="header">
         <!-- Logo and navigation -->
-        <a class="logo" >SHOPPIE</a>
+        <a class="logo" href="{% url 'home' %}">SHOPPIE</a>
         <div>
             <ul id="navbar">
                 <!-- Navigation links with active class based on title -->
-                <li><a {% if title == 'HOME' %} class="active" {% endif %} href="{% url 'home' %}" >Home</a></li>
                 <li><a {% if title == 'SHOP' %} class="active" {% endif %} href="{% url 'shop' %}" >Shop</a></li>
                 <li><a {% if title == 'PROFILE' %} class="active" {% endif %} href="{% url 'profile' %}">Profile</a></li>
-                <li><a {% if title == 'ABOUT' %} class="active" {% endif %} href="{% url 'about' %}">About Us</a></li>
                 {% if not request.user.is_authenticated %}<li><a href="{% url 'login' %}">Log in</a></li>{% endif %}
                 {% if title == 'SHOP' %}<li><a href="#" id="searchButton"><i class="fas fa-search"></i></a></li>{% endif %}
                 <!-- Cart icon with item count -->
