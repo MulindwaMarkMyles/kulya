@@ -260,3 +260,9 @@ def paymentfailed(request):
     data = cartData(request)
     cartItems = data["cartItems"]
     return render(request, "shop/paymentfailed.html", {"title":"PAYMENT FAILED", "cartItems": cartItems})
+
+def deleteOrder(request, pk):
+    # Delete order
+    order = Order.objects.filter(id=pk).first()
+    order.delete()
+    return redirect("profile")

@@ -389,7 +389,6 @@ p {
     overflow:hidden;
     transition:all 0.2s linear;
     background-color: #1d3a58;
-    z-index:3000;
 }
 .sidebar:hover {
     width:240px;
@@ -457,6 +456,9 @@ p {
 .profile .other {
     width:100%;
 }
+.profile .f-content .faq-section,
+.profile .o-content .order--container,
+.profile .p-content .user-information,
 .profile .card--container {
     background-color: #fff;
     padding:2rem;
@@ -512,6 +514,33 @@ p {
     font-size:18px;
     color:#777777;
     font-family: monospace;
+}
+
+.profile .p-content .user-information form {
+    display: flex;
+    justify-content: space-between;
+    align-items: left;
+    flex-direction: column;
+}
+.profile .p-content .user-information form input {
+    padding:10px;
+    border-radius:5px;
+    border:1px solid #00000088;
+    margin:10px 0;
+    outline:none;
+}
+.profile .p-content .user-information form button {
+    padding:10px;
+    border-radius:5px;
+    border:1px solid #00000088;
+    background-color: #1d3a58;
+    color:white;
+    cursor: pointer;
+    transition:all 0.2s linear;
+    width:fit-content
+}
+.profile .p-content .user-information form button:hover {
+    background-color: #000;
 }
 .light-red {
     background-color: rgb(254, 226, 254);
@@ -712,4 +741,16 @@ p {
     background-color: #e0e0e058;
     flex:1;
     padding:20px;
+}
+.order-c-btn {
+    padding:5px 10px;
+    border:1px solid #1d3a58;
+    background-color: transparent;
+    color:#1d3a58;
+    cursor: pointer;
+    transition:all 0.2s linear;
+}
+.order-c-btn:hover {
+    background-color: #1d3a58;
+    color:white;
 }

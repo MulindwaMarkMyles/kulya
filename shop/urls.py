@@ -12,6 +12,7 @@ urlpatterns = [
         path('about/', about, name="about"),
         path('category/<str:category_name>/', category, name="category"),
         path("payment-success/", paymentsuccessful, name="payment-success"),
-        path("payment-failed/", paymentfailed, name="payment-failure")
+        path("payment-failed/", paymentfailed, name="payment-failure"),
+        path("delete-order/<int:pk>/", deleteOrder, name="delete-order"),
 ]
 

@@ -66,6 +66,11 @@ class Order(models.Model):
         orderitems = self.orderitem_set.all()
         total = sum([item.get_total for item in orderitems])
         return total
+    
+    @property
+    def get_items_in_cart(self):
+        orderitems = self.orderitem_set.all()
+        return orderitems
 
     # Property to check if shipping is required for the order
     @property
@@ -89,7 +94,7 @@ class OrderItem(models.Model):
     product = models.ForeignKey(
         Product, on_delete=models.SET_NULL, null=True, blank=True  # Link to Product model
     )
-    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True, blank=True)  # Link to Order model
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True, blank=True)  # Link to Order model
     quantity = models.IntegerField(default=0)
     date_added = models.DateTimeField(auto_now_add=True)
 

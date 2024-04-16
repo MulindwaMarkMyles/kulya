@@ -5,8 +5,7 @@ from .models import *
 from .forms import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
-import json, os
-from django.conf import settings
+import json
 
 @login_required
 def profile(request):
@@ -28,15 +27,22 @@ def profile(request):
             customer.save()
             return redirect("profile")
             
-    else: 
+    else:
         profile_form = ProfileForm(instance=request.user.profile)
         user_form = UserUpdateForm(instance=request.user)
 
+    orders = Order.objects.filter(customer=request.user).order_by("-date_ordered")
+    real_list = []
+    for order in orders:
+        if order.transaction_id:
+            real_list.append(order)
+    
     context={
         'title':'PROFILE',
         'cartItems':cartItems,
         'profile_form': profile_form,
-        'user_form': user_form
+        'user_form': user_form,
+        'orders': real_list,
         }
     
     return render(request, "authentication/profile.html",context)  
