@@ -1,0 +1,22 @@
+{% extends 'Admin_dashboard/admin_page.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner Details</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/view_owner.css' %}"></link>
+</head>
+<body>
+    <div class="container">
+        <h1>Owner Details</h1>
+        <p><strong>Owner:</strong> {{ business.owner.get_full_name }}</p>
+        <p><strong>Email:</strong> {{ business.email }}</p>
+        <p><strong>Business Name:</strong> {{ business.business_name }}</p>
+
+    </div>
+</body>
+</html>
+{%endblock%}

@@ -23,8 +23,12 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("auth/",include("authentication.urls")),
     path("",include("shop.urls")),
+<<<<<<< HEAD
     path("Admin_dashboard", include("Admin_dashboard.urls")),
     path("payments/", include("paypal.standard.ipn.urls"), name="payments"),
+=======
+    path("Admin_dashboard/", include("Admin_dashboard.urls"))
+>>>>>>> eb7248ce013a0d8ae0721d515e468ec35078b0f3
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
