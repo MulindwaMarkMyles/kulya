@@ -31,6 +31,13 @@
             <!-- Credentials section -->
             <div class="credentials">
                 <!-- Displaying non-field errors, if any -->
+                <div class="errors">
+                    {% if messages %}
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                    {% endif %}
+                </div>
                 {% if form.non_field_errors %}
                 <div class="errors">
                     {% for error in form.non_field_errors %}
@@ -84,6 +91,10 @@
         })
         .then((response) => response.json())
         .then((data) => {
+            if (data === "Business was not created..") {
+                console.log("Business was not created")
+                window.location.reload()
+            }
             console.log("Successfully posted data.", Data)
             credentials.innerHTML = `
                 <h3 style="display:block;text-align:center;"> Do you want to add products now?</h3 >

@@ -28,7 +28,7 @@
         <div class="header--wrapper">
                 <!-- Header title -->
                 <div class="header--title">
-                    <span>Primary</span>
+                    <span>Primary | {{ the_user }}</span>
                     <h2>Dashboard</h2>
                 </div>
                 <!-- User information section -->
@@ -177,8 +177,13 @@
                                 <td>{{ order.complete }}</td>
                                 <td class="col">
                                     {% for item in order.get_items_in_cart %}
-                                        <p style="margin:0;padding:0">{{ item.product.name }} *{{ item.quantity }}</p>
-                                        Each at: {{ item.product.price }}
+                                        {% if item.product.owner == business_owner and the_user == "Business" %}
+                                            <p style="margin:0;padding:0">{{ item.product.name }} *{{ item.quantity }}</p>
+                                            Each at: {{ item.product.price }}
+                                        {% elif the_user == "Customer" %}
+                                            <p style="margin:0;padding:0">{{ item.product.name }} *{{ item.quantity }}</p>
+                                            Each at: {{ item.product.price }}
+                                        {% endif %}
                                     {% endfor %}
                                 </td>
                                 <td>{{ order.get_cart_total }}</td>

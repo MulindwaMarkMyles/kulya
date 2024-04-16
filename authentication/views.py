@@ -6,12 +6,31 @@ from .forms import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
 import json
+from django.contrib import messages
 
 @login_required
 def profile(request):
     data = cartData(request)
     cartItems = data["cartItems"]
-    
+    business_owner = ""
+
+    try:
+        the_user = Customer.objects.filter(user=request.user).first()
+        if len(Customer.objects.filter(user=request.user)) == 0:
+            raise ValueError
+        orders = Order.objects.filter(customer=request.user).order_by("-date_ordered")
+        the_user = "bustomer"
+
+    except Exception as e:
+        the_user = "Business"
+        business = Business.objects.filter(owner=request.user).first()
+        orderitems = OrderItem.objects.filter(product__owner=business).order_by("-date_added")
+        orders = []
+        for orderitem in orderitems:
+            orders.append(orderitem.order)
+        print(orders)
+        business_owner = business
+        
     if request.method == 'POST':
         profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
         user_form = UserUpdateForm(request.POST, instance=request.user)
@@ -31,7 +50,6 @@ def profile(request):
         profile_form = ProfileForm(instance=request.user.profile)
         user_form = UserUpdateForm(instance=request.user)
 
-    orders = Order.objects.filter(customer=request.user).order_by("-date_ordered")
     real_list = []
     for order in orders:
         if order.transaction_id:
@@ -43,6 +61,8 @@ def profile(request):
         'profile_form': profile_form,
         'user_form': user_form,
         'orders': real_list,
+        'the_user': the_user, 
+        'business_owner': business_owner
         }
     
     return render(request, "authentication/profile.html",context)  
@@ -116,6 +136,9 @@ def signup_business(request):
             Business.objects.create(owner=user,business_name=signup_data['form'].get("business_name"),first_name=user.first_name,last_name=user.last_name, email=user.email)
             Profile.objects.create(user=user)
             return JsonResponse("Business was created..", safe=False)
+        else:
+            messages.error(request, "There was an issue with those details, if you followed all instructions then that company is already registered.")
+            return JsonResponse("Business was not created..", safe=False)
     else:
         customer_form = CustomerRegisterForm()
         business_form = BusinessRegisterForm()
