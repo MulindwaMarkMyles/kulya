@@ -16,6 +16,7 @@ def profile(request):
     data = cartData(request)
     cartItems = data["cartItems"]
     business_owner = ""
+    products = []
 
     try:
         the_user = Customer.objects.filter(user=request.user).first()
@@ -27,11 +28,12 @@ def profile(request):
     except Exception as e:
         the_user = "Business"
         business = Business.objects.filter(owner=request.user).first()
+        products = Product.objects.filter(owner=business)
         orderitems = OrderItem.objects.filter(product__owner=business).order_by("-date_added")
         orders = []
         for orderitem in orderitems:
             orders.append(orderitem.order)
-        print(orders)
+        
         business_owner = business
         
     if request.method == 'POST':
@@ -48,7 +50,7 @@ def profile(request):
                 customer.email = f"{user_form.cleaned_data.get('email')}"
                 customer.save()
             except Exception as e:
-                business = Business.objects.filter(user=request.user).first()
+                business = Business.objects.filter(owner=request.user).first()
                 business.first_name = f"{user_form.cleaned_data.get('first_name')}"
                 business.last_name = f"{user_form.cleaned_data.get('last_name')}"
                 business.email = f"{user_form.cleaned_data.get('email')}"
@@ -73,7 +75,8 @@ def profile(request):
         'user_form': user_form,
         'orders': real_list,
         'the_user': the_user, 
-        'business_owner': business_owner
+        'business_owner': business_owner, 
+        'products': products
         }
     
     return render(request, "authentication/profile.html",context)  
