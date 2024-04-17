@@ -753,3 +753,56 @@ p {
     background-color: #1d3a58;
     color:white;
 }
+.profile .product--wrapper {
+    display:flex;
+    flex-direction: row;
+    gap:10px;
+    flex-wrap: wrap;
+    margin-bottom:20px;
+}
+.profile .product--wrapper .pro-container{
+    display:flex;
+    flex-direction: column;
+    gap:10px;
+    padding:10px;
+    border:1px solid #7777779d;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.149);
+}
+.profile .product--wrapper .pro-container .pro img {
+    width:200px;
+    height:200px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+.profile .product--wrapper .pro-container .star ,
+.profile .product--wrapper .pro-container .pro h4 {
+    margin:0;
+    padding:0;
+}
+.profile .product--wrapper .pro-container .btns button {
+    padding: 5px 10px;
+    border-radius:3px;
+    color:white;
+    border:none;
+    background-color: #1d3a58;
+    cursor:pointer;
+    transition: all 0.25s linear;
+    border-radius:3px;
+}
+
+.profile .product--wrapper .pro-container .btns button:hover {
+    background-color: #000;
+}
+.profile .card--container .add-btn {
+    text-decoration: none;
+    padding:5px 10px;
+    background-color: #1d3a58;
+    cursor: pointer;
+    transition:all 0.25s linear;
+    color:white;
+    border-radius:3px;
+}
+.profile .card--container .add-btn:hover {
+    background-color: #000;
+}

@@ -40,74 +40,46 @@
             <!-- Card container -->
             <div class="card--container">
                 <!-- Today's data title -->
-                <h3 class="main--title">Today's data</h3>
+                {% if the_user == "Business" %}
+                <h3 class="main--title"><i class="fas fa-box-open"></i> Products</h3>
                 <!-- Card wrapper -->
-                <div class="card--wrapper">
-                    <!-- Payment cards -->
-                    <!-- Each card represents a payment -->
-                    <!-- Example card (light-gold) -->
-                    <div class="payment--card light-gold">
-                        <!-- Card header -->
-                        <div class="card--header">
-                            <!-- Payment amount -->
-                            <div class="amount">
-                                <span class="title">Payment amount</span>
-                                <span class="amount-value">Shs.20000</span>
+                <div class="product--wrapper">
+                    {% for product in products %}
+                    <!-- Product Container -->
+                    <div class="pro-container">
+                        <div class="pro">
+                            <!-- Product Image -->
+                            <img class="thumbnail" src="{{ product.imageurl }}" alt="product image" />
+                            <div class="des">
+                                <!-- Product Category -->
+                                <span>{{ product.category }}</span>
+                                <!-- Product Name -->
+                                <h5>{{ product.name }}</h5>
                             </div>
-                            <!-- Dollar sign icon -->
-                            <i class="fas fa-dollar-sign icon"></i>
+                            <div class="star">
+                                {% if product.rating > 0.0 %}
+                                <!-- Display Star Rating -->
+                                {% for rating in range %} {% if product.rating > rating %}
+                                <i class="fas fa-star h"></i>
+                                {% endif %} {% endfor %} {% else %}
+                                <!-- Display Blank Star -->
+                                <i class="fas fa-star b"></i>
+                                {% endif %}
+                            </div>
+                            <!-- Product Price -->
+                            <h4>{{ product.price|floatformat:0 }}</h4>
                         </div>
-                        <!-- Card details -->
-                        <span class="card-detail">***** ***** ***** 3890</span>
+                        <div class="btns">
+                            <!-- View Product Button -->
+                            <a href="{% url 'view-product' product.id %}" class="view-btn">
+                                <button>View</button>
+                            </a>
+                        </div>
                     </div>
-                    <!-- Other payment cards with different colors and amounts -->
+                    {% endfor %}
                 </div>
-            </div>
-            <!-- Tabular data section -->
-            <div class="tabular--wrapper">
-                <!-- Finance data title -->
-                <h3 class="main--title">Finance data</h3>
-                <!-- Table container -->
-                <div class="table-container">
-                    <!-- Data table -->
-                    <table>
-                        <!-- Table header -->
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Transaction type</th>
-                                <th>Description</th>
-                                <th>Description</th>
-                                <th>Amount</th>
-                                <th>Category</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <!-- Table body -->
-                        <tbody>
-                            <!-- Example table row -->
-                            <tr>
-                                <td>2023-05-01</td>
-                                <td>Expenses</td>
-                                <td>Office Supplies</td>
-                                <td>This is new and great.</td>
-                                <td>Shs.100000</td>
-                                <td>Office</td>
-                                <td>Pending</td>
-                                <td><button>Cancel Order</button></td>
-                            </tr>
-                            <!-- Additional rows can be added here -->
-                        </tbody>
-                        <!-- Table footer -->
-                        <tfoot>
-                            <tr>
-                                <!-- Total amount -->
-                                <td colspan="8">Total: Shs.150000</td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
+                <a href="{% url 'add-products' %}" class="add-btn">Add Products</a>
+                {% endif %}
             </div>
         </div>
         <div class="p-content content-section hidden">
