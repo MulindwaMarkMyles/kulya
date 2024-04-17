@@ -41,12 +41,19 @@ def profile(request):
         if profile_form.is_valid() and user_form.is_valid():
             profile_form.save()
             user_form.save()
-            customer = Customer.objects.filter(user=request.user).first()
-            customer.first_name = f"{user_form.cleaned_data.get('first_name')}"
-            customer.last_name = f"{user_form.cleaned_data.get('last_name')}"
-            customer.email = f"{user_form.cleaned_data.get('email')}"
+            try:
+                customer = Customer.objects.filter(user=request.user).first()
+                customer.first_name = f"{user_form.cleaned_data.get('first_name')}"
+                customer.last_name = f"{user_form.cleaned_data.get('last_name')}"
+                customer.email = f"{user_form.cleaned_data.get('email')}"
+                customer.save()
+            except Exception as e:
+                business = Business.objects.filter(user=request.user).first()
+                business.first_name = f"{user_form.cleaned_data.get('first_name')}"
+                business.last_name = f"{user_form.cleaned_data.get('last_name')}"
+                business.email = f"{user_form.cleaned_data.get('email')}"
+                business.save()
             
-            customer.save()
             return redirect("profile")
             
     else:
