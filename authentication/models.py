@@ -3,10 +3,6 @@ from django.contrib.auth.models import User
 from PIL import Image
 import os, uuid
 
-import os
-import uuid
-from django.db import models
-from django.contrib.auth.models import User
 
 # Function to rename uploaded image files
 def rename_image(instance, form_picture):
