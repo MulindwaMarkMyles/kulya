@@ -327,7 +327,11 @@ footer {
     color:#1a1a1a;
 }
 .copyright {
-    text-align:center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding:10px;
     padding-bottom:50px;
 }
 .copyright p {

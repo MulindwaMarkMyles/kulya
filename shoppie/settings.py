@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     "shop",
     "authentication",
     "corsheaders",
-    "Admin_dashboard"
+    "Admin_dashboard",
+    "paypal.standard.ipn",
 ]
 
 MIDDLEWARE = [
@@ -135,9 +136,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 LOGIN_URL = 'login'
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://b29a-102-134-149-110.ngrok-free.app'
+    'https://b29a-102-134-149-110.ngrok-free.app',
+    'https://d08e-102-134-149-110.ngrok-free.app'
 ]
 CORS_ORIGIN_WHITELIST = [
     'https://b29a-102-134-149-110.ngrok-free.app',
+    'https://d08e-102-134-149-110.ngrok-free.app'
 ]
+
+PAYPAL_RECEIVER_EMAIL = "sb-tnha4329824448@business.example.com"
+PAYPAL_TEST = True
 

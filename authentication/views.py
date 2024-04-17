@@ -1,9 +1,12 @@
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from shop.utilities import cartData
 from .models import *
-from.forms import *
+from .forms import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
+import json
+from django.contrib import messages
 
 
 # View for displaying user profile
@@ -12,22 +15,71 @@ def profile(request):
     # Fetch cart data for the user
     data = cartData(request)
     cartItems = data["cartItems"]
-    # Get the user's profile
-    profile_ = Profile.objects.filter(user=request.user).first()
+    business_owner = ""
+    products = []
+
+    try:
+        the_user = Customer.objects.filter(user=request.user).first()
+        if len(Customer.objects.filter(user=request.user)) == 0:
+            raise ValueError
+        orders = Order.objects.filter(customer=request.user).order_by("-date_ordered")
+        the_user = "Customer"
+
+    except Exception as e:
+        the_user = "Business"
+        business = Business.objects.filter(owner=request.user).first()
+        products = Product.objects.filter(owner=business)
+        orderitems = OrderItem.objects.filter(product__owner=business).order_by("-date_added")
+        orders = []
+        for orderitem in orderitems:
+            orders.append(orderitem.order)
+        
+        business_owner = business
+        
+    if request.method == 'POST':
+        profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        user_form = UserUpdateForm(request.POST, instance=request.user)
+        
+        if profile_form.is_valid() and user_form.is_valid():
+            profile_form.save()
+            user_form.save()
+            try:
+                customer = Customer.objects.filter(user=request.user).first()
+                customer.first_name = f"{user_form.cleaned_data.get('first_name')}"
+                customer.last_name = f"{user_form.cleaned_data.get('last_name')}"
+                customer.email = f"{user_form.cleaned_data.get('email')}"
+                customer.save()
+            except Exception as e:
+                business = Business.objects.filter(owner=request.user).first()
+                business.first_name = f"{user_form.cleaned_data.get('first_name')}"
+                business.last_name = f"{user_form.cleaned_data.get('last_name')}"
+                business.email = f"{user_form.cleaned_data.get('email')}"
+                business.save()
+            
+            return redirect("profile")
+            
+    else:
+        profile_form = ProfileForm(instance=request.user.profile)
+        user_form = UserUpdateForm(instance=request.user)
+
+    real_list = []
+    for order in orders:
+        if order.transaction_id:
+            real_list.append(order)
     
     # Context for rendering the profile page
     context={
         'title':'PROFILE',
         'cartItems':cartItems,
-        'profile': profile_,
+        'profile_form': profile_form,
+        'user_form': user_form,
+        'orders': real_list,
+        'the_user': the_user, 
+        'business_owner': business_owner, 
+        'products': products
         }
     
-    # Check if the user has a profile and print the profile image URL
-    if profile_ is not None:
-        print(profile_.imageurl)
-    
-    # Render the profile page
-    return render(request, "authentication/profile.html", context)  
+    return render(request, "authentication/profile.html",context)  
 
 # View for handling user login
 def login_user(request):
@@ -99,22 +151,26 @@ def signup_user(request):
 
 # View for handling business signup
 def signup_business(request):
-    # Fetch cart data for the user
+    try:
+        signup_data = json.loads(request.body)
+    except:
+        signup_data = {}
     data = cartData(request)
     cartItems = data["cartItems"]
     
-    # If the request method is POST (form submission)
-    if request.method == 'POST':
-        customer_form = CustomerRegisterForm(request.POST)
-        business_form = BusinessRegisterForm(request.POST)
+    if signup_data:
+        customer_form = CustomerRegisterForm(signup_data['form'])
+        business_form = BusinessRegisterForm(signup_data['form'])
         if customer_form.is_valid() and business_form.is_valid():
             # Save user registration forms
             customer_form.save()
-            user = User.objects.filter(username=request.POST.get("username")).first()
-            # Create a corresponding business profile
-            Business.objects.create(owner=user,business_name=request.POST.get("business_name"),first_name=user.first_name,last_name=user.last_name, email=user.email)
+            user  = User.objects.filter(username=signup_data['form'].get("username")).first()
+            Business.objects.create(owner=user,business_name=signup_data['form'].get("business_name"),first_name=user.first_name,last_name=user.last_name, email=user.email)
             Profile.objects.create(user=user)
-            return redirect("login")
+            return JsonResponse("Business was created..", safe=False)
+        else:
+            messages.error(request, "There was an issue with those details, if you followed all instructions then that company is already registered.")
+            return JsonResponse("Business was not created..", safe=False)
     else:
         customer_form = CustomerRegisterForm()
         business_form = BusinessRegisterForm()
@@ -136,6 +192,29 @@ def logout_u(request):
     logout(request)
     return redirect("home")
 
+@login_required
+def add_products(request):
+    data = cartData(request)
+    cartItems = data["cartItems"]
+    
+    if request.method == 'POST':
+        form = BusinessAddProductsForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            product = Product.objects.filter(name=request.POST.get("name"), price=request.POST.get("price"), description=request.POST.get("description"), category=request.POST.get("category")).first()
+            business = Business.objects.filter(owner=request.user).first()
+            product.owner = business
+            product.save()
+            return redirect("shop")
+    else:
+        form = BusinessAddProductsForm()
+        
+    context={
+        'title':'ADD PRODUCTS',
+        'cartItems':cartItems,
+        'form':form
+        }
+    return render(request, "authentication/add-products.html", context)
 # View for rendering terms and conditions page
 def terms_conditions(request):
     # Fetch cart data for the user
