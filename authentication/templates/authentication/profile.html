@@ -80,6 +80,49 @@
                 </div>
                 <a href="{% url 'add-products' %}" class="add-btn">Add Products</a>
                 {% endif %}
+                {% if the_user == "Customer" %}
+                <div class="order--wrapper">
+                    <table>
+                        <!-- Table header -->
+                        <thead>
+                            <tr>
+                                <th>Transaction ID</th>
+                                <th>Date Ordered</th>
+                                <th>Complete</th>
+                                <th>Items</th>
+                                <th>Total</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <!-- Table body -->
+                        {% if first_order != 0 %}
+                        <tbody>
+                            <!-- Example table row -->
+                            <tr>
+                                <td>{{ first_order.transaction_id }}</td>
+                                <td>{{ first_order.date_ordered }}</td>
+                                <td>{{ first_order.complete }}</td>
+                                <td class="col">
+                                    {% for item in first_order.get_items_in_cart %}
+                                    {% if item.product.owner == business_owner and the_user == "Business" %}
+                                    <p style="margin:0;padding:0">{{ item.product.name }} *{{ item.quantity }}</p>
+                                    Each at: {{ item.product.price }}
+                                    {% elif the_user == "Customer" %}
+                                    <p style="margin:0;padding:0">{{ item.product.name }} *{{ item.quantity }}</p>
+                                    Each at: {{ item.product.price }}
+                                    {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td>{{ first_order.get_cart_total }}</td>
+                                <td><a href="{% url 'delete-order' first_order.pk %}"><button class="order-c-btn" type="button">Cancel
+                                            Order</button></a></td>
+                            </tr>
+                            <!-- Additional rows can be added here -->
+                        </tbody>
+                        {% endif %}
+                    </table>
+                </div>
+                {% endif %}
             </div>
         </div>
         <div class="p-content content-section hidden">
@@ -159,7 +202,12 @@
                                     {% endfor %}
                                 </td>
                                 <td>{{ order.get_cart_total }}</td>
+                                {% if order.complete == False %}
                                 <td><a href="{% url 'delete-order' order.pk %}"><button class="order-c-btn" type="button">Cancel Order</button></a></td>
+                                {% endif %}
+                                {% if order.complete == True %}
+                                <td style="text-align: center;"><i class="far fa-check"></i></td>
+                                {% endif %}
                             </tr>
                             {% endfor %}
                             <!-- Additional rows can be added here -->

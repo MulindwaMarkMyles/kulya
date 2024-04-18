@@ -11,6 +11,8 @@ from django.contrib.auth.decorators import login_required
 from .forms import *
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
+import threading, time
+from .management.commands.delete_orders import DeleteNullOrders
 
 #Shop view using a rest api
 class ShopView(APIView):
@@ -266,3 +268,12 @@ def deleteOrder(request, pk):
     order = Order.objects.filter(id=pk).first()
     order.delete()
     return redirect("profile")
+
+def delete_null_orders_thread():
+    while True:
+        order_thread = threading.Thread(target=DeleteNullOrders.null_orders)
+        order_thread.start()
+        print("Order deletion started...")
+        time.sleep(6 * 60 * 60)
+        
+threading.Thread(target=delete_null_orders_thread, daemon=True).start()

@@ -32,7 +32,8 @@ def profile(request):
         orderitems = OrderItem.objects.filter(product__owner=business).order_by("-date_added")
         orders = []
         for orderitem in orderitems:
-            orders.append(orderitem.order)
+            if orderitem.order not in orders:
+                orders.append(orderitem.order)
         
         business_owner = business
         
@@ -62,10 +63,6 @@ def profile(request):
         profile_form = ProfileForm(instance=request.user.profile)
         user_form = UserUpdateForm(instance=request.user)
 
-    real_list = []
-    for order in orders:
-        if order.transaction_id:
-            real_list.append(order)
     
     # Context for rendering the profile page
     context={
@@ -73,12 +70,13 @@ def profile(request):
         'cartItems':cartItems,
         'profile_form': profile_form,
         'user_form': user_form,
-        'orders': real_list,
+        'orders': orders,
         'the_user': the_user, 
         'business_owner': business_owner, 
-        'products': products
+        'products': products, 
+        'first_order': orders[0] if orders else 0
         }
-    
+    print(orders)
     return render(request, "authentication/profile.html",context)  
 
 # View for handling user login
