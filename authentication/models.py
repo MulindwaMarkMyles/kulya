@@ -4,6 +4,7 @@ from PIL import Image
 import os, uuid
 
 
+
 # Function to rename uploaded image files
 def rename_image(instance, form_picture):
     _, f_ext = os.path.splitext(form_picture)
@@ -39,6 +40,9 @@ class Customer(models.Model):
     first_name = models.CharField(max_length=300, null=True)  # First name field
     last_name = models.CharField(max_length=300, null=True)  # Last name field
     email = models.EmailField()  # Email field
+    verified = models.BooleanField(default=False)
+    date_joined = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+
 
     # Property to get the full name of the customer
     @property
@@ -55,9 +59,15 @@ class Business(models.Model):
     last_name = models.CharField(max_length=300, null=True)  # Last name field
     business_name = models.CharField(max_length=300, null=True)  # Business name field
     email = models.EmailField()  # Email field
+    verified = models.BooleanField(default=False)
+    date_joined = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+
 
     def __str__(self):
         return f"{self.business_name}"  # String representation of the business
+        
+
+
 
 
 

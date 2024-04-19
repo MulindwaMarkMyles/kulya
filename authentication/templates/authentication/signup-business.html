@@ -1,8 +1,9 @@
 {% extends 'shop/main.html' %} {% block content %}{% load static %}
 
 <link rel="stylesheet" href="{% static 'css/signup-b.css' %}">
+<link rel="stylesheet" href="{% static 'css/signup-mods.css' %}">
 <div class="cont-r mar-100">
-    <div class="log-cont">
+    <div class="log-cont" id="login-cont">
         <hr>
         <!-- Login form -->
         <form class="login-form" id="login-form" method="POST">
@@ -71,6 +72,8 @@
     
     function submitData() {
         var url = "/auth/signup-b/"
+        var username = form.username.value
+        
         var Data = {
             business_name:form.business_name.value,
             username:form.username.value,
@@ -91,32 +94,71 @@
         })
         .then((response) => response.json())
         .then((data) => {
-            if (data === "Business was not created..") {
-                console.log("Business was not created")
-                window.location.reload()
-            }
-            console.log("Successfully posted data.", Data)
-            credentials.innerHTML = `
-                <h3 style="display:block;text-align:center;"> Do you want to add products now?</h3 >
-                <div class="after-btns">
-                    <button class="btn-after">Yes, Add Products</button>
-                    <button class="btn-after">No, I'll do it Later</button>
-                </div>
-                `
-                var add = credentials.getElementsByTagName("button")[0]
-                var shop = credentials.getElementsByTagName("button")[1]
-                var helptext = document.getElementById("help-text")
-                var Copyright = document.getElementById("Copyright")
-                Copyright.style = "padding-left:20px;"
-                helptext.innerHTML = ""
-                add.addEventListener("click", () => {
-                    window.location.href = `/auth/add-products/`
+            if (data['1'] === "SENT") {
+                console.log("Message was sent.")
+                const timeInMIlliseconds = 5 * 60 * 1000
+                setTimeout(() => {
+                    window.location.reload()
+                }, timeInMIlliseconds)
+                var cont = document.getElementById("login-cont")
+                cont.innerHTML = `
+                            <hr>
+                            <div id="token">
+                                <form method="POST" id="token-form">
+                                    <p>Enter the token you were given.</p>
+                                    <div>
+                                        <input type="text" name="token">
+                                        <button type="submit">Create Account</button>
+                                    </div>
+                                </form>
+                            </div>
+                        `
+                var token_form = document.getElementById("token-form")
+                var count = 0
+                token_form.addEventListener("submit", (e) => {
+                    e.preventDefault()
+                    if (token_form.token.value === data["token"]) {
+                        url = `/auth/verify/${username}/`
+                        fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ username: username })
+                        })
+                            .then((response) => response.json())
+                            .then((data) => {
+                                if (data != "Done verifying.") {
+                                    alert("Something went wrong, please try again.")
+                                    console.log("something isn't right.")
+                                    window.location.reload()
+                                }
+                            })
+                            cont.innerHTML = `
+                                <hr>
+                                <h3 style="display:block;text-align:center;"> Do you want to add products now?</h3 >
+                                <div class="after-btns">
+                                    <button class="btn-after"><a href="/auth/add-products/" style="text-decoration:none;color:black;">Yes, Add Products</a></button>
+                                    <button class="btn-after"><a href="/shop/" style="text-decoration:none;color:black;">No, I'll do it later.</a></button>
+                                </div>
+                                `
+                    }
+                    else {
+                        alert("The token entered isn't right please try again.")
+                        count++
+                        console.log(count)
+                        if (count >= 6) {
+                            window.location.href = "{% url 'login' %}"
+                        }
+                    }
                 })
-                shop.addEventListener("click", () => {
-                    window.location.href = "{% url 'shop' %}"
-                })
-        })
-    }
+            } else {
+                    console.log("something happen.")
+                    alert("Something happen please try again later.")
+                    window.location.reload()
+                }
+            })
+        }
 </script>
 {% endblock %}
 

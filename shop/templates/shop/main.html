@@ -50,11 +50,13 @@
                 {% if not request.user.is_authenticated %}<li><a href="{% url 'login' %}">Log in</a></li>{% endif %}
                 {% if title == 'SHOP' %}<li><a href="#" id="searchButton"><i class="fas fa-search"></i></a></li>{% endif %}
                 <!-- Cart icon with item count -->
+                {% if title != "PASSWORD" %}
                 <li><a {% if title == 'CART' or title == 'CHECKOUT' %} class="active" {% endif %} href="{% url 'cart' %}">
                     <i class="icon far fa-shopping-bag">
                         <span id="cart-total">{{ cartItems }}</span>
                     </i>
                 </a></li>
+                {% endif %}
             </ul>
         </div>
     </section>

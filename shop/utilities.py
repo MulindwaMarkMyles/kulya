@@ -1,7 +1,10 @@
 import json
 from .models import *
 from authentication.models import *
-
+from django.conf import settings
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 # Function to rename the image file
 def rename_image(instance, form_picture):
@@ -92,3 +95,36 @@ def guestOrder(request, data):
     return customer, order
 
 
+sender_email = settings.EMAIL_HOST_USER
+sender_password = settings.EMAIL_HOST_PASSWORD
+
+def send_message(first_name, recipient_email, token):
+        message = MIMEMultipart()
+        message['From'] = sender_email
+        message['To'] = recipient_email
+        message['Subject']  = "SIGNUP | SHOPPIE"
+        
+        body = f"""
+        Warm Greetings {first_name},
+        Please use this as as your login token:
+        
+        
+                        {token}
+                        
+
+        THE SHOPPIE TEAM WELCOMES YOU🎊
+        
+        If this was not by you please ignore this.
+        """
+        message.attach(MIMEText(body, "plain"))
+        
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
+        
+        server.login(sender_email, sender_password)
+        
+        server.sendmail(sender_email, recipient_email, message.as_string())
+        
+        server.quit()
+        
+        return 1

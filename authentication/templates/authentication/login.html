@@ -41,7 +41,10 @@
         <h3>{{ form.password.label }}</h3>
         {{ form.password }}
         <!-- Submit button -->
-        <input type="submit" value="Log In" class="btn-sub" />
+        <div class="btns">
+            <input type="submit" value="Log In" class="btn-sub" />
+            <a href="{% url 'password_reset' %}" style="padding-left:20px;">Forgot Password</a>
+        </div>
         <!-- Sign up links -->
         <div class="signup-link">
           <p>Don't have an account? Sign Up Below...</p>

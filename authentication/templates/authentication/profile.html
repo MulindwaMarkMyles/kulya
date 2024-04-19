@@ -150,7 +150,10 @@
                     {{ user_form.email }}
                     {{ profile_form.image.label }}
                     {{ profile_form.image }}
-                    <button type="submit">Update</button>
+                    <div class="btns">
+                        <button type="submit">Update</button>
+                        <a href="{% url 'password_reset' %}" style="padding-left: 20px;">Reset Password.</a>
+                    </div>
                 </form>
             </div>
         </div>
