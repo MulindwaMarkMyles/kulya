@@ -163,7 +163,7 @@ def signup_user(request):
         signup_data = {}
     
     # If the request method is POST (form submission)
-   
+    print(signup_data)
     if signup_data:
         form = CustomerRegisterForm(signup_data["form"])
         if form.is_valid():
@@ -179,6 +179,9 @@ def signup_user(request):
                 Profile.objects.create(user=user)
                 return JsonResponse({"1":"SENT", "token":token}, safe=False)
             else:
+                user  = User.objects.filter(username=signup_data['form'].get("username")).first()
+                if user.count() == 1:
+                    user.delete()
                 messages.error(request, "Something happen please try again later.")
                 return JsonResponse("NOT SENT.", safe=False)
                 
@@ -187,7 +190,7 @@ def signup_user(request):
             if user.count() == 1:
                 user.first().delete()
             form.add_error(None, "Please check those entries.")
-            return JsonResponse("NOT SENT.", safe=False)
+            return JsonResponse("Something happen", safe=False)
 
     else:
         form = CustomerRegisterForm()
@@ -212,6 +215,8 @@ def signup_business(request):
     data = cartData(request)
     cartItems = data["cartItems"]
     
+    print(signup_data)
+    
     if signup_data:
         customer_form = CustomerRegisterForm(signup_data['form'])
         business_form = BusinessRegisterForm(signup_data['form'])
@@ -219,6 +224,8 @@ def signup_business(request):
             # Save user registration forms
             customer_form.save()
             user  = User.objects.filter(username=signup_data['form'].get("username")).first()
+            delete_thread = threading.Thread(target=delete_unverified_user, args=(user, ), daemon=True)
+            delete_thread.start()
             business = Business.objects.create(owner=user,business_name=signup_data['form'].get("business_name"),first_name=user.first_name,last_name=user.last_name, email=user.email)
             token = uuid.uuid4()
             Profile.objects.create(user=user)
@@ -226,6 +233,9 @@ def signup_business(request):
             if send_message(business.first_name, business.email, token):
                 return JsonResponse({"1":"SENT", "token":token}, safe=False)
             else:
+                user  = User.objects.filter(username=signup_data['form'].get("username")).first()
+                if user.count() == 1:
+                    user.delete()
                 messages.error(request, "Something happen please try again later.")
                 return JsonResponse("NOT SENT.", safe=False)
         else:
