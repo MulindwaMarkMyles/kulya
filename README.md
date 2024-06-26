@@ -1,4 +1,4 @@
-# SHOPPIE
+# degroceries
 
 ## Functional Specification
 
@@ -9,19 +9,19 @@ This web platform aims to connect customers to basic necessities and needs all a
 ### User Roles
 
 1. _Guest User:_
-    - Can browse products.
-    - Can register or log in.
+   - Can browse products.
+   - Can register or log in.
 2. _- Registered User(Customer):_
-    - Inherits guest user privileges.
-    - Can add/remove products to/from the shopping cart.
-    - Can place orders.
+   - Inherits guest user privileges.
+   - Can add/remove products to/from the shopping cart.
+   - Can place orders.
 3. _Registered User(Business):_
-    - Inherits guest user privileges and registered user privileges for a customer.
-    - Can setup, manage, and maintain online stores on the web platform.
+   - Inherits guest user privileges and registered user privileges for a customer.
+   - Can setup, manage, and maintain online stores on the web platform.
 4. _Admin User:_
-    - Inherits registered user privileges.
-    - Can add/update/remove products and also online stores
-    - Can manage user accounts and orders
+   - Inherits registered user privileges.
+   - Can add/update/remove products and also online stores
+   - Can manage user accounts and orders
 
 ### Features
 
@@ -55,7 +55,7 @@ This web platform aims to connect customers to basic necessities and needs all a
     - Bootstrap for responsive design.
 3.  _Database:_
     - PostgreSQL or MySQL for data storage.
-    • Authentication:
+      • Authentication:
     - Django's built-in authentication system.
 4.  _Misc:_
     - Payment Integration like: Stripe API

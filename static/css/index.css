@@ -27,19 +27,19 @@
     flex-direction: column;
 }
 #banner p {
-    color:rgb(197, 168, 3);
+    color:darkgreen;
 }
 #banner h2,
 #banner h4 {
     padding-bottom: 15px;
-    color:rgb(197, 168, 3);
+    color:darkgreen;
 }
 #banner h1 {
-    color: #fff;
+    color: #000;
 }
 #banner button {
     background-color:transparent;
-    color: #fff;
+    color: #000;
     border:none;
     padding: 14px 80px 14px 65px;
     background-repeat: no-repeat;
@@ -95,7 +95,7 @@
 }
 #categories {
     scrollbar-width: thin;
-    scrollbar-color: #0B2027 #6060637C;
+    scrollbar-color: #3F6C51 #6060637C;
 }
 #categories a {
     text-decoration: none;
@@ -103,7 +103,7 @@
 #categories a button {
     padding:5px 10px;
     border:none;
-    background-color: #cdd4f8;
+    background-color: #e3e5eb;
     color:#088178;
     font-size:17px;
     font-weight: 600;
@@ -291,7 +291,7 @@ button.white {
     font-size:15px;
 }
 footer {
-    background-color: #1d3a58;
+    background-color: #3F6C51;
 }
 .footer {
     display:flex;
@@ -351,7 +351,7 @@ footer {
 .footer a button {
     background-color: #fff;
     border:1px solid #fff;
-    color: #1d3a58;
+    color: #3F6C51;
     padding:7px 10px;
     cursor: pointer;
     transition:all linear 0.2s;

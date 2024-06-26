@@ -71,7 +71,7 @@ p {
     align-items:center;
     justify-content: space-between;
     padding:10px 50px;
-    background-color: #1d3a58;
+    background-color: #3F6C51;
     box-shadow:0 5px 15px rgba(0,0,0,0.1);
     z-index:1000;
     position:fixed;
@@ -215,7 +215,7 @@ p {
 #make-payment,
 .btn {
     padding:5px 10px;
-    border:1px solid #1d3a58;
+    border:1px solid #3F6C51;
     color:#222;
     text-decoration: none;
     border-radius:5px;
@@ -230,7 +230,7 @@ p {
     font-size:15px;
 }
 .btn-success:hover{
-    background-color: #1d3a58;
+    background-color: #3F6C51;
     color:azure;
 }
 .top {
@@ -313,12 +313,12 @@ p {
     margin-bottom:10px;
 }
 #make-payment.active {
-    background-color: #1d3a58;
+    background-color: #3F6C51;
     color:white;
 }
 .searchbar {
     position: absolute;
-    background-color: #1d3a58;
+    background-color: #3F6C51;
     width:100%;
     top:0px;
     z-index:2000;
@@ -387,11 +387,22 @@ p {
     color:#fff;
     overflow:hidden;
     transition:all 0.2s linear;
-    background-color: #1d3a58;
+    background-color: #3F6C51;
 }
 .sidebar:hover {
     width:240px;
 }
+.profile .messages-wrapper {
+    box-shadow: 0 0px 20px rgba(0, 0, 0, 0.15);
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    width:100%;
+    padding: 10px 10px 10px 10px;
+    background-color: rgb(186, 216, 186);
+    color: green;
+    border: 1px solid green;
+}
+
 .profile .logo {
     height:80px;
     padding:16px;
@@ -532,7 +543,7 @@ p {
     padding:10px;
     border-radius:5px;
     border:1px solid #00000088;
-    background-color: #1d3a58;
+    background-color: #3F6C51;
     color:white;
     cursor: pointer;
     transition:all 0.2s linear;
@@ -578,7 +589,7 @@ p {
 }
 .profile table thead {
     color:#fff;
-    background-color: #1d3a58;
+    background-color: #3F6C51;
     border: 1px solid #000;
 }
 
@@ -602,15 +613,15 @@ p {
     padding:15px;
 }
 .table-container button {
-    color:#1d3a58;
+    color:#3F6C51;
     background-color: transparent;
     cursor: pointer;
     padding:7px 10px;
-    border:1px solid #1d3a58;
+    border:1px solid #3F6C51;
     transition:all 0.2s ease-in-out;
 }
 .table-container button:hover {
-    background-color: #1d3a58;
+    background-color: #3F6C51;
     color:white;
 }
 .cont-f {
@@ -643,7 +654,7 @@ p {
 .login-form .messages .info {
     padding:10px;
     border-radius: 5px;
-    background-color: #1d3a58;
+    background-color: #3F6C51;
     color:white;
     margin-bottom:10px;
 }
@@ -697,7 +708,7 @@ p {
 }
 .credentials .btn-sub:hover {
     color:white;
-    background-color: #1d3a58;
+    background-color: #3F6C51;
 }
 .shop-info .help-text {
     display:flex;
@@ -720,7 +731,7 @@ p {
 .signup-btn {
     text-decoration: none;
     padding:5px 10px;
-    background-color: #1d3a58;
+    background-color: #3F6C51;
     color:#fff;
     font-size:14px;
     cursor: pointer;
@@ -743,14 +754,14 @@ p {
 }
 .order-c-btn {
     padding:5px 10px;
-    border:1px solid #1d3a58;
+    border:1px solid #3F6C51;
     background-color: transparent;
-    color:#1d3a58;
+    color:#3F6C51;
     cursor: pointer;
     transition:all 0.2s linear;
 }
 .order-c-btn:hover {
-    background-color: #1d3a58;
+    background-color: #3F6C51;
     color:white;
 }
 .profile .product--wrapper {
@@ -785,7 +796,7 @@ p {
     border-radius:3px;
     color:white;
     border:none;
-    background-color: #1d3a58;
+    background-color: #3F6C51;
     cursor:pointer;
     transition: all 0.25s linear;
     border-radius:3px;
@@ -797,7 +808,7 @@ p {
 .profile .card--container .add-btn {
     text-decoration: none;
     padding:5px 10px;
-    background-color: #1d3a58;
+    background-color: #3F6C51;
     cursor: pointer;
     transition:all 0.25s linear;
     color:white;
@@ -805,4 +816,26 @@ p {
 }
 .profile .card--container .add-btn:hover {
     background-color: #000;
+}
+.messages li{
+    list-style: none;
+}
+.success {
+    padding: 10px 0 10px 10px;
+    margin: 10px 0;
+    background-color: rgb(186, 216, 186);
+    color: green;
+    border: 1px solid green;
+}
+.messages-shop small {
+    padding: 10px 10px 10px 10px;
+    margin: 10px 0;
+    background-color: rgb(186, 216, 186);
+    color: green;
+    border: 1px solid green;
+    position:fixed;
+    top:70px;
+    right:50px;
+    z-index:2000;
+    border-radius: 5px;
 }

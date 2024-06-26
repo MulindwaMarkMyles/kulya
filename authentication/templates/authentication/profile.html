@@ -14,18 +14,25 @@
             <!-- Profile link -->
             <li id="link" class="profile"><span><i class="fas fa-user"></i>Profile</span></li>
             <!-- Orders link -->
-            <li id="link" class="orders"><span ><i class="fas fa-briefcase"></i>Orders</span></li>
+            <li id="link" class="orders"><span><i class="fas fa-briefcase"></i>Orders</span></li>
             <!-- FAQ link -->
             <li id="link" class="faq"><span><i class="fas fa-question-circle"></i>FAQ</span></li>
             <!-- Log out link -->
-            <li ><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i>Log Out</a></li>
+            <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i>Log Out</a></li>
         </ul>
     </div>
     <!-- Main content section -->
     <div class="main--content">
         <div class="1-content content-section">
-        <!-- Header wrapper -->
-        <div class="header--wrapper">
+            <!-- Header wrapper -->
+            {% if message %}
+            <div class="messages-wrapper">
+                {% for message in messages %}
+                <small>{{ message }}</small>
+                {% endfor %}
+            </div>
+            {% endif %}
+            <div class="header--wrapper">
                 <!-- Header title -->
                 <div class="header--title">
                     <span>Primary | {{ the_user }}</span>
@@ -74,6 +81,10 @@
                             <a href="{% url 'view-product' product.id %}" class="view-btn">
                                 <button>View</button>
                             </a>
+                            <a href="{% url 'delete-product' product.id %}" class="view-btn"
+                                style="background-color: rgba(255, 0, 0, 0.438);">
+                                <button>Delete</button>
+                            </a>
                         </div>
                     </div>
                     {% endfor %}
@@ -114,7 +125,8 @@
                                     {% endfor %}
                                 </td>
                                 <td>{{ first_order.get_cart_total }}</td>
-                                <td><a href="{% url 'delete-order' first_order.pk %}"><button class="order-c-btn" type="button">Cancel
+                                <td><a href="{% url 'delete-order' first_order.pk %}"><button class="order-c-btn"
+                                            type="button">Cancel
                                             Order</button></a></td>
                             </tr>
                             <!-- Additional rows can be added here -->
@@ -195,18 +207,19 @@
                                 <td>{{ order.complete }}</td>
                                 <td class="col">
                                     {% for item in order.get_items_in_cart %}
-                                        {% if item.product.owner == business_owner and the_user == "Business" %}
-                                            <p style="margin:0;padding:0">{{ item.product.name }} *{{ item.quantity }}</p>
-                                            Each at: {{ item.product.price }}
-                                        {% elif the_user == "Customer" %}
-                                            <p style="margin:0;padding:0">{{ item.product.name }} *{{ item.quantity }}</p>
-                                            Each at: {{ item.product.price }}
-                                        {% endif %}
+                                    {% if item.product.owner == business_owner and the_user == "Business" %}
+                                    <p style="margin:0;padding:0">{{ item.product.name }} *{{ item.quantity }}</p>
+                                    Each at: {{ item.product.price }}
+                                    {% elif the_user == "Customer" %}
+                                    <p style="margin:0;padding:0">{{ item.product.name }} *{{ item.quantity }}</p>
+                                    Each at: {{ item.product.price }}
+                                    {% endif %}
                                     {% endfor %}
                                 </td>
                                 <td>{{ order.get_cart_total }}</td>
                                 {% if order.complete == False %}
-                                <td><a href="{% url 'delete-order' order.pk %}"><button class="order-c-btn" type="button">Cancel Order</button></a></td>
+                                <td><a href="{% url 'delete-order' order.pk %}"><button class="order-c-btn"
+                                            type="button">Cancel Order</button></a></td>
                                 {% endif %}
                                 {% if order.complete == True %}
                                 <td style="text-align: center;"><i class="far fa-check"></i></td>
@@ -217,7 +230,7 @@
                         </tbody>
                     </table>
                 </div>
-                </div>
+            </div>
         </div>
         <div class="f-content content-section hidden">
             <!-- Header wrapper -->
@@ -237,67 +250,87 @@
                 <div class="faq-wrapper">
                     <div class="faq">
                         <h3>How can I place an order?</h3>
-                        <p>To place an order, simply browse our products, select the items you wish to purchase, and proceed to
-                            checkout. Follow the prompts to enter your shipping and payment information, and your order will be
+                        <p>To place an order, simply browse our products, select the items you wish to purchase, and
+                            proceed to
+                            checkout. Follow the prompts to enter your shipping and payment information, and your order
+                            will be
                             confirmed once payment is processed.</p>
                     </div>
                     <div class="faq">
                         <h3>What payment methods do you accept?</h3>
-                        <p>We accept various payment methods, including credit/debit cards (Visa, MasterCard, American Express), PayPal,
-                            and bank transfers. Please note that available payment methods may vary depending on your location.</p>
+                        <p>We accept various payment methods, including credit/debit cards (Visa, MasterCard, American
+                            Express), PayPal,
+                            and bank transfers. Please note that available payment methods may vary depending on your
+                            location.</p>
                     </div>
                     <div class="faq">
                         <h3>What are your shipping options and delivery times?</h3>
-                        <p>We offer several shipping options, including standard, expedited, and express shipping. Delivery times vary
-                            depending on your location and the shipping method selected. You can view estimated delivery times during
+                        <p>We offer several shipping options, including standard, expedited, and express shipping.
+                            Delivery times vary
+                            depending on your location and the shipping method selected. You can view estimated delivery
+                            times during
                             checkout.</p>
                     </div>
                     <div class="faq">
                         <h3>Do you offer international shipping?</h3>
-                        <p>Yes, we offer international shipping to many countries worldwide. Shipping rates and delivery times may vary
-                            depending on the destination. Please note that additional customs duties and taxes may apply for
+                        <p>Yes, we offer international shipping to many countries worldwide. Shipping rates and delivery
+                            times may vary
+                            depending on the destination. Please note that additional customs duties and taxes may apply
+                            for
                             international orders.</p>
                     </div>
                     <div class="faq">
                         <h3>What is your return policy?</h3>
-                        <p>We want you to be completely satisfied with your purchase. If you're not happy with your order for any
-                            reason, you may return it within [X] days of receiving it for a refund or exchange. Please refer to our
+                        <p>We want you to be completely satisfied with your purchase. If you're not happy with your
+                            order for any
+                            reason, you may return it within [X] days of receiving it for a refund or exchange. Please
+                            refer to our
                             Returns & Exchanges page for detailed instructions and conditions.</p>
                     </div>
                     <div class="faq">
                         <h3>How can I track my order?</h3>
-                        <p>Once your order has been shipped, you will receive a shipping confirmation email with a tracking number. You
-                            can use this tracking number to monitor the status of your shipment on our website or the carrier's website.
+                        <p>Once your order has been shipped, you will receive a shipping confirmation email with a
+                            tracking number. You
+                            can use this tracking number to monitor the status of your shipment on our website or the
+                            carrier's website.
                         </p>
                     </div>
                     <div class="faq">
                         <h3>What if my order arrives damaged or is incorrect?</h3>
-                        <p>If your order arrives damaged or if there's an error with your order, please contact our customer support
-                            team immediately. We will work to resolve the issue and arrange for a replacement or refund as necessary.
+                        <p>If your order arrives damaged or if there's an error with your order, please contact our
+                            customer support
+                            team immediately. We will work to resolve the issue and arrange for a replacement or refund
+                            as necessary.
                         </p>
                     </div>
                     <div class="faq">
                         <h3>Are my personal and payment details secure?</h3>
-                        <p>Yes, we take the security of your personal and payment information seriously. Our website uses
-                            industry-standard encryption technology to protect your data during transmission. Additionally, we adhere to
+                        <p>Yes, we take the security of your personal and payment information seriously. Our website
+                            uses
+                            industry-standard encryption technology to protect your data during transmission.
+                            Additionally, we adhere to
                             strict privacy policies to safeguard your information.</p>
                     </div>
                     <div class="faq">
                         <h3>Do you offer gift wrapping or personalized messages?</h3>
-                        <p>Yes, we offer gift wrapping services for select items, and you can also include a personalized message with
-                            your order. During checkout, you'll have the option to add gift wrapping and include a message for the
+                        <p>Yes, we offer gift wrapping services for select items, and you can also include a
+                            personalized message with
+                            your order. During checkout, you'll have the option to add gift wrapping and include a
+                            message for the
                             recipient.</p>
                     </div>
                     <div class="faq">
                         <h3>How can I contact customer support?</h3>
-                        <p>If you have any questions, concerns, or feedback, our customer support team is here to help. You can reach us
-                            via email at <a href="mailto:shoppie.mak@gmail.com">shoppie.mak@gmail.com</a>, by phone at [phone number], or
+                        <p>If you have any questions, concerns, or feedback, our customer support team is here to help.
+                            You can reach us
+                            via email at <a href="mailto:shoppie.mak@gmail.com">shoppie.mak@gmail.com</a>, by phone at
+                            [phone number], or
                             through the contact form on our website.</p>
                     </div>
-                </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 {% endblock %}

@@ -10,10 +10,19 @@ from django.contrib import messages
 from shop.utilities import send_message
 import threading, time
 from django.views.decorators.csrf import csrf_exempt
+import hashlib
+from django.conf import settings
+from django.contrib import messages
+from rest_framework.decorators import api_view
+
+
+sender_email = settings.EMAIL_HOST_USER
+sender_password = settings.EMAIL_HOST_PASSWORD
 
 
 # View for displaying user profile
 @login_required
+@api_view(["GET", "POST"])
 def profile(request):
     # Fetch cart data for the user
     data = cartData(request)
@@ -25,7 +34,11 @@ def profile(request):
         the_user = Customer.objects.filter(user=request.user).first()
         if len(Customer.objects.filter(user=request.user)) == 0:
             raise ValueError
-        orders = Order.objects.filter(customer=request.user).order_by("-date_ordered")
+        orders_ = Order.objects.filter(customer=request.user).order_by("-date_ordered")
+        orders = []
+        for order in orders_:
+            if order.transaction_id:
+                orders.append(order)
         the_user = "Customer"
 
     except Exception as e:
@@ -35,7 +48,7 @@ def profile(request):
         orderitems = OrderItem.objects.filter(product__owner=business).order_by("-date_added")
         orders = []
         for orderitem in orderitems:
-            if orderitem.order not in orders:
+            if orderitem.order not in orders and orderitem.order.transaction_id:
                 orders.append(orderitem.order)
         
         business_owner = business
@@ -122,7 +135,7 @@ def login_user(request):
 
 #delete unverified users
 def delete_unverified_user(user):
-    time.sleep(10 * 60)
+    time.sleep(60 * 60 * 24)
     try:
         if not user.verified:
             user.delete()
@@ -132,22 +145,23 @@ def delete_unverified_user(user):
 
 #verify users
 @csrf_exempt
-def verify(request, username):
-    data = json.loads(request.body)
-    user = User.objects.filter(username=data['username']).first()
-    try:
-        customer = Customer.objects.filter(user=user).first()
-        if not customer :
-            raise ValueError
+def verify(request, token):
+    customer = Customer.objects.filter(token=token).first()
+    business = Business.objects.filter(token=token).first()
+    if customer:
         customer.verified = True
-        print(customer.verified)
         customer.save()
-        return JsonResponse("Done verifying.", safe=False)
-    except:
-        business = Business.objects.filter(owner=user).first()
-        business.verified = True
-        business.save()
-        return JsonResponse("Done verifying.", safe=False)
+        messages.success(request, "Account successfully activated.")
+        return redirect("shop")
+    elif business:
+        if business:
+            business.verified = True
+            business.save()
+            messages.success(request, "Account successfully activated.")
+        return redirect("profile")
+    
+    messages.error(request, "The provided link seems to be invalid.")
+    return redirect("login")
         
       
         
@@ -156,16 +170,10 @@ def signup_user(request):
     # Fetch cart data for the user
     data = cartData(request)
     cartItems = data["cartItems"]
-    
-    try:
-        signup_data = json.loads(request.body)
-    except:
-        signup_data = {}
-    
-    # If the request method is POST (form submission)
-    print(signup_data)
-    if signup_data:
-        form = CustomerRegisterForm(signup_data["form"])
+    host = request.get_host()
+   
+    if request.POST:
+        form = CustomerRegisterForm(request.POST)
         if form.is_valid():
             # Save user registration form
             form.save()
@@ -174,28 +182,20 @@ def signup_user(request):
             delete_thread.start()
             # Create a corresponding customer profile
             customer = Customer.objects.create(user=user,first_name=user.first_name,last_name=user.last_name, email=user.email)
-            token = uuid.uuid4()
-            if send_message(customer.first_name, customer.email, token):
-                Profile.objects.create(user=user)
-                return JsonResponse({"1":"SENT", "token":token}, safe=False)
-            else:
-                user  = User.objects.filter(username=signup_data['form'].get("username")).first()
-                if user.count() == 1:
-                    user.delete()
-                messages.error(request, "Something happen please try again later.")
-                return JsonResponse("NOT SENT.", safe=False)
-                
+            text = user.username + customer.first_name + customer.last_name + customer.email
+            hashed_text = hashlib.md5(text.encode()).hexdigest()
+            token = uuid.UUID(hashed_text)
+            customer.token = token
+            customer.save()
+            send_message(customer.first_name, customer.email, token, host, sender_email,sender_password)
+            Profile.objects.create(user=user)
+            messages.success(request, "The account was successfully created but you need to activate it within 24 hours or it will be deleted.")
+            return redirect("login")
         else:
-            user  = User.objects.filter(username=signup_data['form'].get("username"))
-            if user.count() == 1:
-                user.first().delete()
-            form.add_error(None, "Please check those entries.")
-            return JsonResponse("Something happen", safe=False)
-
+            messages.error(request, "Please the check the details you entered.")
     else:
         form = CustomerRegisterForm()
-        
-        
+        print("some errors")
     # Context for rendering the user signup page
     context={
         'title':'SIGNUP',
@@ -212,14 +212,16 @@ def signup_business(request):
         signup_data = json.loads(request.body)
     except:
         signup_data = {}
+        
     data = cartData(request)
     cartItems = data["cartItems"]
+    host = request.get_host()
     
-    print(signup_data)
     
     if signup_data:
         customer_form = CustomerRegisterForm(signup_data['form'])
         business_form = BusinessRegisterForm(signup_data['form'])
+        
         if customer_form.is_valid() and business_form.is_valid():
             # Save user registration forms
             customer_form.save()
@@ -227,26 +229,21 @@ def signup_business(request):
             delete_thread = threading.Thread(target=delete_unverified_user, args=(user, ), daemon=True)
             delete_thread.start()
             business = Business.objects.create(owner=user,business_name=signup_data['form'].get("business_name"),first_name=user.first_name,last_name=user.last_name, email=user.email)
-            token = uuid.uuid4()
+            text = user.username + business.first_name + business.last_name + business.email
+            hashed_text = hashlib.md5(text.encode()).hexdigest()
+            token = uuid.UUID(hashed_text)
+            business.token = token
+            business.save()
             Profile.objects.create(user=user)
-            
-            if send_message(business.first_name, business.email, token):
-                return JsonResponse({"1":"SENT", "token":token}, safe=False)
-            else:
-                user  = User.objects.filter(username=signup_data['form'].get("username")).first()
-                if user.count() == 1:
-                    user.delete()
-                messages.error(request, "Something happen please try again later.")
-                return JsonResponse("NOT SENT.", safe=False)
+            send_message(business.first_name, business.email, token, host, sender_email, sender_password)
+            return JsonResponse("Business was created.", safe=False)
         else:
-            user  = User.objects.filter(username=signup_data['form'].get("username")).first()
-            if user.count() == 1:
-                user.delete()
             messages.error(request, "There was an issue with those details, if you followed all instructions then that company is already registered.")
-            return JsonResponse("Business was not created..", safe=False)
+            return JsonResponse("Business was not created.", safe=False)
     else:
         customer_form = CustomerRegisterForm()
         business_form = BusinessRegisterForm()
+        print("some errors")
         
     # Context for rendering the business signup page
     context={
@@ -278,7 +275,7 @@ def add_products(request):
             business = Business.objects.filter(owner=request.user).first()
             product.owner = business
             product.save()
-            return redirect("shop")
+            return redirect("profile")
     else:
         form = BusinessAddProductsForm()
         
@@ -289,10 +286,5 @@ def add_products(request):
         }
     return render(request, "authentication/add-products.html", context)
 
-# View for rendering terms and conditions page
-def terms_conditions(request):
-    # Fetch cart data for the user
-    data = cartData(request)
-    cartItems = data["cartItems"]
-    # Render the terms and conditions page
-    return render(request, "authentication/terms_conditions.html", {'title':'TERMS & CONDITIONS', 'cartItems':cartItems})
+
+

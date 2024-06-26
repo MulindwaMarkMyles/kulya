@@ -9,7 +9,6 @@ urlpatterns = [
     path('signup-b/', signup_business, name="signup-b"),  
     path('logout/', logout_u, name="logout"),  
     path('add-products/', add_products, name="add-products"),
-    path('Ts&Cs/', terms_conditions, name="tsandcs"),
     path('verify/<str:username>/', verify, name="verify_users"),
     path('password-reset/', auth_views.PasswordResetView.as_view(template_name="authentication/password-reset.html", title="PASSWORD"), name="password_reset"),
     path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(template_name="authentication/password-reset-done.html", title="PASSWORD"), name="password_reset_done"),

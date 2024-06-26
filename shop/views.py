@@ -13,6 +13,7 @@ from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 import threading, time
 from .management.commands.delete_orders import DeleteNullOrders
+from django.contrib import messages
 
 #Shop view using a rest api
 class ShopView(APIView):
@@ -253,9 +254,8 @@ def category(request, category_name):
 
 def paymentsuccessful(request):
     # Render the payment successful page
-    data = cartData(request)
-    cartItems = data["cartItems"]
-    return render(request, "shop/paymentsuccessful.html", {"title":"PAYMENT SUCCESSFUL", "cartItems": cartItems})
+    messages.success(request, "Payment successful")
+    return redirect("shop")
 
 def paymentfailed(request):
     # Render the payment failed page
@@ -277,3 +277,34 @@ def delete_null_orders_thread():
         time.sleep(6 * 60 * 60)
         
 threading.Thread(target=delete_null_orders_thread, daemon=True).start()
+
+def terms_conditions(request):
+    # Fetch cart data for the user
+    data = cartData(request)
+    cartItems = data["cartItems"]
+    # Render the terms and conditions page
+    return render(request, "shop/terms_conditions.html", {'title':'TERMS & CONDITIONS', 'cartItems':cartItems})
+
+
+def offers(request): 
+    # Fetch cart data for the user
+    data = cartData(request)
+    cartItems = data["cartItems"]
+    return render(request, "shop/offers.html", {'title':'OFFERS', 'cartItems' : cartItems})
+
+@login_required
+def deleteProduct(request, id):
+    user = request.user
+    business = Business.objects.filter(owner=user).first()
+    print(business)
+    
+    product = Product.objects.filter(id=id, owner=business).first()
+    
+    if product:
+        product.delete()
+        messages.success(request, "Deleted successfully.")
+    else:
+        messages.error(request, "Something happen, please try again later.")
+    return redirect("profile")
+    
+    

@@ -1,7 +1,6 @@
 import json
 from .models import *
 from authentication.models import *
-from django.conf import settings
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -94,25 +93,19 @@ def guestOrder(request, data):
         )
     return customer, order
 
-
-sender_email = settings.EMAIL_HOST_USER
-sender_password = settings.EMAIL_HOST_PASSWORD
-
-def send_message(first_name, recipient_email, token):
+def send_message(first_name, recipient_email, token, host, sender_email, sender_password):
         message = MIMEMultipart()
         message['From'] = sender_email
         message['To'] = recipient_email
-        message['Subject']  = "SIGNUP | SHOPPIE"
+        message['Subject']  = "SIGNUP | DEGROCERY"
         
         body = f"""
         Warm Greetings {first_name},
-        Please use this as as your login token:
-        
-        
-                        {token}
-                        
+        Please use this link to activate your account:
+                 
+        http://{host}/auth/activate/{token}       
 
-        THE SHOPPIE TEAM WELCOMES YOU🎊
+        THE DEGROCERY TEAM WELCOMES YOU🎊
         
         If this was not by you please ignore this.
         """

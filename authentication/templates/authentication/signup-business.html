@@ -20,7 +20,8 @@
                 <!-- Help text for sign-up -->
                 <div class="help-text" id="help-text">
                     <!-- Guidelines for username and password -->
-                    <span>- The username is required. It should be 150 characters or fewer. Letters, digits and @/./+/-/_ only.</span>
+                    <span>- The username is required. It should be 150 characters or fewer. Letters, digits and
+                        @/./+/-/_ only.</span>
                     <span>- Your password can’t be too similar to your other personal information.</span>
                     <span>- Your password must contain at least 8 characters.</span>
                     <span>- Your password can’t be a commonly used password.</span>
@@ -35,14 +36,14 @@
                 <div class="errors">
                     {% if messages %}
                     {% for message in messages %}
-                        {{ message }}
+                    {{ message }}
                     {% endfor %}
                     {% endif %}
                 </div>
                 {% if form.non_field_errors %}
                 <div class="errors">
                     {% for error in form.non_field_errors %}
-                        {{ error }}
+                    {{ error }}
                     {% endfor %}
                 </div>
                 {% endif %}
@@ -69,96 +70,49 @@
         console.log("pressed submit button..")
         submitData()
     })
-    
+
     function submitData() {
         var url = "/auth/signup-b/"
-        var username = form.username.value
-        
+
         var Data = {
-            business_name:form.business_name.value,
-            username:form.username.value,
+            business_name: form.business_name.value,
+            username: form.username.value,
             first_name: form.first_name.value,
             last_name: form.last_name.value,
             email: form.email.value,
-            password1:form.password1.value,
-            password2:form.password2.value,
+            password1: form.password1.value,
+            password2: form.password2.value,
         }
-        
+
         fetch(url, {
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json",
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
                 "X-CSRFToken": csrftoken,
             },
-            body:JSON.stringify({form: Data})
+            body: JSON.stringify({ form: Data })
         })
-        .then((response) => response.json())
-        .then((data) => {
-            if (data['1'] === "SENT") {
-                console.log("Message was sent.")
-                const timeInMIlliseconds = 5 * 60 * 1000
-                setTimeout(() => {
-                    window.location.reload()
-                }, timeInMIlliseconds)
-                var cont = document.getElementById("login-cont")
-                cont.innerHTML = `
-                            <hr>
-                            <div id="token">
-                                <form method="POST" id="token-form">
-                                    <p>Enter the token you were given.</p>
-                                    <div>
-                                        <input type="text" name="token">
-                                        <button type="submit">Create Account</button>
-                                    </div>
-                                </form>
-                            </div>
-                        `
-                var token_form = document.getElementById("token-form")
-                var count = 0
-                token_form.addEventListener("submit", (e) => {
-                    e.preventDefault()
-                    if (token_form.token.value === data["token"]) {
-                        url = `/auth/verify/${username}/`
-                        fetch(url, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({ username: username })
-                        })
-                            .then((response) => response.json())
-                            .then((data) => {
-                                if (data != "Done verifying.") {
-                                    alert("Something went wrong, please try again.")
-                                    console.log("something isn't right.")
-                                    window.location.reload()
-                                }
-                            })
-                            cont.innerHTML = `
+            .then((response) => response.json())
+            .then((data) => {
+                if (data === "Business was created.") {
+                    console.log("Business was created.")
+                    var cont = document.getElementById("login-cont")
+                    cont.innerHTML = `
+                                <small class="message">The account was successfully created but you need to activate it within 24 hours or it will be deleted, please check your email.</small>
                                 <hr>
-                                <h3 style="display:block;text-align:center;"> Do you want to add products now?</h3 >
+                                <h3 style="display:block;text-align:center;"> Do you want to add products now?</h3>
                                 <div class="after-btns">
-                                    <button class="btn-after"><a href="/auth/add-products/" style="text-decoration:none;color:black;">Yes, Add Products</a></button>
-                                    <button class="btn-after"><a href="/shop/" style="text-decoration:none;color:black;">No, I'll do it later.</a></button>
+                                    <button class="btn-after"><a href="/auth/add-products/" style="text-decoration:none;color:black;">Yes, Add
+                                            Products</a></button>
+                                    <button class="btn-after"><a href="/shop/" style="text-decoration:none;color:black;">No, I'll do it
+                                            later.</a></button>
                                 </div>
-                                `
-                    }
-                    else {
-                        alert("The token entered isn't right please try again.")
-                        count++
-                        console.log(count)
-                        if (count >= 6) {
-                            window.location.href = "{% url 'login' %}"
-                        }
-                    }
-                })
-            } else {
+                        `
+                } else {
                     console.log("something happen.")
-                    alert("Something happen please try again later.")
                     window.location.reload()
                 }
             })
-        }
+    }
 </script>
 {% endblock %}
-

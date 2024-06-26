@@ -19,7 +19,8 @@
                 <!-- Help text for sign-up -->
                 <div class="help-text">
                     <!-- Guidelines for username and password -->
-                    <span>- The username is required. It should be 150 characters or fewer. Letters, digits and @/./+/-/_ only.</span>
+                    <span>- The username is required. It should be 150 characters or fewer. Letters, digits and
+                        @/./+/-/_ only.</span>
                     <span>- Your password can’t be too similar to your other personal information.</span>
                     <span>- Your password must contain at least 8 characters.</span>
                     <span>- Your password can’t be a commonly used password.</span>
@@ -58,99 +59,4 @@
         </form>
     </div>
 </div>
-<script>
-        var form = document.getElementById("login-form")
-        csrftoken = document.getElementsByTagName("input")[0].value
-        var credentials = document.getElementsByClassName("credentials")[0]
-        form.addEventListener("submit", (e) => {
-            e.preventDefault()
-            console.log("pressed submit button..")
-            submitData()
-        })
-        function submitData() {
-            var url = "/auth/signup-u/"
-            var username = form.username.value
-            var Data = {
-                username: form.username.value,
-                first_name: form.first_name.value,
-                last_name: form.last_name.value,
-                email: form.email.value,
-                password1: form.password1.value,
-                password2: form.password2.value,
-            }
-
-            fetch(url, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRFToken": csrftoken,
-                },
-                body: JSON.stringify({ form: Data })
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                    var count = 0
-                    if (data["1"] === "SENT") {
-                        console.log("Message was sent.")
-                        const timeInMIlliseconds = 5 * 60 * 1000
-                        setTimeout(() => {
-                            window.location.reload()
-                        }, timeInMIlliseconds)
-                        var Copyright = document.getElementById("Copyright")
-                        var log_cont = document.getElementById("log-cont")
-                        log_cont.innerHTML = `
-                            <hr>
-                            <div id="token">
-                                <form method="POST" id="token-form">
-                                    <p>Enter the token you were given.</p>
-                                    <div>
-                                        <input type="text" name="token">
-                                        <button type="submit">Create Account</button>
-                                    </div>
-                                </form>
-                            </div>
-                        `
-                        var token_form = document.getElementById("token-form")
-                        token_form.addEventListener("submit", (e) => {
-                            e.preventDefault()
-                            if (token_form.token.value === data["token"]){
-                                url = `/auth/verify/${username}/`
-                                fetch (url, {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type':'application/json',
-                                    },
-                                    body: JSON.stringify({username:username})
-                                })
-                                .then((response) => response.json())
-                                .then((data) => {
-                                    if (data === "Done verifying."){
-                                        window.location.href = "/auth/login"
-                                        console.log("Done verifying.")
-                                    } else {
-                                        alert("Something went wrong, please try again.")
-                                        console.log("something isn't right.")
-                                        window.location.reload()
-                                    }
-                                })
-                            }
-                            else {
-                                alert("The token entered isn't right please try again.")
-                                count++
-                                console.log(count)
-                                if (count >= 6) {
-                                    window.location.href = "{% url 'login' %}"
-                                }
-                            }
-                        })
-                    }
-                    else {
-                        alert("Something happen please try again later.")
-                        window.location.reload()
-                    }
-                })
-        }
-
-</script>
 {% endblock %}
-
