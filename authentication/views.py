@@ -29,6 +29,7 @@ def profile(request):
     cartItems = data["cartItems"]
     business_owner = ""
     products = []
+    chat_messages = ()
 
     try:
         the_user = Customer.objects.filter(user=request.user).first()
@@ -44,7 +45,6 @@ def profile(request):
     except Exception as e:
         the_user = "Business"
         chat = Chat.objects.filter(the_business=request.user).all()
-        chat_messages = ()
         for c in chat:
             chat_messages = (m for m in Message.objects.filter(chat=c).order_by("timestamp") if m)
         business = Business.objects.filter(owner=request.user).first()
