@@ -1,0 +1,16 @@
+{% extends 'shop/main.html' %} {% block content %}
+
+<a href="{%  url 'shop' %}" class="stb-link">Back to Shop</a>
+
+<section id="product">
+  <div class="product-image">
+    <img src="{{ product.imageurl }}" alt="product image" />
+  </div>
+  <div class="details">
+    <h6>{{ product.name }}</h6>
+    <h2>Shs.{{ product.price|floatformat:0 }}</h2>
+    <h4>Product Details</h4>
+    <span>{{ product.description }}</span>
+  </div>  
+</section>
+{% endblock content %}

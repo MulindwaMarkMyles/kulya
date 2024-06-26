@@ -9,6 +9,7 @@ urlpatterns = [
         path('update-item/', updateitem, name="update-item"),
         path('process-order/', processOrder, name="process-order"),
         path('product-view/<int:id>/', viewProduct, name="view-product"),
+        path('product-view-p/<int:id>/', viewProductP, name="view-product-p"),
         path('delete-view/<int:id>/', deleteProduct, name="delete-product"),
         path('about/', about, name="about"),
         path('Ts&Cs/', terms_conditions, name="tsandcs"),

@@ -228,6 +228,17 @@ def viewProduct(request, id):
     return render(request, "shop/product.html", context)
 
 @api_view(['GET'])
+@login_required
+def viewProductP(request, id):
+    # View product details
+    product = Product.objects.filter(id=id).first()
+    data = cartData(request)
+    cartItems = data["cartItems"]
+    # Prepare context for rendering the product page
+    context = {"product": product, "cartItems": cartItems, "title":"PRODUCT"}
+    return render(request, "shop/productP.html", context)
+
+@api_view(['GET'])
 def about(request):
     # Render the about page
     data = cartData(request)
