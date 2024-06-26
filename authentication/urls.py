@@ -8,6 +8,7 @@ urlpatterns = [
     path('signup-u/', signup_user, name="signup"),  
     path('signup-b/', signup_business, name="signup-b"),  
     path('logout/', logout_u, name="logout"),  
+    path('chat/<int:id>/', chat, name="chat"),  
     path('add-products/', add_products, name="add-products"),
     path('verify/<str:username>/', verify, name="verify_users"),
     path('password-reset/', auth_views.PasswordResetView.as_view(template_name="authentication/password-reset.html", title="PASSWORD"), name="password_reset"),

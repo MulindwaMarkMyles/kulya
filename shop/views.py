@@ -198,7 +198,10 @@ def processOrder(request):
     return render(request, "shop/payment.html", context)
 
 @api_view(['GET'])
+@login_required
 def viewProduct(request, id):
+    chat = Chat.objects.get_or_create(the_customer=request.user)[0]
+    chat_messages = Message.objects.filter(chat=chat).order_by("timestamp")
     # View product details
     product = Product.objects.filter(id=id).first()
     data = cartData(request)
@@ -221,7 +224,7 @@ def viewProduct(request, id):
     cartItems = data["cartItems"]
     
     # Prepare context for rendering the product page
-    context = {"product": product, "cartItems": cartItems, "title":"PRODUCT", "quantity": quantity}
+    context = {"messages": chat_messages,"chat": chat, "product": product, "cartItems": cartItems, "title":"PRODUCT", "quantity": quantity}
     return render(request, "shop/product.html", context)
 
 @api_view(['GET'])

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import  render, redirect, get_object_or_404
 from django.http import JsonResponse
 from shop.utilities import cartData
 from .models import *
@@ -43,6 +43,10 @@ def profile(request):
 
     except Exception as e:
         the_user = "Business"
+        chat = Chat.objects.filter(the_business=request.user).all()
+        chat_messages = ()
+        for c in chat:
+            chat_messages = (m for m in Message.objects.filter(chat=c).order_by("timestamp") if m)
         business = Business.objects.filter(owner=request.user).first()
         products = Product.objects.filter(owner=business)
         orderitems = OrderItem.objects.filter(product__owner=business).order_by("-date_added")
@@ -88,6 +92,7 @@ def profile(request):
         'user_form': user_form,
         'orders': orders,
         'the_user': the_user, 
+        'chat_messages': chat_messages,
         'business_owner': business_owner, 
         'products': products, 
         'first_order': orders[0] if orders else 0
@@ -286,5 +291,30 @@ def add_products(request):
         }
     return render(request, "authentication/add-products.html", context)
 
+
+@login_required
+@csrf_exempt
+def chat(request, id):
+    chat = Chat.objects.filter(id=id).first()
+    data = json.loads(request.body)
+    form = MessageForm(data)
+    if form.is_valid():
+        message = form.save(commit=False)
+        product_owner = Product.objects.filter(id=data.get("product")).first().owner
+        receiver = product_owner.owner
+        if chat.the_business == None:
+            chat.the_business = receiver
+            chat.save()
+        message.chat = chat
+        message.product = Product.objects.get(id=data.get("product"))
+        message.sender = request.user
+        message.save()
+        return JsonResponse({
+            'success': True,
+            'sender': message.sender.username,
+            'content': message.content
+        })
+    else:
+        return JsonResponse({'success': False, 'error': form.errors}, status=400)
 
 

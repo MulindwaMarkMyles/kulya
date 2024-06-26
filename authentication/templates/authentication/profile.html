@@ -15,6 +15,10 @@
             <li id="link" class="profile"><span><i class="fas fa-user"></i>Profile</span></li>
             <!-- Orders link -->
             <li id="link" class="orders"><span><i class="fas fa-briefcase"></i>Orders</span></li>
+            <!-- Messages link -->
+            {% if the_user == "Business" %}
+            <li id="link" class="messages"><span><i class="fas fa-inbox"></i>Messages</span></li>
+            {% endif %}
             <!-- FAQ link -->
             <li id="link" class="faq"><span><i class="fas fa-question-circle"></i>FAQ</span></li>
             <!-- Log out link -->
@@ -232,12 +236,48 @@
                 </div>
             </div>
         </div>
+        {% if the_user == "Business" %}
+        <div class="m-content content-section hidden">
+            <!-- Header wrapper -->
+            <div class="header--wrapper">
+                <!-- Header title -->
+                <div class="header--title">
+                    <span>{{ user.first_name }} {{ user.last_name }}</span>
+                    <h2>Messages</h2>
+                </div>
+            </div>
+            <table>
+                <!-- Table header -->
+                <thead>
+                    <tr>
+                        <th>From</th>
+                        <th>Product</th>
+                        <th>Message</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <!-- Table body -->
+                <tbody>
+                    <!-- Example table row -->
+                    {% for message in chat_messages %}
+                    <tr>
+                        <td>{{ message.sender.username }}</td>
+                        <td>{{ message.product.name }} costs Shs.{{ message.product.price }}</td>
+                        <td>{{ message.content }}</td>
+                        <td>{{ message.timestamp }}</td>
+                    </tr>
+                    {% endfor %}
+                    <!-- Additional rows can be added here -->
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
         <div class="f-content content-section hidden">
             <!-- Header wrapper -->
             <div class="header--wrapper">
                 <!-- Header title -->
                 <div class="header--title">
-                    <span>SHOPPIE</span>
+                    <span>DEGROCERY</span>
                     <h2>FAQ</h2>
                 </div>
                 <!-- User information section -->
@@ -323,7 +363,7 @@
                         <h3>How can I contact customer support?</h3>
                         <p>If you have any questions, concerns, or feedback, our customer support team is here to help.
                             You can reach us
-                            via email at <a href="mailto:shoppie.mak@gmail.com">shoppie.mak@gmail.com</a>, by phone at
+                            via email at <a href="mailto:DEGROCERY.mak@gmail.com">DEGROCERY.mak@gmail.com</a>, by phone at
                             [phone number], or
                             through the contact form on our website.</p>
                     </div>

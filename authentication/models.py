@@ -67,7 +67,17 @@ class Business(models.Model):
         return f"{self.business_name}"  # String representation of the business
         
 
+class Chat(models.Model):
+    the_customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='Customer')
+    the_business = models.ForeignKey(User, on_delete=models.CASCADE, related_name='Business', null=True, blank=True)
+    started_at = models.DateTimeField(auto_now_add=True)
 
+class Message(models.Model):
+    chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
+    product = models.ForeignKey('shop.Product', on_delete=models.CASCADE, null=True, blank=True)
+    sender = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
 
 
 

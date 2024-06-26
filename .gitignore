@@ -1,16 +1,4 @@
 .DS_Store
-<<<<<<< HEAD
-.vscode
-tests/__pycache__
-authentication/migrations/__pycache__
-shop/migrations/__pycache__
-shop/__pycache__
-authentication/__pycache__
-#home/migrations
-home/__pycache__
-degroceries/__pycache__
-#db.sqlite3
-=======
 .vscode/
 shop/__pycache__/
 authentication/__pycache__/
@@ -22,5 +10,4 @@ __pycache__/
 .pytest_cache/
 .coverage
 
->>>>>>> myles
 

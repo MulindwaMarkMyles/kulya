@@ -93,3 +93,8 @@ class UserUpdateForm(forms.ModelForm):
         for field in self.fields:
             self.fields[field].widget.attrs["class"] = "form-field"
 
+
+class MessageForm(forms.ModelForm):
+    class Meta:
+        model = Message
+        fields = ['content']
