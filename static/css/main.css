@@ -641,15 +641,28 @@ p {
     padding:20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    height:100%;
+    height:fit-content;
 }
 .login-form {
     margin-top:20px;
-    display:grid;
-    grid-template-columns: 1fr 400px;
     position: relative;
     height: 100%;
-    justify-content: space-between;
+}
+.login-form h2 {
+    margin-bottom:10px;
+    text-align: center;
+}
+.login-form .helptext {
+    font-size: 14px;
+    color:#3F6C51;
+}
+.login-form .helptext ul{
+    font-size: 14px;
+    list-style: none;
+}
+#copyright {
+    text-align:center;
+    display: block;
 }
 .login-form .messages .info {
     padding:10px;
@@ -657,24 +670,6 @@ p {
     background-color: #3F6C51;
     color:white;
     margin-bottom:10px;
-}
-.shop-info {
-    display:flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-.shop-info .c {
-    display:flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-}
-.shop-info img {
-    width:100px;
-    height:100px;
-    object-fit: cover;
-    border-radius: 5px;
-    margin-top:20px;
 }
 .checkout .credentials {
     display:flex;
@@ -705,6 +700,7 @@ p {
     font-size:15px;
     width:fit-content;
     transition:all 0.2s linear;
+    margin:10px 0;
 }
 .credentials .btn-sub:hover {
     color:white;

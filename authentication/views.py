@@ -1,4 +1,4 @@
-from django.shortcuts import  render, redirect, get_object_or_404
+from django.shortcuts import  render, redirect
 from django.http import JsonResponse
 from shop.utilities import cartData
 from .models import *
@@ -241,14 +241,16 @@ def signup_business(request):
             business.save()
             Profile.objects.create(user=user)
             send_message(business.first_name, business.email, token, host, sender_email, sender_password)
-            return JsonResponse("Business was created.", safe=False)
+            return JsonResponse({"success":True})
         else:
-            messages.error(request, "There was an issue with those details, if you followed all instructions then that company is already registered.")
-            return JsonResponse("Business was not created.", safe=False)
+            errors = {}
+            errors.update(customer_form.errors)
+            errors.update(business_form.errors)
+            return JsonResponse({"success": False, "errors": errors})
+            # return JsonResponse("Business was not created.", safe=False)
     else:
         customer_form = CustomerRegisterForm()
         business_form = BusinessRegisterForm()
-        print("some errors")
         
     # Context for rendering the business signup page
     context={

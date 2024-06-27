@@ -32,11 +32,10 @@ class CustomerRegisterForm(UserCreationForm):
         # Add CSS classes to form fields
         for field_name in self.fields:
             self.fields[field_name].widget.attrs['class'] = 'login-form-field'
-            self.fields[field_name].help_text = None
+            # self.fields[field_name].help_text = None
 
 class BusinessRegisterForm(forms.Form):
-    business_name = forms.CharField(required=True)  # Business name field
-
+    business_name = forms.CharField(required=True, help_text="The name of your online store.")  # Business name field
     class Meta:
         model = Business  # Business model
         fields = ['business_name']  # Form fields
@@ -45,7 +44,6 @@ class BusinessRegisterForm(forms.Form):
         super(BusinessRegisterForm, self).__init__(*args, **kwargs)
         # Add CSS class to form field
         self.fields["business_name"].widget.attrs['class'] = 'login-form-field'
-        self.fields["business_name"].help_text = None
         
 class BusinessAddProductsForm(forms.ModelForm):
     name = forms.CharField(required=True)  # Product name field
