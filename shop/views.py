@@ -64,7 +64,10 @@ def index(request):
     
     # Retrieve all categories and recent products
     categories = Category.objects.all()
-    products = Product.objects.order_by("-id")[:30]
+    products = list(Product.objects.order_by("-id")[:30])
+    for product in products:
+        if product.owner.owner == request.user:
+            products.remove(product)
     
     # Prepare context for rendering the index page
     context = {

@@ -41,6 +41,7 @@ class Customer(models.Model):
     last_name = models.CharField(max_length=300, null=True)  # Last name field
     email = models.EmailField()  # Email field
     verified = models.BooleanField(default=False)
+    phone_number = models.IntegerField(null=True,blank=True)
     date_joined = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
 
@@ -60,6 +61,7 @@ class Business(models.Model):
     business_name = models.CharField(max_length=300, null=True)  # Business name field
     email = models.EmailField()  # Email field
     verified = models.BooleanField(default=False)
+    phone_number = models.IntegerField(null=True,blank=True)
     date_joined = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
 

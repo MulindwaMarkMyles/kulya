@@ -22,16 +22,18 @@ class CustomerRegisterForm(UserCreationForm):
     email = forms.EmailField(required=True)  # Email field
     first_name = forms.CharField(required=True)  # First name field
     last_name = forms.CharField(required=True)  # Last name field
+    phone_number = forms.IntegerField(required=True) # Phone number field
 
     class Meta:
         model = User  # Django User model
-        fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']  # Form fields
+        fields = ['username', 'first_name', 'last_name', 'email','phone_number', 'password1', 'password2']  # Form fields
 
     def __init__(self, *args, **kwargs):
         super(CustomerRegisterForm, self).__init__(*args, **kwargs)
         # Add CSS classes to form fields
         for field_name in self.fields:
-            self.fields[field_name].widget.attrs['class'] = 'login-form-field'
+            if 'password' not in field_name:
+                self.fields[field_name].widget.attrs['class'] = 'login-form-field'
             # self.fields[field_name].help_text = None
 
 class BusinessRegisterForm(forms.Form):

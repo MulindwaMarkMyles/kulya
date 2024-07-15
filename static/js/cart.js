@@ -6,7 +6,7 @@ for (var i = 0; i < updateButtons.length; i++){
                 var action = this.dataset.action
                 console.log(productId, ":", action)
                 
-                console.log(user)
+                console.log(user.username)
                 if (user == "AnonymousUser")
                         addCookieItem(productId, action)
                 else
@@ -38,7 +38,8 @@ function addCookieItem(productId, action) {
 
 function updateUserOrder(productId, action) {
         console.log("User logged in sending data....")
-        var url = '/update-item/'
+    var url = '/update-item/'
+    console.log(url);
         
         fetch(url, {
                 method: 'POST',

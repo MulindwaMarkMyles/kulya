@@ -28,8 +28,32 @@
                 </div>
                 {% endif %}
                 <!-- Render the form fields -->
-                {{ form }}
-
+                {{ form.username.label }}
+                {{ form.username }}
+                <small class="helptext">{{ form.username.help_text }}</small><br>
+                <p>{{ form.username.errors }}</p>
+                {{ form.first_name.label }}
+                {{ form.first_name }}
+                {{ form.last_name.label }}
+                {{ form.last_name }}
+                {{ form.email.label }}
+                {{ form.email }}
+                {{ form.phone_number.label }}
+                {{ form.phone_number }}
+                {{ form.password1.label }}
+                <div class="form-password-input" id="password-one">
+                {{ form.password1 }}
+                <button type="button" onclick="togglePassword1()"><i class="fas fa-eye"></i></button>
+                </div>
+                <small class="helptext">{{ form.password1.help_text }}</small><br>
+                <p>{{ form.password1.errors }}</p>
+                {{ form.password2.label }}
+                <div class="form-password-input" id="password-two">
+                {{ form.password2 }}
+                <button type="button" onclick="togglePassword2()"><i class="fas fa-eye"></i></button>
+                </div>
+                <small class="helptext">{{ form.password2.help_text }}</small><br>
+                <p>{{ form.password2.errors }}</p>
                 <!-- Submit button -->
                 <br>
                 <input type="submit" value="Sign Up" class="btn-sub" />
@@ -42,4 +66,28 @@
         </form>
     </div>
 </div>
+<script>
+    function togglePassword1(){
+        const container = document.getElementById('password-one');
+        const input_tag = container.getElementsByTagName('input')[0];
+        const toggleButton = container.getElementsByTagName('button')[0];
+        
+        if (input_tag.type === 'password') {
+            input_tag.type = 'text';
+        } else {
+            input_tag.type = 'password';
+        }
+    }
+    function togglePassword2(){
+        const container = document.getElementById('password-two');
+        const input_tag = container.getElementsByTagName('input')[0];
+        const toggleButton = container.getElementsByTagName('button')[0];
+        
+        if (input_tag.type === 'password') {
+            input_tag.type = 'text';
+        } else {
+            input_tag.type = 'password';
+        }
+    }
+</script>
 {% endblock %}

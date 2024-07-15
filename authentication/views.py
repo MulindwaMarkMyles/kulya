@@ -180,12 +180,10 @@ def signup_user(request):
     if request.POST:
         form = CustomerRegisterForm(request.POST)
         if form.is_valid():
-            # Save user registration form
             form.save()
             user = User.objects.filter(username=form.cleaned_data.get("username")).first()
             delete_thread = threading.Thread(target=delete_unverified_user, args=(user, ), daemon=True)
             delete_thread.start()
-            # Create a corresponding customer profile
             customer = Customer.objects.create(user=user,first_name=user.first_name,last_name=user.last_name, email=user.email)
             text = user.username + customer.first_name + customer.last_name + customer.email
             hashed_text = hashlib.md5(text.encode()).hexdigest()
@@ -200,8 +198,7 @@ def signup_user(request):
             messages.error(request, "Please the check the details you entered.")
     else:
         form = CustomerRegisterForm()
-        print("some errors")
-    # Context for rendering the user signup page
+        
     context={
         'title':'SIGNUP',
         'cartItems':cartItems,
