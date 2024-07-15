@@ -16,7 +16,7 @@
 }
 
 #banner {
-    height:90vh;
+    height:60vh;
     width:100%;
     background-position: top 25% right 0;
     background-size: cover;
@@ -359,4 +359,17 @@ footer {
 .footer a button:hover {
     background-color: transparent;
     color: #fff;
+}
+
+.group-chat-btn {
+    position: fixed;
+    bottom:20px;
+    right:20px;
+    padding:10px 15px;
+    font-size:20px;
+    border:none;
+    border-radius: 50%;
+    background-color: #3F6C51;
+    box-shadow: 1px 0px 10px rgba(0,0,0,1);
+    cursor: pointer;
 }

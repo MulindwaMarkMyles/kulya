@@ -1,0 +1,21 @@
+{% extends 'shop/main.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/group-chat.css' %}">
+<h2 class="mar-100 section-p1">{{ category.category_name }} Group Chat</h2>
+<div id="chat-messages">
+    {% for message in messages %}
+    <div class="message {% if message.user == request.user %}self{% else %}other{% endif %}">
+        <div class="message-content">
+            <p><strong>{{ message.user.username }}</strong>: {{ message.message }}</p>
+            <small>{{ message.timestamp }}</small>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<form method="post" class="group-chat-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Send</button>
+</form>
+{% endblock %}

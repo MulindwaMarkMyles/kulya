@@ -82,4 +82,8 @@ class Message(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
 
-
+class GroupChatMessages(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    message = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+    category = models.ForeignKey('shop.Category', on_delete=models.CASCADE, null=True, blank=True)

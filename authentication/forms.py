@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from .models import *
 from django.contrib.auth.forms import UserCreationForm
 from shop.models import *
+from django.core.exceptions import ValidationError
 
 class UserLoginForm(forms.Form):
     username = forms.CharField(required=True)  # Username field
@@ -18,6 +19,10 @@ class UserLoginForm(forms.Form):
         self.fields["username"].widget.attrs['class'] = 'login-form-field'
         self.fields["password"].widget.attrs['class'] = 'login-form-field'
 
+def validate_username(value):
+    if value.isdigit():
+        raise ValidationError('Username cannot contain only numbers.')
+    
 class CustomerRegisterForm(UserCreationForm):
     email = forms.EmailField(required=True)  # Email field
     first_name = forms.CharField(required=True)  # First name field
@@ -35,6 +40,8 @@ class CustomerRegisterForm(UserCreationForm):
             if 'password' not in field_name:
                 self.fields[field_name].widget.attrs['class'] = 'login-form-field'
             # self.fields[field_name].help_text = None
+            
+        self.fields['username'].validators.append(validate_username)
 
 class BusinessRegisterForm(forms.Form):
     business_name = forms.CharField(required=True, help_text="The name of your online store.")  # Business name field
@@ -82,10 +89,11 @@ class UserUpdateForm(forms.ModelForm):
     email = forms.EmailField(required=True)  # Email field
     first_name = forms.CharField(required=True)  # First name field
     last_name = forms.CharField(required=True)  # Last name field
+    phone_number = forms.IntegerField() 
     
     class Meta:
         model = User
-        fields = ["email", "first_name", "last_name"]  
+        fields = ["email", "first_name", "last_name", "phone_number"]  
         
     def __init__(self, *args, **kwargs):
         super(UserUpdateForm, self).__init__(*args, **kwargs)
@@ -98,3 +106,10 @@ class MessageForm(forms.ModelForm):
     class Meta:
         model = Message
         fields = ['content']
+
+class GroupChatMessageForm(forms.ModelForm):
+    message = forms.CharField(label='', widget=forms.TextInput(attrs={'placeholder': 'Type your message...'}))
+
+    class Meta:
+        model = GroupChatMessages
+        fields = ['message']

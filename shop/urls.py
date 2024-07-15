@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import *
+from authentication.views import groupchat
 
 urlpatterns = [
         path('', index, name="home"),
@@ -15,6 +16,7 @@ urlpatterns = [
         path('Ts&Cs/', terms_conditions, name="tsandcs"),
         path('offers/', offers, name="offers"),
         path('category/<str:category_name>/', category, name="category"),
+        path('category-chat/<str:category_name>/', groupchat, name="category-chat"),
         path("payment-success/", paymentsuccessful, name="payment-success"),
         path("payment-failed/", paymentfailed, name="payment-failure"),
         path("delete-order/<int:pk>/", deleteOrder, name="delete-order"),

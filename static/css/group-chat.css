@@ -1,0 +1,83 @@
+/* Add this to your CSS file */
+h2 {
+    text-align: right;
+}
+.message {
+    margin-bottom: 10px;
+    overflow: hidden;
+    /* Clear float for containing floated elements */
+}
+
+.message-content {
+    padding: 8px;
+    border-radius: 5px;
+    display: inline-block;
+    /* Ensures the background color only wraps around content */
+    clear: both;
+    /* Clear float for containing floated elements */
+}
+
+.message p {
+    margin: 0;
+}
+
+.self {
+    text-align: right;
+}
+
+.other {
+    text-align: left;
+}
+
+.self .message-content {
+    background-color: #DCF8C6;
+    /* Light green background for messages from current user */
+    float: right;
+    /* Float message content to the right */
+    clear: both;
+    /* Clear float for containing floated elements */
+}
+
+.other .message-content {
+    background-color: #E2E2E2;
+    /* Light gray background for messages from other users */
+    float: left;
+    /* Float message content to the left */
+    clear: both;
+    /* Clear float for containing floated elements */
+}
+
+#chat-messages {
+    padding:20px;
+}
+
+.group-chat-form {
+    display:grid;
+    grid-template-columns: 1fr 100px;
+    align-items: center;
+    gap:5px;
+    padding:20px;
+    position: fixed;
+    bottom:15px;
+    right:15px;
+    left:15px;
+    height:100px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    background-color: white;
+    border-radius: 7px;
+}
+.group-chat-form input[type="text"] {
+    width:100%;
+    position: relative;
+    padding:7px 10px;
+    border:none;
+    outline:none;
+}
+.group-chat-form button {
+    padding:7px 10px;
+    border:none;
+    transform: translateY(-3px);
+    background-color: #DCF8C6;
+    border-radius: 5px;
+    cursor: pointer;
+}

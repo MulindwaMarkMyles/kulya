@@ -24,7 +24,6 @@
 </style>
 <section id="banner">
 	<!-- Banner Section -->
-	<h4 class="yellow">Trade-in-offer</h4>
 	<h2 class="yellow">Super value deals</h2>
 	<h1>On all products</h1>
 	<p class="yellow">Save more with us!</p>
@@ -76,7 +75,7 @@
 	<div class="pro-container">
 		<div class="pro">
 			<!-- Product Image -->
-			<img class="thumbnail" src="{{ product.imageurl }}" alt="product image" />
+			<a href="{% url 'view-product' product.id %}"><img class="thumbnail" src="{{ product.imageurl }}" alt="product image" /></a>
 			<div class="des">
 				<!-- Product Category -->
 				<span>{{ product.category }}</span>
@@ -107,9 +106,6 @@
 				<i class="fal fa-shopping-cart add-cart"></i>
 			</button>
 			<!-- View Product Button -->
-			<a href="{% url 'view-product' product.id %}" class="view-btn">
-				<button>View</button>
-			</a>
 		</div>
 	</div>
 	{% endfor %}

@@ -2,6 +2,14 @@
 {% block content %}
 {% load static %}
 
+<section id="categories" class="section-p1 mar-100">
+    {% for category in categories %}
+    <!-- Category Button -->
+    <a href="{% url 'category' category.category_name %}">
+        <button>{{ category.category_name }}</button>
+    </a>
+    {% endfor %}
+</section>
 
 {% if products %}
 <!-- If products are available, display them -->
@@ -10,13 +18,13 @@
     <small>{{ message }}</small>
     {% endfor %}
 </div>
-<section id="products" class="section-p1 mar-100">
+<section id="products" class="section-p1">
     {% for product in products %}
     <!-- Loop through each product -->
     <div class="pro-container">
         <div class="pro">
             <!-- Product thumbnail -->
-            <img class="thumbnail" src="{{ product.imageurl }}" alt="product image">
+            <a  href="{% url 'view-product' product.id %}"><img class="thumbnail" src="{{ product.imageurl }}" alt="product image"></a>
             <div class="des">
                 <!-- Product category and name -->
                 <span>{{ product.category }}</span>
@@ -41,7 +49,6 @@
             <!-- Buttons to add to cart and view product details -->
             <button href="#" class="update-cart" data-product="{{ product.id }}" data-action="add" type="button"><i
                     class="fal fa-shopping-cart add-cart"></i></button>
-            <a href="{% url 'view-product' product.id %}" class="view-btn"><button>View</button></a>
         </div>
     </div>
     {% endfor %}
@@ -49,6 +56,9 @@
 {% else %}
 <!-- If no products are available, display a message -->
 <span style="display: block; margin-left:100px;" class="mar-100">Sadly no products fit that query.</span>
+{% endif %}
+{% if category_page == True %}
+    <a href="{% url 'category-chat' category_name %}"><button class="group-chat-btn"><i class="fas fa-comment"></i></button></a>
 {% endif %}
 <footer>
     <!-- Footer section with contact information, about, my account links, newsletter subscription, and copyright information -->

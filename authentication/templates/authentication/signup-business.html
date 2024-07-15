@@ -51,7 +51,21 @@
                 {% for field in customer_form %}
                 <div class="form-group">
                     {{ field.label_tag }}
+                    {% if field.name == 'password1' or field.name == 'password2'%}
+                    {% if field.name == 'password1' %}
+                    <div class="form-password-input" id="password-one">
+                        {{ field }}
+                        <button type="button" onclick="togglePassword1()"><i class="fas fa-eye"></i></button>
+                    </div>
+                    {% else %}
+                    <div class="form-password-input" id="password-two">
+                        {{ field }}
+                        <button type="button" onclick="togglePassword2()"><i class="fas fa-eye"></i></button>
+                    </div>
+                    {% endif %}
+                    {% else %}
                     {{ field }}
+                    {% endif %}
                     {% if field.help_text %}
                     <small class="helptext">{{ field.help_text }}</small>
                     {% endif %}
@@ -165,6 +179,30 @@
                     });
                 }
             });
+    }
+</script>
+<script>
+    function togglePassword1() {
+        const container = document.getElementById('password-one');
+        const input_tag = container.getElementsByTagName('input')[0];
+        const toggleButton = container.getElementsByTagName('button')[0];
+
+        if (input_tag.type === 'password') {
+            input_tag.type = 'text';
+        } else {
+            input_tag.type = 'password';
+        }
+    }
+    function togglePassword2() {
+        const container = document.getElementById('password-two');
+        const input_tag = container.getElementsByTagName('input')[0];
+        const toggleButton = container.getElementsByTagName('button')[0];
+
+        if (input_tag.type === 'password') {
+            input_tag.type = 'text';
+        } else {
+            input_tag.type = 'password';
+        }
     }
 </script>
 {% endblock %}

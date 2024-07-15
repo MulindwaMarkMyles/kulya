@@ -23,6 +23,7 @@ class ShopView(APIView):
         data = cartData(request)
         cartItems = data["cartItems"]
         
+        categories = Category.objects.all()
         # Retrieve all products
         products = Product.objects.order_by("-id")[:]
 
@@ -33,6 +34,7 @@ class ShopView(APIView):
             "products": products,
             "cartItems": cartItems,
             "shipping": False,
+            "categories": categories
         }
         return render(request, "shop/shop.html", context)
 
@@ -265,6 +267,8 @@ def category(request, category_name):
         "category": category,
         "shipping": False,
         "cartItems": cartItems,
+        "category_name":category_name,
+        "category_page" : True
     }
     
     return render(request, "shop/shop.html", context)
@@ -323,5 +327,4 @@ def deleteProduct(request, id):
     else:
         messages.error(request, "Something happen, please try again later.")
     return redirect("profile")
-    
     

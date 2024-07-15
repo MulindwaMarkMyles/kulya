@@ -1,4 +1,4 @@
-from django.shortcuts import  render, redirect
+from django.shortcuts import  render, redirect, get_object_or_404
 from django.http import JsonResponse
 from shop.utilities import cartData
 from .models import *
@@ -30,7 +30,13 @@ def profile(request):
     business_owner = ""
     products = []
     chat_messages = ()
-
+    
+    try:
+        Profile.objects.get(user=request.user)
+        the_username = request.user.username
+    except:
+        return redirect("login")
+        
     try:
         the_user = Customer.objects.filter(user=request.user).first()
         if len(Customer.objects.filter(user=request.user)) == 0:
@@ -69,19 +75,26 @@ def profile(request):
                 customer.first_name = f"{user_form.cleaned_data.get('first_name')}"
                 customer.last_name = f"{user_form.cleaned_data.get('last_name')}"
                 customer.email = f"{user_form.cleaned_data.get('email')}"
+                customer.phone_number = user_form.form.cleaned_data.get("phone_number")
                 customer.save()
             except Exception as e:
                 business = Business.objects.filter(owner=request.user).first()
                 business.first_name = f"{user_form.cleaned_data.get('first_name')}"
                 business.last_name = f"{user_form.cleaned_data.get('last_name')}"
                 business.email = f"{user_form.cleaned_data.get('email')}"
+                business.phone_number = user_form.form.cleaned_data.get("phone_number")
                 business.save()
             
             return redirect("profile")
             
     else:
+        if the_user == "Customer":
+            customer = Customer.objects.get(user=request.user)
+            user_form = UserUpdateForm(instance=customer)
+        elif the_user == "Business":
+            business = Business.objects.get(owner=request.user)
+            user_form = UserUpdateForm(instance=business)
         profile_form = ProfileForm(instance=request.user.profile)
-        user_form = UserUpdateForm(instance=request.user)
 
     
     # Context for rendering the profile page
@@ -95,7 +108,8 @@ def profile(request):
         'chat_messages': chat_messages,
         'business_owner': business_owner, 
         'products': products, 
-        'first_order': orders[0] if orders else 0
+        'first_order': orders[0] if orders else 0,
+        'the_username': the_username
         }
 
     return render(request, "authentication/profile.html",context)  
@@ -184,7 +198,7 @@ def signup_user(request):
             user = User.objects.filter(username=form.cleaned_data.get("username")).first()
             delete_thread = threading.Thread(target=delete_unverified_user, args=(user, ), daemon=True)
             delete_thread.start()
-            customer = Customer.objects.create(user=user,first_name=user.first_name,last_name=user.last_name, email=user.email)
+            customer = Customer.objects.create(user=user,first_name=user.first_name,last_name=user.last_name, email=user.email, phone_number=form.cleaned_data.get('phone_number'))
             text = user.username + customer.first_name + customer.last_name + customer.email
             hashed_text = hashlib.md5(text.encode()).hexdigest()
             token = uuid.UUID(hashed_text)
@@ -230,7 +244,7 @@ def signup_business(request):
             user  = User.objects.filter(username=signup_data['form'].get("username")).first()
             delete_thread = threading.Thread(target=delete_unverified_user, args=(user, ), daemon=True)
             delete_thread.start()
-            business = Business.objects.create(owner=user,business_name=signup_data['form'].get("business_name"),first_name=user.first_name,last_name=user.last_name, email=user.email)
+            business = Business.objects.create(owner=user,business_name=signup_data['form'].get("business_name"),first_name=user.first_name,last_name=user.last_name, email=user.email,phone_number=signup_data['form'].get('phone_number'))
             text = user.username + business.first_name + business.last_name + business.email
             hashed_text = hashlib.md5(text.encode()).hexdigest()
             token = uuid.UUID(hashed_text)
@@ -317,3 +331,31 @@ def chat(request, id):
         return JsonResponse({'success': False, 'error': form.errors}, status=400)
 
 
+
+@login_required
+def groupchat(request, category_name):
+    data = cartData(request)
+    cartItems = data["cartItems"]
+    category = get_object_or_404(Category, category_name=category_name)
+    messages = GroupChatMessages.objects.filter(category=category).order_by('-timestamp')
+
+    if request.method == 'POST':
+        form = GroupChatMessageForm(request.POST)
+        if form.is_valid():
+            new_message = form.save(commit=False)
+            new_message.user = request.user
+            new_message.category = category
+            new_message.save()
+            print(new_message)
+    else:
+        form = GroupChatMessageForm()
+
+    context = {
+        'messages': messages,
+        'form': form,
+        'category': category,
+        "cartItems": cartItems
+    }
+    return render(request, 'authentication/group-chat.html', context)
+
+    

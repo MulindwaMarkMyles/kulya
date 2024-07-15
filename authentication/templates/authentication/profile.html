@@ -45,6 +45,7 @@
                 <!-- User information section -->
                 <div class="user--info">
                     <!-- User image -->
+                     <span style="padding:10px">{{ the_username }}</span>
                     <img src="{{ user.profile.imageurl }}" alt="">
                 </div>
             </div>
@@ -164,6 +165,8 @@
                     {{ user_form.last_name }}
                     {{ user_form.email.label }}
                     {{ user_form.email }}
+                    {{ user_form.phone_number.label }}
+                    {{ user_form.phone_number }}
                     {{ profile_form.image.label }}
                     {{ profile_form.image }}
                     <div class="btns">
